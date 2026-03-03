@@ -26,11 +26,6 @@ Zero-Trust Enterprise Secret Guardian eliminates security risks from leaked sens
 - Automatic retry (up to 3 retries for transient failures)
 - Cache lifecycle management (secrets flushed on process termination)
 
-### Enterprise Tier
-- Pre-commit scanner (guardrail) — blocks commits containing vault secrets
-- Team-wide vault policies
-- Audit logging
-
 ## How It Works
 
 1. **Configure** vault connection in the Zero-Trust Vault tool window
@@ -80,7 +75,7 @@ All console output is filtered automatically:
 - Common values excluded from masking (`true`, `false`, `dev`, `staging`, `prod`)
 - Works on both IDE terminal and application output
 
-## Pre-Commit Scanner (Enterprise)
+## Pre-Commit Scanner
 
 When enabled:
 1. Scans all modified files before commit

@@ -32,7 +32,7 @@ Slow Build Hotspots parses Gradle `--profile` HTML reports to pinpoint build per
 - Performance dashboard in tool window
 - Cache hit-rate tracking
 
-### Pro Tier ($3.90/month)
+### Pro Tier
 - Optimization suggestions with quick-fixes (enable build cache, parallel execution, configuration cache)
 - Before/after time projections per suggestion
 - 30-day build time trend graphs with regression detection

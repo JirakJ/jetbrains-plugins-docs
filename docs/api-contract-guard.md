@@ -31,11 +31,6 @@ API Contract Guard (internally known as **Kei**) validates your API contracts (O
 - Custom breaking change rules
 - CI/CD export (JSON report for pipelines)
 
-### Enterprise Tier
-- Team-wide API governance policies
-- Cross-service contract testing
-- API changelog generation
-
 ## Configuration
 
 ### Settings Location

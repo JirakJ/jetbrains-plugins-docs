@@ -26,7 +26,7 @@ SeleniumIQ is an AI-powered Selenium test automation plugin that eliminates test
 - Code completion for WebDriver API
 - 3 built-in inspections (flaky patterns, brittle locators, poor wait strategies)
 
-### Professional Tier ($19/month)
+### Professional Tier
 - Unlimited AI locators
 - Visual regression testing
 - Performance analysis
@@ -34,14 +34,10 @@ SeleniumIQ is an AI-powered Selenium test automation plugin that eliminates test
 - Test management integration (JIRA/Zephyr, TestRail, qTest)
 - Requirements traceability
 
-### Team Tier ($99/month, 5-10 users)
+### Team Tier
 - Team analytics dashboard
 - Shared metrics
 - Compliance features
-
-### Enterprise Tier (Custom)
-- SSO, audit logging
-- Dedicated support
 
 ## Configuration
 

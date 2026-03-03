@@ -23,7 +23,7 @@ Terminal Safety Rails protects against accidental destructive commands by interc
 - Up to 5 custom rules
 - Enable/disable toggle
 
-### Pro Tier ($3.90/month)
+### Pro Tier
 - Unlimited custom rules
 - Context-aware detection
 - Audit log (track all intercepted commands with ALLOWED/BLOCKED status)

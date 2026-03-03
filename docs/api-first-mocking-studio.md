@@ -35,11 +35,6 @@ API-First Mocking Studio enables an API-first development workflow by letting yo
 - CORS configuration
 - Mock server sharing (team URLs)
 
-### Enterprise Tier
-- Contract testing integration
-- Multi-service mock orchestration
-- Team-shared mock configurations
-
 ## Configuration
 
 ### Settings Location

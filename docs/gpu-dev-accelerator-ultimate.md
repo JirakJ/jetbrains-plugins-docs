@@ -35,11 +35,6 @@ GPU Dev Accelerator Ultimate provides comprehensive GPU compute development supp
 - Kernel launch parameter optimizer
 - CUDA ↔ OpenCL code conversion hints
 
-### Enterprise Tier
-- Team GPU resource management
-- CI/CD GPU testing integration
-- Cross-platform GPU compatibility checking
-
 ## Configuration
 
 ### Settings Location

@@ -36,12 +36,6 @@ Accessibility Compliance Helper Pro is the most comprehensive accessibility comp
 - Keyboard navigation auditing
 - Screen reader compatibility checks
 
-### Enterprise Tier
-- Team-wide compliance dashboards
-- CI/CD pipeline integration
-- Custom organizational rules
-- Compliance trending & analytics
-
 ## Configuration
 
 ### Settings Location

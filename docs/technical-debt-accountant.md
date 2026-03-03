@@ -26,7 +26,7 @@ Technical Debt Accountant translates abstract code quality issues into **busines
 - Tech Debt tool window with sortable table
 - Project-level persistence in `.tech-debt/inventory.json` (Git-trackable)
 
-### Pro Tier ($8/month)
+### Pro Tier
 - Unlimited debt items
 - Dollar valuation (workaround time → cost at configurable hourly rate)
 - Monthly interest calculation (30-day rolling windows)
@@ -34,11 +34,6 @@ Technical Debt Accountant translates abstract code quality issues into **busines
 - Burndown chart with trend detection (IMPROVING/STABLE/WORSENING)
 - Management report export (Markdown)
 - CSV export
-
-### Enterprise Tier ($15/dev/month)
-- Team aggregation across members and projects
-- JIRA integration
-- Organizational trend analytics
 
 ## Configuration
 

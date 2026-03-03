@@ -35,11 +35,6 @@ Dependency License Lens scans your project's dependencies (Maven, Gradle, npm, p
 - Compliance report for legal teams (PDF/HTML)
 - CI/CD integration (fail on policy violation)
 
-### Enterprise Tier
-- Organization-wide license policies
-- Automated legal review workflow
-- Multi-project license aggregation
-
 ## Configuration
 
 ### Settings Location

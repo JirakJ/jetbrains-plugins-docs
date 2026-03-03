@@ -34,11 +34,6 @@ BDD Test Automation Plugin streamlines Behavior-Driven Development by providing 
 - Parallel scenario execution support
 - Export to Cucumber JSON/JUnit XML
 
-### Enterprise Tier
-- Team-shared step library
-- Living documentation generation
-- Scenario versioning and comparison
-
 ## Configuration
 
 ### Settings Location

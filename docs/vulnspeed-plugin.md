@@ -24,7 +24,7 @@ VulnSpeed is a GPU-accelerated SAST (Static Application Security Testing) plugin
 - Security Dashboard tool window
 - Global inspection integration
 
-### Professional Tier ($29/month, 1000 scans/day, 1M LOC)
+### Professional Tier
 - GPU acceleration (Metal/CUDA/Vulkan)
 - 3,500+ security rules across all languages
 - Advanced pattern detection (taint analysis, data flow)
@@ -32,14 +32,6 @@ VulnSpeed is a GPU-accelerated SAST (Static Application Security Testing) plugin
 - Dependency scanning
 - Threat modeling
 - 14-day free trial
-
-### Enterprise Tier ($99/month, unlimited)
-- All Professional features
-- Custom security rules
-- CI/CD integration
-- Team collaboration
-- Admin features
-- Priority support
 
 ## Configuration
 
