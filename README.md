@@ -1,6 +1,6 @@
 # JetBrains Plugins – Documentation & Support Hub
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-Proprietary-red.svg)](LICENSE)
 
 Welcome to the central documentation and support hub for the **JirakJ JetBrains Plugin Suite** — a collection of 30+ professional plugins for JetBrains IDEs.
 
@@ -59,6 +59,10 @@ All plugins are available on the [JetBrains Marketplace](https://plugins.jetbrai
 
 **Settings → Plugins → Marketplace → Search**
 
+## 🔒 Privacy Policy
+
+Read our [Privacy Policy](PRIVACY_POLICY.md) — the plugins operate entirely locally and collect no data.
+
 ## 📄 License
 
-This documentation is licensed under the [MIT License](LICENSE).
+This software is proprietary. See [LICENSE](LICENSE) for details.
