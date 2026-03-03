@@ -1,53 +1,119 @@
 # Terminal Safety Rails
 
-> Safety guardrails for terminal commands in the IDE.
+> Intercept dangerous terminal commands before execution with risk-level confirmations.
 
 ## Overview
 
-Terminal Safety Rails is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+Terminal Safety Rails protects against accidental destructive commands by intercepting dangerous terminal inputs (`rm -rf`, `kubectl delete`, `terraform destroy`, database drops) and displaying **color-coded confirmation dialogs** with risk levels before execution. It includes 23 built-in rules across 8 categories.
 
 ## Installation
 
-1. Open your JetBrains IDE
-2. Go to **Settings → Plugins → Marketplace**
-3. Search for **"Terminal Safety Rails"**
-4. Click **Install** and restart the IDE
+1. Go to **Settings → Plugins → Marketplace**
+2. Search for **"Terminal Safety Rails"**
+3. Click **Install** and restart the IDE
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** JetBrains IDE 2024.3+, Java 17+, Terminal plugin (bundled)
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier
+- 23 built-in dangerous command rules
+- 4 risk levels (🔴 CRITICAL, 🟠 HIGH, 🟡 MEDIUM, 🟢 LOW)
+- Color-coded confirmation dialogs
+- Up to 5 custom rules
+- Enable/disable toggle
 
-### Configuration
+### Pro Tier ($3.90/month)
+- Unlimited custom rules
+- Context-aware detection
+- Audit log (track all intercepted commands with ALLOWED/BLOCKED status)
+- Team-shared rules via `.terminal-safety-rules.yaml`
+- Statistics and analytics
 
-Access plugin settings at **Settings → Tools → Terminal Safety Rails**.
+## Built-in Rules (23 Total)
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+### 🔴 CRITICAL (8 rules)
+| Pattern | Category |
+|---------|----------|
+| `rm -rf /` | Filesystem |
+| `rm -rf ~` | Filesystem |
+| `rm -rf *` | Filesystem |
+| `mkfs` | System |
+| `dd if=` | System |
+| `DROP TABLE` | Database |
+| `DROP DATABASE` | Database |
+| `TRUNCATE` | Database |
 
-## Usage
+### 🟠 HIGH (4 rules)
+| Pattern | Category |
+|---------|----------|
+| `kubectl delete` | Kubernetes |
+| `kubectl apply --force` | Kubernetes |
+| `terraform apply` | Terraform |
+| `terraform destroy` | Terraform |
 
-*Detailed usage guide coming soon.*
+### 🟡 MEDIUM (9 rules)
+- `docker system prune`, `docker rm -f $(docker ps` — Docker
+- `git push --force`, `git push -f`, `git reset --hard` — Git
+- `chmod 777` — Permissions
+- `systemctl stop`, `service ... stop` — System
 
-## FAQ
+## Configuration
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+### Settings Location
+**Settings → Tools → Terminal Safety Rails**
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Enable Terminal Safety Rails | `true` | Toggle plugin on/off |
+| Custom Rules | *(table)* | User-defined command patterns |
 
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
+### Custom Rule Fields
 
-## Changelog
+| Field | Description |
+|-------|-------------|
+| Pattern | Glob or regex pattern |
+| Risk Level | CRITICAL, HIGH, MEDIUM, or LOW |
+| Category | FILESYSTEM, KUBERNETES, TERRAFORM, DOCKER, GIT, DATABASE, SYSTEM, PERMISSIONS, CUSTOM |
+| Description | Human-readable explanation |
+| Is Regex | Use regex instead of glob matching |
 
-See the plugin's [CHANGELOG](https://github.com/JirakJ/terminal-safety-rails/blob/main/CHANGELOG.md) for version history.
+## Confirmation Dialog
 
-## Support
+When a dangerous command is detected:
+- **Title:** "⚠️ Dangerous Command Detected"
+- **Shows:** Risk level (color-coded), full command, matched rule description, category
+- **Buttons:** "Execute Anyway" | "Cancel"
+- **Size:** 500×300px modal
 
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+## Team-Shared Rules
+
+Create `.terminal-safety-rules.yaml` in your project root:
+
+```yaml
+- pattern: "rm -rf /opt/critical"
+  risk: CRITICAL
+  category: FILESYSTEM
+  description: "Custom destructive pattern"
+  regex: false
+```
+
+Rules are automatically loaded and merged with built-in + custom rules.
+
+## Rule Matching
+
+1. Custom rules checked first
+2. Built-in rules checked second
+3. First match wins
+4. Patterns support glob (`*`, `?`) or regex (when `isRegex: true`)
+5. Case-insensitive matching
+
+## External Integrations
+
+- Part of the **DevOps Safety Kit** bundle with:
+  - [Kubernetes Context Guard](kubernetes-context-guard.md)
+  - [Local Secrets Tripwire](local-secrets-tripwire.md)
+
+---
+
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)

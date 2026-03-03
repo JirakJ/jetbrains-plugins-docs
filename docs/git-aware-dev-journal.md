@@ -1,53 +1,67 @@
 # Git-Aware Dev Journal
 
-> Development journaling automatically tied to Git history.
+> Automatic developer journaling linked to your Git activity.
 
 ## Overview
 
-Git-Aware Dev Journal is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+Git-Aware Dev Journal automatically creates and maintains a developer journal tied to your Git commits, branches, and work sessions. It generates daily summaries, tracks time spent on features, and creates standup-ready reports from your actual development activity.
 
 ## Installation
 
-1. Open your JetBrains IDE
-2. Go to **Settings → Plugins → Marketplace**
-3. Search for **"Git-Aware Dev Journal"**
-4. Click **Install** and restart the IDE
+1. Go to **Settings → Plugins → Marketplace**
+2. Search for **"Git-Aware Dev Journal"**
+3. Click **Install** and restart the IDE
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** JetBrains IDE 2024.3+, Java 17+, Git
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier
+- Automatic journal entries from Git commits
+- Daily activity summary
+- Branch-based work session tracking
+- Manual note additions to journal entries
+- Last 7 days of journal history
 
-### Configuration
+### Pro Tier
+- Unlimited journal history
+- Standup report generation (yesterday/today/blockers)
+- Time tracking per branch/feature
+- Weekly/monthly summary generation
+- Markdown export
+- Team activity overview (shared repository)
+- Custom journal templates
+- Integration with project management tools
+- Search and filter journal entries
 
-Access plugin settings at **Settings → Tools → Git-Aware Dev Journal**.
+## Configuration
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+### Settings Location
+**Settings → Tools → Git-Aware Dev Journal**
 
-## Usage
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Auto-journal commits | `true` | Create entries from Git commits |
+| Journal directory | `.dev-journal` | Storage location (project root) |
+| Include diff stats | `true` | Include file change stats in entries |
+| Time tracking | `true` | Track time per branch |
+| Standup format | Default | Template for standup reports |
 
-*Detailed usage guide coming soon.*
+## Tool Windows
 
-## FAQ
+### Dev Journal
+- **Location:** Right panel
+- **Content:** Chronological journal entries, daily summaries, search bar
+- **Actions:** Add manual note, generate standup, export week, search entries
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+## Actions
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
+| Action | Shortcut | Description |
+|--------|----------|-------------|
+| Add Journal Note | `Alt+J` | Add manual note to today's journal |
+| Generate Standup | — | Create standup report from recent activity |
+| Export Journal | — | Export journal entries as Markdown |
 
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
+---
 
-## Changelog
-
-See the plugin's [CHANGELOG](https://github.com/JirakJ/git-aware-dev-journal/blob/main/CHANGELOG.md) for version history.
-
-## Support
-
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)

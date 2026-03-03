@@ -1,53 +1,73 @@
 # Dependency License Lens
 
-> Audit and monitor dependency licenses for compliance.
+> Audit and manage third-party dependency licenses in your JetBrains IDE.
 
 ## Overview
 
-Dependency License Lens is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+Dependency License Lens scans your project's dependencies (Maven, Gradle, npm, pip) and provides a comprehensive view of all third-party licenses. It detects license incompatibilities, flags risky licenses, and generates compliance reports for legal teams.
 
 ## Installation
 
-1. Open your JetBrains IDE
-2. Go to **Settings → Plugins → Marketplace**
-3. Search for **"Dependency License Lens"**
-4. Click **Install** and restart the IDE
+1. Go to **Settings → Plugins → Marketplace**
+2. Search for **"Dependency License Lens"**
+3. Click **Install** and restart the IDE
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** JetBrains IDE 2024.3+, Java 17+
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier
+- Automatic dependency license detection (Maven, Gradle)
+- License type identification (MIT, Apache-2.0, GPL, BSD, etc.)
+- Visual license overview in tool window
+- Basic incompatibility warnings (GPL in commercial projects)
+- Up to 50 dependencies analyzed
 
-### Configuration
+### Pro Tier
+- Unlimited dependency analysis
+- npm, pip, Go modules support
+- License compatibility matrix
+- Custom license policies (allowed/denied lists)
+- SBOM (Software Bill of Materials) generation
+- SPDX format export
+- Transitive dependency license tracking
+- License change detection across versions
+- Compliance report for legal teams (PDF/HTML)
+- CI/CD integration (fail on policy violation)
 
-Access plugin settings at **Settings → Tools → Dependency License Lens**.
+### Enterprise Tier
+- Organization-wide license policies
+- Automated legal review workflow
+- Multi-project license aggregation
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+## Configuration
 
-## Usage
+### Settings Location
+**Settings → Tools → Dependency License Lens**
 
-*Detailed usage guide coming soon.*
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Allowed licenses | MIT, Apache-2.0, BSD | Whitelist of acceptable licenses |
+| Denied licenses | GPL-3.0, AGPL | Blacklist of prohibited licenses |
+| Scan transitive deps | `true` | Include transitive dependencies |
+| Build system | Auto-detect | Override build system detection |
+| Report format | HTML | Default compliance report format |
 
-## FAQ
+## Tool Windows
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+### License Overview
+- **Location:** Bottom panel
+- **Content:** Dependency table with name, version, license, compatibility status
+- **Actions:** Generate report, export SBOM, configure policies
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
+## Inspections
 
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
+| Inspection | Severity | Description |
+|-----------|----------|-------------|
+| Incompatible License | ERROR | Dependency license conflicts with project |
+| Unknown License | WARNING | License type could not be determined |
+| Risky License | WARNING | License in caution list (LGPL, MPL) |
 
-## Changelog
+---
 
-See the plugin's [CHANGELOG](https://github.com/JirakJ/dependency-license-lens/blob/main/CHANGELOG.md) for version history.
-
-## Support
-
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)

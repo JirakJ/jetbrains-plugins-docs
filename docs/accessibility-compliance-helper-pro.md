@@ -1,53 +1,119 @@
 # Accessibility Compliance Helper Pro
 
-> Audit and remediate accessibility issues in web code with WCAG 2.0–2.2 profiles.
+> Comprehensive WCAG 2.1/2.2 accessibility auditing directly inside your JetBrains IDE.
 
 ## Overview
 
-Accessibility Compliance Helper Pro is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+Accessibility Compliance Helper Pro is the most comprehensive accessibility compliance plugin for JetBrains IDEs. It provides **40+ WCAG checks**, JIRA/Azure DevOps integration, custom `.a11y-report` file support, and over 100 registered actions to ensure your web projects meet AA/AAA accessibility standards.
 
 ## Installation
 
-1. Open your JetBrains IDE
+1. Open your JetBrains IDE (IntelliJ IDEA, WebStorm, PyCharm, etc.)
 2. Go to **Settings → Plugins → Marketplace**
 3. Search for **"Accessibility Compliance Helper Pro"**
 4. Click **Install** and restart the IDE
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** JetBrains IDE 2024.3+, Java 17+
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier
+- Basic WCAG 2.1 Level A checks
+- Real-time HTML/JSX inspection
+- Inline warnings with severity indicators
+- Quick-fix suggestions for common issues
+- Accessibility report file viewer (`.a11y-report`)
 
-### Configuration
+### Pro Tier
+- Full WCAG 2.1 & 2.2 Level AA/AAA checks (40+ rules)
+- JIRA integration — create accessibility issues directly from IDE
+- Azure DevOps integration — sync findings with work items
+- Batch project scanning
+- Custom rule configuration
+- PDF/HTML compliance report generation
+- Color contrast analyzer with visual preview
+- ARIA attribute validation & auto-completion
+- Keyboard navigation auditing
+- Screen reader compatibility checks
 
-Access plugin settings at **Settings → Tools → Accessibility Compliance Helper Pro**.
+### Enterprise Tier
+- Team-wide compliance dashboards
+- CI/CD pipeline integration
+- Custom organizational rules
+- Compliance trending & analytics
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+## Configuration
 
-## Usage
+### Settings Location
+**Settings → Tools → Accessibility Compliance Helper Pro**
 
-*Detailed usage guide coming soon.*
+| Setting | Default | Description |
+|---------|---------|-------------|
+| WCAG Level | AA | Target compliance level (A, AA, AAA) |
+| Auto-scan on save | `true` | Automatically check files on save |
+| Report format | HTML | Default export format (HTML, PDF, JSON) |
+| JIRA URL | *(empty)* | JIRA server URL for integration |
+| Azure DevOps URL | *(empty)* | Azure DevOps organization URL |
+| Color contrast ratio | 4.5:1 | Minimum contrast ratio threshold |
+| Custom rules path | *(empty)* | Path to custom rule definitions |
+
+## Tool Windows
+
+### Accessibility Compliance Panel
+- **Location:** Bottom panel
+- **Content:** Real-time findings table with severity, WCAG criterion, description, and quick-fix actions
+- **Features:** Filter by severity, group by file, export findings
+
+### Color Contrast Analyzer
+- **Location:** Right panel (Pro)
+- **Content:** Visual color pair analysis with WCAG compliance indicator
+
+## Inspections
+
+The plugin registers 40+ inspections covering:
+
+| Category | Examples |
+|----------|----------|
+| **Images** | Missing `alt` attributes, decorative image handling |
+| **Forms** | Missing `label` associations, ARIA labels |
+| **Navigation** | Keyboard trap detection, skip links, tab order |
+| **Color** | Insufficient contrast ratios, color-only indicators |
+| **Structure** | Heading hierarchy, landmark regions, page title |
+| **ARIA** | Invalid roles, missing required properties |
+| **Media** | Missing captions, audio descriptions |
+| **Interactive** | Focus management, click handlers on non-interactive elements |
+
+## Supported File Types
+
+- HTML (`.html`, `.htm`)
+- JSX/TSX (React components)
+- Vue (`.vue` single-file components)
+- Accessibility reports (`.a11y-report`)
+
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Alt+A` | Run accessibility audit on current file |
+| `Ctrl+Alt+A` | Open compliance panel |
+
+## External Integrations
+
+- **JIRA** — Create issues with WCAG reference, severity, and code snippet
+- **Azure DevOps** — Sync findings as work items
+- **CI/CD** — Export JSON reports for pipeline consumption
 
 ## FAQ
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+**Q: Does the plugin send my code to external servers?**
+A: No. All analysis is performed locally within your IDE. Only JIRA/Azure DevOps integrations communicate with your configured servers.
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
+**Q: Which WCAG version is supported?**
+A: WCAG 2.1 and 2.2 (Levels A, AA, and AAA).
 
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
+**Q: Can I create custom accessibility rules?**
+A: Yes (Pro tier). Define custom rules in a JSON configuration file.
 
-## Changelog
+---
 
-See the plugin's [CHANGELOG](https://github.com/JirakJ/accessibility-compliance-helper-pro/blob/main/CHANGELOG.md) for version history.
-
-## Support
-
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)

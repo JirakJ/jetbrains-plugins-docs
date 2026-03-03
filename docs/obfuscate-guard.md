@@ -1,53 +1,69 @@
 # Obfuscate Guard
 
-> Secure orchestration of Java/Kotlin project obfuscation.
+> ProGuard/R8 configuration validation and optimization for JetBrains IDEs.
 
 ## Overview
 
-Obfuscate Guard is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+Obfuscate Guard helps developers manage and validate ProGuard/R8 obfuscation rules. It provides syntax highlighting for ProGuard configuration files, detects common misconfiguration errors, suggests optimizations, and previews obfuscation results — ensuring your code protection doesn't break at runtime.
 
 ## Installation
 
-1. Open your JetBrains IDE
-2. Go to **Settings → Plugins → Marketplace**
-3. Search for **"Obfuscate Guard"**
-4. Click **Install** and restart the IDE
+1. Go to **Settings → Plugins → Marketplace**
+2. Search for **"Obfuscate Guard"**
+3. Click **Install** and restart the IDE
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** JetBrains IDE 2024.3+, Java 17+
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier
+- ProGuard/R8 config file syntax highlighting
+- Basic rule validation (syntax errors, typos)
+- Keep rule visualization (what's kept vs. obfuscated)
+- Common pattern templates
+- Class/method reference validation
 
-### Configuration
+### Pro Tier
+- Advanced rule impact analysis (preview obfuscation results)
+- Missing keep rule detection (runtime crash prevention)
+- Rule optimization suggestions (merge redundant rules)
+- Reflection usage scanning (auto-generate keep rules)
+- Serialization compatibility checking
+- Multi-module rule aggregation
+- Rule diff between builds
+- Export optimized configuration
+- CI/CD rule validation
 
-Access plugin settings at **Settings → Tools → Obfuscate Guard**.
+## Configuration
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+### Settings Location
+**Settings → Tools → Obfuscate Guard**
 
-## Usage
+| Setting | Default | Description |
+|---------|---------|-------------|
+| ProGuard config path | Auto-detect | Path to ProGuard configuration |
+| R8 mode | Auto-detect | Use R8 rules instead of ProGuard |
+| Validate on build | `true` | Run validation during build |
+| Show keep preview | `true` | Display keep/obfuscate preview |
 
-*Detailed usage guide coming soon.*
+## Supported File Types
 
-## FAQ
+| Extension | Description |
+|-----------|-------------|
+| `.pro` | ProGuard configuration |
+| `proguard-rules.pro` | Android ProGuard rules |
+| `proguard.cfg` | ProGuard configuration (alt) |
+| `consumer-rules.pro` | Library consumer rules |
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+## Inspections
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
+| Inspection | Severity | Description |
+|-----------|----------|-------------|
+| Invalid Keep Rule | ERROR | Syntax error in keep rule |
+| Missing Keep for Reflection | WARNING | Class used via reflection but not kept |
+| Redundant Rule | WEAK WARNING | Rule has no effect (already covered) |
+| Serialization Risk | WARNING | Serializable class may break after obfuscation |
 
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
+---
 
-## Changelog
-
-See the plugin's [CHANGELOG](https://github.com/JirakJ/obfuscate-guard/blob/main/CHANGELOG.md) for version history.
-
-## Support
-
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)

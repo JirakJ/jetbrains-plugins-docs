@@ -1,53 +1,74 @@
 # GPU Dev Accelerator Ultimate
 
-> Cross-platform GPU development toolkit for IntelliJ IDEA.
+> GPU-accelerated development tools for CUDA, OpenCL, and Vulkan Compute in JetBrains IDEs.
 
 ## Overview
 
-GPU Dev Accelerator Ultimate is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+GPU Dev Accelerator Ultimate provides comprehensive GPU compute development support including syntax highlighting, code completion, kernel debugging, performance profiling, and memory analysis for CUDA, OpenCL, and Vulkan Compute shaders.
 
 ## Installation
 
-1. Open your JetBrains IDE
-2. Go to **Settings → Plugins → Marketplace**
-3. Search for **"GPU Dev Accelerator Ultimate"**
-4. Click **Install** and restart the IDE
+1. Go to **Settings → Plugins → Marketplace**
+2. Search for **"GPU Dev Accelerator Ultimate"**
+3. Click **Install** and restart the IDE
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** JetBrains IDE 2024.3+, Java 17+, GPU SDK (CUDA Toolkit, OpenCL SDK, or Vulkan SDK)
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier
+- Syntax highlighting for CUDA (`.cu`, `.cuh`), OpenCL (`.cl`), and Vulkan Compute (`.comp`)
+- Basic code completion for GPU API functions
+- Kernel launch configuration validation
+- GPU device detection and info display
+- Error highlighting for common GPU programming mistakes
 
-### Configuration
+### Pro Tier
+- Advanced code completion with parameter hints
+- Kernel performance profiling (occupancy calculator)
+- Memory access pattern analysis
+- Warp/wavefront efficiency visualization
+- Bank conflict detection
+- Shared memory optimization suggestions
+- GPU memory leak detection
+- Multi-GPU configuration support
+- Kernel launch parameter optimizer
+- CUDA ↔ OpenCL code conversion hints
 
-Access plugin settings at **Settings → Tools → GPU Dev Accelerator Ultimate**.
+### Enterprise Tier
+- Team GPU resource management
+- CI/CD GPU testing integration
+- Cross-platform GPU compatibility checking
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+## Configuration
 
-## Usage
+### Settings Location
+**Settings → Tools → GPU Dev Accelerator Ultimate**
 
-*Detailed usage guide coming soon.*
+| Setting | Default | Description |
+|---------|---------|-------------|
+| CUDA Toolkit path | Auto-detect | Path to CUDA installation |
+| OpenCL SDK path | Auto-detect | Path to OpenCL SDK |
+| Vulkan SDK path | Auto-detect | Path to Vulkan SDK |
+| Target GPU arch | Auto-detect | Target compute capability |
+| Show performance hints | `true` | Display optimization suggestions |
 
-## FAQ
+## Tool Windows
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+### GPU Dashboard
+- **Location:** Bottom panel
+- **Content:** GPU device info, kernel profiling results, memory usage, occupancy metrics
+- **Actions:** Profile kernel, analyze memory, detect conflicts
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
+## Supported File Types
 
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
+| Extension | Language |
+|-----------|----------|
+| `.cu`, `.cuh` | CUDA C/C++ |
+| `.cl` | OpenCL C |
+| `.comp` | Vulkan Compute (GLSL) |
+| `.hlsl` | DirectX Compute (read-only) |
 
-## Changelog
+---
 
-See the plugin's [CHANGELOG](https://github.com/JirakJ/gpu-dev-accelerator-ultimate/blob/main/CHANGELOG.md) for version history.
-
-## Support
-
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)

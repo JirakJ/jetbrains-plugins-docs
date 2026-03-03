@@ -1,10 +1,10 @@
 # Metal Shader Support
 
-> Full Metal Shading Language support for JetBrains IDEs.
+> Full Metal Shading Language support with live preview for JetBrains IDEs.
 
 ## Overview
 
-Metal Shader Support is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+Metal Shader Support provides a complete Metal Shading Language (MSL) development environment with a **custom language implementation** (lexer, parser, PSI tree), syntax highlighting for 300+ Metal keywords, code completion, inspections, and a live shader preview panel powered by JCEF.
 
 ## Installation
 
@@ -13,41 +13,67 @@ Metal Shader Support is a JetBrains IDE plugin designed to enhance your developm
 3. Search for **"Metal Shader Support"**
 4. Click **Install** and restart the IDE
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** JetBrains IDE 2024.3+, Java 17+
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier
+- Custom Metal language with full parser
+- Syntax highlighting (300+ keywords: types, functions, qualifiers, attributes)
+- Code completion for Metal API functions and types
+- Brace matching and code folding
+- File type association (`.metal`, `.metallib`)
+- Basic error highlighting
 
-### Configuration
+### Pro Tier
+- Live shader preview (JCEF-based rendering)
+- Split editor with code + preview
+- Advanced code completion (context-aware)
+- Shader performance analysis
+- Texture preview integration
+- Cross-reference navigation (jump to function definitions)
+- Metal Performance Shaders (MPS) API completion
+- Shader compilation validation
+- Export shader as SPIR-V
 
-Access plugin settings at **Settings → Tools → Metal Shader Support**.
+## Configuration
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+### Settings Location
+**Settings → Tools → Metal Shader Support**
 
-## Usage
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Enable live preview | `true` | Show real-time shader preview |
+| Preview resolution | 512×512 | Shader preview dimensions |
+| Auto-compile on save | `true` | Compile shader on file save |
+| Metal SDK path | Auto-detect | Path to Metal SDK (Xcode) |
+| Show performance hints | `true` | Display shader optimization hints |
 
-*Detailed usage guide coming soon.*
+## Tool Windows
 
-## FAQ
+### Shader Preview
+- **Location:** Right panel
+- **Content:** Live shader rendering (JCEF), parameter sliders, texture inputs
+- **Actions:** Compile, refresh preview, toggle wireframe
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+## Supported File Types
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
+| Extension | Description |
+|-----------|-------------|
+| `.metal` | Metal Shading Language source |
+| `.metallib` | Compiled Metal library (read-only) |
+| `.mtl` | Material definitions (read-only) |
 
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
+## Metal Language Features
 
-## Changelog
+The custom language implementation includes:
 
-See the plugin's [CHANGELOG](https://github.com/JirakJ/metal-shader-support-plugin/blob/main/CHANGELOG.md) for version history.
+- **Lexer:** Tokenizes 300+ Metal keywords, operators, types
+- **Parser:** Full MSL grammar with error recovery
+- **PSI Tree:** Complete syntax tree for navigation and refactoring
+- **Color Settings:** 19+ configurable syntax colors
+- **Keywords:** `vertex`, `fragment`, `kernel`, `device`, `constant`, `threadgroup`, `float4`, `half4`, `texture2d`, etc.
 
-## Support
+---
 
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)

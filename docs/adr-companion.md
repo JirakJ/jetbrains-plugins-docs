@@ -1,53 +1,78 @@
 # ADR Companion
 
-> Manage Architecture Decision Records directly in your JetBrains IDE.
+> Architecture Decision Records management directly in your JetBrains IDE.
 
 ## Overview
 
-ADR Companion is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+ADR Companion helps development teams create, manage, and navigate Architecture Decision Records (ADRs) without leaving the IDE. It provides templates, status tracking, cross-referencing between ADRs, and integration with your project's documentation workflow.
 
 ## Installation
 
-1. Open your JetBrains IDE
-2. Go to **Settings → Plugins → Marketplace**
-3. Search for **"ADR Companion"**
-4. Click **Install** and restart the IDE
+1. Go to **Settings → Plugins → Marketplace**
+2. Search for **"ADR Companion"**
+3. Click **Install** and restart the IDE
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** JetBrains IDE 2024.3+, Java 17+
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier
+- Create new ADRs from templates (MADR, Nygard, custom)
+- ADR index view with status overview
+- Basic status management (Proposed, Accepted, Deprecated, Superseded)
+- ADR file navigation (`.md` files in `docs/adr/` or configurable directory)
+- Syntax highlighting for ADR metadata
 
-### Configuration
+### Pro Tier
+- Cross-reference linking between ADRs (supersedes/superseded-by)
+- ADR search and filtering by status, date, author
+- Relationship graph visualization
+- Export to Confluence/Wiki formats
+- ADR health checks (stale decisions, missing statuses)
+- Template customization
+- Git blame integration (who decided what, when)
 
-Access plugin settings at **Settings → Tools → ADR Companion**.
+## Configuration
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+### Settings Location
+**Settings → Tools → ADR Companion**
 
-## Usage
+| Setting | Default | Description |
+|---------|---------|-------------|
+| ADR Directory | `docs/adr` | Directory for ADR files (relative to project root) |
+| Template | MADR | Default ADR template format |
+| Auto-number | `true` | Automatically number new ADRs |
+| Date format | `yyyy-MM-dd` | Date format for ADR headers |
+| Status values | Proposed, Accepted, Deprecated, Superseded | Configurable status options |
 
-*Detailed usage guide coming soon.*
+## Tool Windows
+
+### ADR Explorer
+- **Location:** Right panel
+- **Content:** Hierarchical list of all ADRs with status icons, search bar, and quick-create button
+- **Actions:** Create new ADR, change status, view relationships
+
+## Actions
+
+| Action | Shortcut | Description |
+|--------|----------|-------------|
+| New ADR | `Ctrl+Alt+N` | Create a new ADR from template |
+| ADR Index | — | Open ADR explorer panel |
+| Change Status | — | Update ADR status (context menu) |
+
+## Supported File Types
+
+- Markdown (`.md`) — ADR content files
+- ADR index files (auto-generated)
 
 ## FAQ
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+**Q: Where are ADRs stored?**
+A: In your project directory (default: `docs/adr/`), tracked by version control.
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
+**Q: Can I customize the ADR template?**
+A: Yes. Create a `.adr-template.md` in your ADR directory or use the settings panel.
 
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
+---
 
-## Changelog
-
-See the plugin's [CHANGELOG](https://github.com/JirakJ/adr-companion/blob/main/CHANGELOG.md) for version history.
-
-## Support
-
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)

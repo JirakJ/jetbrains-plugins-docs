@@ -1,53 +1,73 @@
 # Obsidian Bridge
 
-> Seamless integration between Obsidian.md and JetBrains IDEs.
+> Seamlessly connect your JetBrains IDE with your Obsidian knowledge vault.
 
 ## Overview
 
-Obsidian Bridge is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+Obsidian Bridge creates a two-way connection between your JetBrains IDE and Obsidian, enabling developers to link code to knowledge base notes, create notes from code context, and navigate between IDE and Obsidian seamlessly. It supports Obsidian's wiki-link syntax, frontmatter, and vault structure.
 
 ## Installation
 
-1. Open your JetBrains IDE
-2. Go to **Settings → Plugins → Marketplace**
-3. Search for **"Obsidian Bridge"**
-4. Click **Install** and restart the IDE
+1. Go to **Settings → Plugins → Marketplace**
+2. Search for **"Obsidian Bridge"**
+3. Click **Install** and restart the IDE
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** JetBrains IDE 2024.3+, Java 17+, Obsidian installed (optional but recommended)
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier
+- Obsidian vault browser in IDE
+- Create notes from code context (right-click → "Create Obsidian Note")
+- Wiki-link syntax highlighting in Markdown files
+- Navigate to Obsidian notes from code comments (`[[note-name]]`)
+- Basic vault search
 
-### Configuration
+### Pro Tier
+- Two-way link synchronization
+- Code snippet embedding in notes (auto-updating)
+- Daily notes integration with development activity
+- Tag-based navigation between code and notes
+- Frontmatter metadata from project context
+- ADR/documentation template integration
+- Knowledge graph visualization (code ↔ notes)
+- Bulk note creation from project structure
+- Obsidian URI scheme support (open notes in Obsidian app)
 
-Access plugin settings at **Settings → Tools → Obsidian Bridge**.
+## Configuration
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+### Settings Location
+**Settings → Tools → Obsidian Bridge**
 
-## Usage
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Vault path | *(empty)* | Path to Obsidian vault directory |
+| Note template | Default | Template for new notes |
+| Link format | Wiki-link | Link syntax (`[[wiki]]` or `[markdown]()`) |
+| Auto-create daily | `false` | Create daily dev note on IDE open |
+| Tag prefix | `dev/` | Prefix for auto-generated tags |
 
-*Detailed usage guide coming soon.*
+## Tool Windows
 
-## FAQ
+### Obsidian Vault
+- **Location:** Right panel
+- **Content:** Vault file tree, search bar, recent notes, linked notes
+- **Actions:** Create note, open in Obsidian, search vault, view backlinks
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+## Actions
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
+| Action | Shortcut | Description |
+|--------|----------|-------------|
+| Create Obsidian Note | `Ctrl+Alt+O` | Create note from current code context |
+| Open in Obsidian | — | Open linked note in Obsidian app |
+| Search Vault | — | Full-text search across Obsidian vault |
 
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
+## Supported File Types
 
-## Changelog
+- Markdown (`.md`) — Obsidian notes
+- Wiki-links (`[[note-name]]`) in code comments
+- Frontmatter (YAML metadata)
 
-See the plugin's [CHANGELOG](https://github.com/JirakJ/obsidian-bridge/blob/main/CHANGELOG.md) for version history.
+---
 
-## Support
-
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)

@@ -1,53 +1,135 @@
-# VulnSpeed Plugin
+# VulnSpeed SAST
 
-> GPU-accelerated SAST scanning with OWASP Top 10 and CWE Top 25 coverage.
+> GPU-accelerated Static Application Security Testing with real-time vulnerability detection.
 
 ## Overview
 
-VulnSpeed Plugin is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+VulnSpeed is a GPU-accelerated SAST (Static Application Security Testing) plugin that detects vulnerabilities in real-time as you write code. It covers **OWASP Top 10** and **CWE Top 25** across 7+ programming languages, provides one-click auto-fixes, and supports GPU acceleration via Metal, CUDA, or Vulkan for 50-100× faster scanning.
 
 ## Installation
 
-1. Open your JetBrains IDE
-2. Go to **Settings → Plugins → Marketplace**
-3. Search for **"VulnSpeed Plugin"**
-4. Click **Install** and restart the IDE
+1. Go to **Settings → Plugins → Marketplace**
+2. Search for **"VulnSpeed"**
+3. Click **Install** and restart the IDE
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** JetBrains IDE 2023.3+, JDK 11+, 2 GB RAM minimum, GPU optional
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier (50 scans/day, 100K LOC)
+- Real-time vulnerability detection (Java, Python, JavaScript, TypeScript)
+- 4 core security rules (SQL Injection, XSS, Hardcoded Credentials, Insecure Random)
+- Inline severity highlighting
+- One-click auto-fixes via `Alt+Enter`
+- Security Dashboard tool window
+- Global inspection integration
 
-### Configuration
+### Professional Tier ($29/month, 1000 scans/day, 1M LOC)
+- GPU acceleration (Metal/CUDA/Vulkan)
+- 3,500+ security rules across all languages
+- Advanced pattern detection (taint analysis, data flow)
+- AI-powered false positive filtering
+- Dependency scanning
+- Threat modeling
+- 14-day free trial
 
-Access plugin settings at **Settings → Tools → VulnSpeed Plugin**.
+### Enterprise Tier ($99/month, unlimited)
+- All Professional features
+- Custom security rules
+- CI/CD integration
+- Team collaboration
+- Admin features
+- Priority support
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+## Configuration
 
-## Usage
+### Application Settings
+**Settings → Tools → VulnSpeed**
 
-*Detailed usage guide coming soon.*
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Real-time scanning | `true` | Detect vulnerabilities as you type |
+| Auto-fix enabled | `true` | Show automated fix suggestions |
+| Max file size (KB) | `1000` | Maximum file size to scan |
+| Telemetry | `false` | Anonymous usage data |
 
-## FAQ
+### Project Settings
+**Project Settings → Tools → VulnSpeed**
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Exclude patterns | `**/node_modules/**`, `**/build/**`, `**/.git/**` | Paths to skip |
+| Scan on save | `false` | Scan files on save |
+| Auto-fix on save | `false` | Apply auto-fixes on save (Premium) |
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
+## Tool Windows
 
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
+### VulnSpeed Dashboard
+- **Location:** Bottom panel
+- **Content:** Vulnerability list, severity breakdown (Critical/High/Medium/Low/Info), statistics, quick-fix access
+- **Columns:** File, Line, Severity, CWE, Rule Name, Suggestion
 
-## Changelog
+## Inspections
 
-See the plugin's [CHANGELOG](https://github.com/JirakJ/vulnspeed-plugin/blob/main/CHANGELOG.md) for version history.
+| Inspection | Level | Description |
+|-----------|-------|-------------|
+| VulnSpeed Security Analysis | WARNING | Global security inspection across all scanned files |
 
-## Support
+## Real-Time Annotators
 
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+Active for: **Java**, **Python**, **JavaScript**, **TypeScript**
+
+Annotations show:
+- Vulnerability name and severity
+- CWE reference number
+- Fix suggestion with code example
+- Mapped to IDE highlight levels (ERROR → CRITICAL, WARNING → HIGH, etc.)
+
+## Supported Languages
+
+| Language | Real-Time | Project Scan |
+|----------|-----------|-------------|
+| Java | ✅ | ✅ |
+| Python | ✅ | ✅ |
+| JavaScript | ✅ | ✅ |
+| TypeScript | ✅ | ✅ |
+| Kotlin | — | ✅ |
+| C/C++ | — | ✅ |
+| Swift | — | ✅ |
+| Go | — | ⚠️ Partial |
+| Rust | — | ⚠️ Partial |
+
+## Actions
+
+| Action | Location | Description |
+|--------|----------|-------------|
+| Scan File | Editor right-click | Scan current file |
+| Scan Project | Project view right-click | Full project scan |
+| Activate License | Tools → VulnSpeed | Enter license key |
+| Start Free Trial | Tools → VulnSpeed | Begin 14-day Professional trial |
+| Manage Subscription | Tools → VulnSpeed | Open JetBrains Marketplace |
+
+## Security Coverage
+
+**Categories include:**
+- Injection (SQL, LDAP, XPath, Command, NoSQL)
+- Cryptography & Secrets (weak algorithms, hardcoded keys)
+- Access Control (IDOR, privilege escalation)
+- API Security (rate limiting, CORS, validation)
+- Container Security (Docker, Kubernetes, Helm)
+- Framework-Specific (Spring, React, Angular, Vue)
+- Cloud/Serverless (AWS Lambda, S3, Terraform)
+
+## GPU Acceleration
+
+| Backend | Platform | Speedup |
+|---------|----------|---------|
+| Metal | macOS | 50-100× |
+| CUDA | NVIDIA GPU | 50-100× |
+| Vulkan | Cross-platform | 50-100× |
+
+GPU is optional — falls back to CPU multi-threaded scanning.
+
+---
+
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)

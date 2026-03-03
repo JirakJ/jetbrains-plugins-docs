@@ -1,53 +1,82 @@
 # Robot Framework Plugin
 
-> Full-featured Robot Framework language support with syntax highlighting and debugging.
+> Full Robot Framework language support with Web Inspector for JetBrains IDEs.
 
 ## Overview
 
-Robot Framework Plugin is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+Robot Framework Plugin provides comprehensive Robot Framework support including a **custom language implementation** for `.robot` and `.resource` files, syntax highlighting, code completion, keyword navigation, test execution, and a built-in **Web Inspector** tool for web test element selection.
 
 ## Installation
 
-1. Open your JetBrains IDE
-2. Go to **Settings → Plugins → Marketplace**
-3. Search for **"Robot Framework Plugin"**
-4. Click **Install** and restart the IDE
+1. Go to **Settings → Plugins → Marketplace**
+2. Search for **"Robot Framework"**
+3. Click **Install** and restart the IDE
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** JetBrains IDE 2024.3+, Java 17+, Python with Robot Framework (for execution)
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier
+- Custom Robot Framework language (full lexer/parser)
+- Syntax highlighting for `.robot` and `.resource` files
+- Keyword completion (built-in + library keywords)
+- Variable completion (`${var}`, `@{list}`, `&{dict}`)
+- Test case/keyword navigation (Ctrl+Click)
+- Section folding (Settings, Test Cases, Keywords, Variables)
+- Basic test execution via run configuration
 
-### Configuration
+### Pro Tier
+- Web Inspector tool window (pick elements from browser)
+- Advanced keyword completion (cross-file, library imports)
+- Variable scope analysis
+- Test suite management and execution
+- Keyword documentation viewer
+- Selenium/Browser library integration
+- Data-driven test support
+- Test execution history and flakiness tracking
+- HTML report viewer in IDE
+- Remote library keyword import
 
-Access plugin settings at **Settings → Tools → Robot Framework Plugin**.
+## Configuration
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+### Settings Location
+**Settings → Tools → Robot Framework**
 
-## Usage
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Python interpreter | Auto-detect | Path to Python with Robot Framework |
+| Library paths | *(empty)* | Additional library search paths |
+| Output directory | `output/` | Test execution output directory |
+| Browser for Web Inspector | Chrome | Default browser for element inspection |
+| Log level | INFO | Robot Framework log level |
 
-*Detailed usage guide coming soon.*
+## Tool Windows
 
-## FAQ
+### Robot Test Runner
+- **Location:** Bottom panel
+- **Content:** Test suite tree, execution log, pass/fail results
+- **Actions:** Run test, run suite, view report
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+### Web Inspector
+- **Location:** Right panel (Pro)
+- **Content:** Browser element picker, locator generator, element tree
+- **Actions:** Pick element, generate locator, validate selector
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
+## Supported File Types
 
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
+| Extension | Description |
+|-----------|-------------|
+| `.robot` | Robot Framework test files |
+| `.resource` | Robot Framework resource files |
+| `.py` | Python keyword libraries (navigation support) |
 
-## Changelog
+## Language Features
 
-See the plugin's [CHANGELOG](https://github.com/JirakJ/robot-framework-plugin/blob/main/CHANGELOG.md) for version history.
+- **Sections:** `*** Settings ***`, `*** Variables ***`, `*** Test Cases ***`, `*** Keywords ***`, `*** Tasks ***`
+- **Keywords:** Built-in, SeleniumLibrary, Browser, Collections, String, OperatingSystem
+- **Variables:** Scalar `${var}`, List `@{list}`, Dictionary `&{dict}`, Environment `%{ENV}`
+- **Control Flow:** FOR loops, IF/ELSE, TRY/EXCEPT, WHILE
 
-## Support
+---
 
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)

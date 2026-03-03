@@ -1,53 +1,94 @@
-# BDD Test Automation
+# BDD Test Automation Plugin
 
-> AI-powered BDD/Gherkin plugin with scenario generation and sub-200ms navigation.
+> AI-powered BDD scenario generation and execution with local Ollama integration.
 
 ## Overview
 
-BDD Test Automation is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+BDD Test Automation Plugin streamlines Behavior-Driven Development by providing AI-generated test scenarios (via local **Ollama** LLM), custom run configurations for BDD frameworks, 3-tier caching for fast scenario lookup, and seamless integration with Cucumber, JBehave, and other BDD tools.
 
 ## Installation
 
-1. Open your JetBrains IDE
-2. Go to **Settings → Plugins → Marketplace**
-3. Search for **"BDD Test Automation"**
-4. Click **Install** and restart the IDE
+1. Go to **Settings → Plugins → Marketplace**
+2. Search for **"BDD Test Automation"**
+3. Click **Install** and restart the IDE
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** JetBrains IDE 2024.3+, Java 17+, Ollama (optional, for AI features)
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier
+- Gherkin syntax highlighting and completion
+- Basic BDD scenario templates (Given/When/Then)
+- Step definition navigation (jump to implementation)
+- Custom run configuration for feature files
+- Up to 10 AI-generated scenarios per day (requires Ollama)
 
-### Configuration
+### Pro Tier
+- Unlimited AI scenario generation via Ollama
+- 3-tier caching system (in-memory → disk → LRU eviction)
+- Smart step suggestion based on existing step library
+- Data table generation with realistic test data
+- Scenario outline generation from examples
+- Cross-feature step reuse analysis
+- Test coverage mapping (scenario → code)
+- Parallel scenario execution support
+- Export to Cucumber JSON/JUnit XML
 
-Access plugin settings at **Settings → Tools → BDD Test Automation**.
+### Enterprise Tier
+- Team-shared step library
+- Living documentation generation
+- Scenario versioning and comparison
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+## Configuration
 
-## Usage
+### Settings Location
+**Settings → Tools → BDD Test Automation**
 
-*Detailed usage guide coming soon.*
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Ollama URL | `http://localhost:11434` | Ollama API endpoint |
+| Ollama Model | `llama3` | AI model for scenario generation |
+| Feature directory | `src/test/resources/features` | Default feature file location |
+| Cache enabled | `true` | Enable 3-tier caching |
+| Cache TTL (hours) | `24` | Cache time-to-live |
+| Max scenarios/day (Free) | `10` | Daily AI generation limit |
+
+## Tool Windows
+
+### BDD Explorer
+- **Location:** Right panel
+- **Content:** Feature file tree, scenario list, step definition index
+- **Actions:** Run scenario, generate AI scenario, navigate to step
+
+## Actions
+
+| Action | Shortcut | Description |
+|--------|----------|-------------|
+| Generate AI Scenario | `Ctrl+Alt+G` | Generate BDD scenario using Ollama |
+| Run Feature File | — | Execute BDD feature via custom run config |
+| Navigate to Step | `Ctrl+Click` | Jump to step definition implementation |
+
+## Supported File Types
+
+- Gherkin feature files (`.feature`)
+- Step definition files (Java, Kotlin)
+- Cucumber configuration files
+
+## External Integrations
+
+- **Ollama** — Local AI model for privacy-preserving scenario generation
+- **Cucumber** — Feature file execution and reporting
+- **JBehave** — Alternative BDD framework support
+- **Git** — Feature file versioning
 
 ## FAQ
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+**Q: Is Ollama required?**
+A: No. The plugin works without Ollama for manual BDD authoring. Ollama is only needed for AI-generated scenarios.
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
+**Q: Which AI models work best?**
+A: `llama3`, `codellama`, and `mistral` provide the best results for BDD scenarios.
 
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
+---
 
-## Changelog
-
-See the plugin's [CHANGELOG](https://github.com/JirakJ/bdd-test-automation-plugin/blob/main/CHANGELOG.md) for version history.
-
-## Support
-
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)

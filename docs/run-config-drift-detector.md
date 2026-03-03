@@ -1,53 +1,59 @@
 # Run Config Drift Detector
 
-> Detect and alert on run configuration drift in shared projects.
+> Detect and prevent run configuration inconsistencies across team members.
 
 ## Overview
 
-Run Config Drift Detector is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+Run Config Drift Detector monitors your IDE run configurations for drift — when configurations change between developers, branches, or over time. It version-controls run configurations, detects differences, and ensures team consistency.
 
 ## Installation
 
-1. Open your JetBrains IDE
-2. Go to **Settings → Plugins → Marketplace**
-3. Search for **"Run Config Drift Detector"**
-4. Click **Install** and restart the IDE
+1. Go to **Settings → Plugins → Marketplace**
+2. Search for **"Run Config Drift Detector"**
+3. Click **Install** and restart the IDE
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** JetBrains IDE 2024.3+, Java 17+
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier
+- Run configuration snapshot comparison
+- Drift detection between local and shared configs
+- Visual diff of configuration parameters
+- Basic drift notifications
+- Last 5 configuration snapshots
 
-### Configuration
+### Pro Tier
+- Unlimited snapshot history
+- Git integration — track config changes per commit
+- Team configuration baseline enforcement
+- Auto-fix drift (reset to baseline)
+- Environment variable drift detection
+- JVM argument comparison
+- Working directory validation
+- Configuration health score
+- Export configuration as sharable format
+- CI/CD parameter consistency checking
 
-Access plugin settings at **Settings → Tools → Run Config Drift Detector**.
+## Configuration
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+### Settings Location
+**Settings → Tools → Run Config Drift Detector**
 
-## Usage
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Auto-scan interval | `5 min` | How often to check for drift |
+| Baseline source | `.idea/runConfigurations` | Baseline configuration location |
+| Ignore fields | *(empty)* | Configuration fields to ignore in comparison |
+| Alert on drift | `true` | Show notification when drift detected |
 
-*Detailed usage guide coming soon.*
+## Tool Windows
 
-## FAQ
+### Configuration Drift
+- **Location:** Bottom panel
+- **Content:** Configuration comparison table, drift summary, diff viewer
+- **Actions:** Compare configs, reset to baseline, export config, take snapshot
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+---
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
-
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
-
-## Changelog
-
-See the plugin's [CHANGELOG](https://github.com/JirakJ/run-config-drift-detector/blob/main/CHANGELOG.md) for version history.
-
-## Support
-
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)

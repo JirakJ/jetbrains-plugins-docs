@@ -1,53 +1,79 @@
 # Intel DPC++ Plugin
 
-> Comprehensive Intel oneAPI DPC++/SYCL development support for CLion.
+> Full SYCL 2020 and Intel DPC++ language support for CLion.
 
 ## Overview
 
-Intel DPC++ Plugin is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+Intel DPC++ Plugin brings comprehensive SYCL 2020 and Data Parallel C++ (DPC++) language support to CLion, including syntax highlighting, code completion, 7 live templates, parallel kernel navigation, and integration with Intel oneAPI tools.
 
 ## Installation
 
-1. Open your JetBrains IDE
+1. Open **CLion** (required — this plugin is CLion-specific)
 2. Go to **Settings → Plugins → Marketplace**
-3. Search for **"Intel DPC++ Plugin"**
-4. Click **Install** and restart the IDE
+3. Search for **"Intel DPC++"**
+4. Click **Install** and restart CLion
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** CLion 2024.3+, Intel oneAPI Base Toolkit (recommended)
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier
+- SYCL 2020 syntax highlighting
+- DPC++ keyword recognition (`sycl::queue`, `sycl::buffer`, `sycl::handler`, etc.)
+- 7 live templates for common SYCL patterns
+- Basic code completion for SYCL API
+- Parallel region folding
 
-### Configuration
+### Pro Tier
+- Advanced SYCL completion with parameter documentation
+- Kernel argument type checking
+- Memory model validation (USM, buffers, accessors)
+- Device selector optimization hints
+- Parallel pattern suggestions (map, reduce, scan)
+- oneAPI profiler integration
+- FPGA synthesis hints
+- Cross-device portability analysis
 
-Access plugin settings at **Settings → Tools → Intel DPC++ Plugin**.
+## Live Templates
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+Type the abbreviation and press `Tab` to expand:
 
-## Usage
+| Abbreviation | Expansion |
+|-------------|-----------|
+| `syclq` | SYCL queue with device selector |
+| `syclbuf` | SYCL buffer with host data |
+| `syclsub` | Submit command group to queue |
+| `syclpar` | Parallel for with range |
+| `syclred` | Reduction operation |
+| `syclusm` | USM allocation and kernel |
+| `syclacc` | Buffer accessor pattern |
 
-*Detailed usage guide coming soon.*
+## Configuration
 
-## FAQ
+### Settings Location
+**Settings → Tools → Intel DPC++**
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+| Setting | Default | Description |
+|---------|---------|-------------|
+| oneAPI path | Auto-detect | Path to Intel oneAPI installation |
+| Default device | Auto | Target device (CPU, GPU, FPGA) |
+| SYCL standard | 2020 | SYCL specification version |
+| Show USM hints | `true` | Display USM vs. Buffer recommendations |
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
+## Supported File Types
 
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
+| Extension | Description |
+|-----------|-------------|
+| `.cpp`, `.cxx` | C++ source with SYCL |
+| `.hpp`, `.hxx` | C++ headers with SYCL |
+| `.dp.cpp` | DPC++ source files |
 
-## Changelog
+## Dependencies
 
-See the plugin's [CHANGELOG](https://github.com/JirakJ/intel-dpcpp-plugin/blob/main/CHANGELOG.md) for version history.
+- **CLion** — Required (uses `cidr.lang` dependency)
+- **Intel oneAPI Base Toolkit** — Recommended for full functionality
+- **SYCL-compatible compiler** — icpx, DPC++ compiler
 
-## Support
+---
 
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)

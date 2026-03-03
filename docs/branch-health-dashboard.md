@@ -1,53 +1,65 @@
 # Branch Health Dashboard
 
-> Monitor Git branch health, staleness, and merge readiness.
+> Monitor Git branch health, staleness, and merge readiness from your IDE.
 
 ## Overview
 
-Branch Health Dashboard is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+Branch Health Dashboard provides a comprehensive overview of all Git branches in your repository, tracking staleness, merge conflicts, CI status, and branch lifecycle. It helps teams identify abandoned branches, prevent merge conflicts, and maintain a clean repository.
 
 ## Installation
 
-1. Open your JetBrains IDE
-2. Go to **Settings → Plugins → Marketplace**
-3. Search for **"Branch Health Dashboard"**
-4. Click **Install** and restart the IDE
+1. Go to **Settings → Plugins → Marketplace**
+2. Search for **"Branch Health Dashboard"**
+3. Click **Install** and restart the IDE
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** JetBrains IDE 2024.3+, Java 17+, Git
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier
+- Branch list with last commit date and author
+- Staleness indicators (Fresh, Aging, Stale, Abandoned)
+- Ahead/behind commit counts vs. main branch
+- Basic branch health score (0-100)
+- Quick branch checkout/delete actions
 
-### Configuration
+### Pro Tier
+- Merge conflict prediction (diff analysis)
+- CI/CD status integration (GitHub Actions, GitLab CI)
+- Branch lifecycle tracking (creation → merge/delete)
+- Team branch ownership view
+- Automated stale branch notifications
+- Branch naming convention enforcement
+- Merge readiness score with recommendations
+- Custom staleness thresholds
+- Export branch report (CSV/JSON)
 
-Access plugin settings at **Settings → Tools → Branch Health Dashboard**.
+## Configuration
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+### Settings Location
+**Settings → Tools → Branch Health Dashboard**
 
-## Usage
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Main branch | `main` | Branch to compare against |
+| Stale threshold (days) | `14` | Days before branch is marked stale |
+| Abandoned threshold (days) | `30` | Days before branch is marked abandoned |
+| Show remote branches | `true` | Include remote-only branches |
+| Auto-refresh interval (min) | `5` | Dashboard refresh interval |
 
-*Detailed usage guide coming soon.*
+## Tool Windows
 
-## FAQ
+### Branch Health
+- **Location:** Bottom panel
+- **Content:** Sortable branch table with health score, staleness, ahead/behind, author, and last activity
+- **Actions:** Checkout, delete, merge, compare with main
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+## Keyboard Shortcuts
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
+| Shortcut | Action |
+|----------|--------|
+| `Alt+B` | Open Branch Health Dashboard |
 
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
+---
 
-## Changelog
-
-See the plugin's [CHANGELOG](https://github.com/JirakJ/branch-health-dashboard/blob/main/CHANGELOG.md) for version history.
-
-## Support
-
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)

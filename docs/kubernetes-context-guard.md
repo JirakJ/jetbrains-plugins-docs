@@ -1,53 +1,73 @@
 # Kubernetes Context Guard
 
-> Prevent accidental operations on wrong Kubernetes clusters.
+> Prevent accidental kubectl commands against wrong clusters in your IDE terminal.
 
 ## Overview
 
-Kubernetes Context Guard is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+Kubernetes Context Guard protects against accidentally running destructive kubectl commands on production clusters. It intercepts terminal commands, checks the active Kubernetes context, and displays confirmation dialogs with risk-level indicators before executing potentially dangerous operations.
 
 ## Installation
 
-1. Open your JetBrains IDE
-2. Go to **Settings → Plugins → Marketplace**
-3. Search for **"Kubernetes Context Guard"**
-4. Click **Install** and restart the IDE
+1. Go to **Settings → Plugins → Marketplace**
+2. Search for **"Kubernetes Context Guard"**
+3. Click **Install** and restart the IDE
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** JetBrains IDE 2024.3+, Java 17+, kubectl installed
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier
+- Active context display in IDE status bar
+- Production context warning (visual indicator)
+- Dangerous command interception (delete, scale, drain, cordon)
+- Confirmation dialogs with context name and risk level
+- Up to 5 custom context rules
 
-### Configuration
+### Pro Tier
+- Unlimited custom context rules
+- Context-based command policies (allow/deny per context)
+- Namespace protection rules
+- Audit log of intercepted commands
+- Team-shared rules via `.kube-guard.yaml`
+- Context switching notifications
+- Multi-cluster context groups
+- Dry-run enforcement for production contexts
 
-Access plugin settings at **Settings → Tools → Kubernetes Context Guard**.
+## Configuration
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+### Settings Location
+**Settings → Tools → Kubernetes Context Guard**
 
-## Usage
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Production patterns | `*prod*`, `*production*` | Regex patterns for production contexts |
+| Dangerous commands | `delete`, `scale`, `drain`, `cordon`, `taint` | Commands requiring confirmation |
+| Block production deletes | `false` | Completely block `kubectl delete` on production |
+| Show status bar | `true` | Display active context in status bar |
+| Confirmation timeout (s) | `30` | Auto-cancel confirmation after timeout |
 
-*Detailed usage guide coming soon.*
+## Tool Windows
 
-## FAQ
+### Context Guard
+- **Location:** Status bar widget + right panel
+- **Content:** Active context, namespace, cluster info, recent command audit
+- **Actions:** Switch context, view audit log, manage rules
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+## Risk Levels
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
+| Level | Color | Trigger |
+|-------|-------|---------|
+| 🔴 CRITICAL | Red | `kubectl delete` on production |
+| 🟠 HIGH | Orange | `kubectl scale`, `kubectl drain` on production |
+| 🟡 MEDIUM | Yellow | Any write command on staging |
+| 🟢 LOW | Green | Read-only commands (get, describe, logs) |
 
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
+## External Integrations
 
-## Changelog
+- **kubectl** — Command interception via IDE terminal
+- **kubeconfig** — Context detection and switching
+- Part of the **DevOps Safety Kit** bundle (with Terminal Safety Rails, Local Secrets Tripwire)
 
-See the plugin's [CHANGELOG](https://github.com/JirakJ/kubernetes-context-guard/blob/main/CHANGELOG.md) for version history.
+---
 
-## Support
-
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)

@@ -1,53 +1,77 @@
 # Local Secrets Tripwire
 
-> Detect and prevent secret leaks in your code before they reach Git.
+> Detect and prevent accidental secret commits in your JetBrains IDE.
 
 ## Overview
 
-Local Secrets Tripwire is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+Local Secrets Tripwire scans your code for hardcoded secrets (API keys, passwords, tokens, certificates) and prevents them from being committed to version control. It provides real-time detection with inline warnings and pre-commit hooks that block secret leaks.
 
 ## Installation
 
-1. Open your JetBrains IDE
-2. Go to **Settings → Plugins → Marketplace**
-3. Search for **"Local Secrets Tripwire"**
-4. Click **Install** and restart the IDE
+1. Go to **Settings → Plugins → Marketplace**
+2. Search for **"Local Secrets Tripwire"**
+3. Click **Install** and restart the IDE
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** JetBrains IDE 2024.3+, Java 17+
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier
+- Real-time secret detection in editor (10+ patterns)
+- Pre-commit scanner (blocks commits with secrets)
+- Inline warnings with severity indicators
+- Supported patterns: AWS keys, API tokens, passwords, private keys
+- Up to 5 custom secret patterns
 
-### Configuration
+### Pro Tier
+- 50+ secret detection patterns
+- Unlimited custom patterns (regex-based)
+- Entropy-based detection (high-entropy strings)
+- .env file scanning
+- Secret rotation reminders
+- Audit log of detected secrets
+- Team-shared rules via `.secrets-tripwire.yaml`
+- Git history scanning (find secrets in past commits)
+- Remediation suggestions (use env vars, vault references)
+- CI/CD integration
 
-Access plugin settings at **Settings → Tools → Local Secrets Tripwire**.
+## Configuration
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+### Settings Location
+**Settings → Tools → Local Secrets Tripwire**
 
-## Usage
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Real-time scanning | `true` | Scan files as you type |
+| Pre-commit check | `true` | Block commits with detected secrets |
+| Entropy threshold | `4.5` | Shannon entropy threshold for detection |
+| Ignore patterns | `**/test/**`, `**/*.md` | File patterns to exclude |
+| Custom patterns | *(empty)* | User-defined regex patterns |
 
-*Detailed usage guide coming soon.*
+## Inspections
 
-## FAQ
+| Inspection | Severity | Description |
+|-----------|----------|-------------|
+| Hardcoded Secret | ERROR | Detected API key, password, or token in source |
+| High Entropy String | WARNING | Suspicious high-entropy string found |
+| .env File in VCS | ERROR | .env file not in .gitignore |
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+## Detected Secret Types
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
+- AWS Access Keys (`AKIA...`)
+- GitHub Tokens (`ghp_...`, `gho_...`)
+- Slack Tokens (`xoxb-...`, `xoxp-...`)
+- Generic API Keys (pattern-based)
+- Database connection strings
+- Private keys (RSA, ED25519)
+- JWT tokens
+- Basic Auth credentials
 
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
+## External Integrations
 
-## Changelog
+- **Git** — Pre-commit hook integration
+- Part of the **DevOps Safety Kit** bundle (with Kubernetes Context Guard, Terminal Safety Rails)
 
-See the plugin's [CHANGELOG](https://github.com/JirakJ/local-secrets-tripwire/blob/main/CHANGELOG.md) for version history.
+---
 
-## Support
-
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)

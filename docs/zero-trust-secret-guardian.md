@@ -1,53 +1,113 @@
-# Zero Trust Secret Guardian
+# Zero-Trust Enterprise Secret Guardian
 
-> Zero-trust approach to secret management during local development.
+> Secure vault-to-IDE secret injection with zero disk footprint.
 
 ## Overview
 
-Zero Trust Secret Guardian is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+Zero-Trust Enterprise Secret Guardian eliminates security risks from leaked sensitive data by creating a **secure bridge between cloud secret vaults and your JetBrains IDE**. Secrets exist solely in RAM during IDE sessions — no disk storage, no cache, no `.env` files. It integrates with **Infisical** and **Doppler** vaults and automatically injects secrets into run configurations.
 
 ## Installation
 
-1. Open your JetBrains IDE
-2. Go to **Settings → Plugins → Marketplace**
-3. Search for **"Zero Trust Secret Guardian"**
-4. Click **Install** and restart the IDE
+1. Go to **Settings → Plugins → Marketplace**
+2. Search for **"Zero-Trust Secret Guardian"**
+3. Click **Install** and restart the IDE
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** JetBrains IDE 2024.3+, Java 17+, Infisical or Doppler account
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier
+- Vault authentication (Infisical, Doppler)
+- Environment picker (dev, staging, prod)
+- Dynamic run configuration interception
+- Secret injection into process memory (JVM, Node.js, Python)
+- Log masking (auto-censors secrets in terminal output with `********`)
+- Connection testing with visual status indicators
+- Automatic retry (up to 3 retries for transient failures)
+- Cache lifecycle management (secrets flushed on process termination)
 
-### Configuration
+### Enterprise Tier
+- Pre-commit scanner (guardrail) — blocks commits containing vault secrets
+- Team-wide vault policies
+- Audit logging
 
-Access plugin settings at **Settings → Tools → Zero Trust Secret Guardian**.
+## How It Works
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+1. **Configure** vault connection in the Zero-Trust Vault tool window
+2. **Run** any application from the IDE
+3. **Plugin intercepts** the run configuration before execution
+4. **Downloads secrets** asynchronously from your vault (with progress dialog)
+5. **Injects secrets** directly into process environment variables (in RAM only)
+6. **Application runs** with secrets available as env vars
+7. **On termination**, secrets are flushed from memory
 
-## Usage
+## Configuration
 
-*Detailed usage guide coming soon.*
+### Tool Window (Zero-Trust Vault, Right Panel)
+
+| Setting | Description |
+|---------|-------------|
+| Vault Provider | Infisical or Doppler |
+| Custom Base URL | On-premise vault URL (optional) |
+| Access Token | Securely stored via JetBrains Credential Store |
+| Project ID/Config | Project identifier in vault |
+| Environment | dev, staging, or prod |
+
+**Security:** Access tokens are stored via JetBrains `PasswordSafe` API — never as plaintext on disk.
+
+## Tool Windows
+
+### Zero-Trust Vault
+- **Location:** Right panel
+- **Content:** Vault configuration form, connection status indicator, Save & Test button
+- **Status Colors:**
+  - 🟢 Green — Connected, secrets loaded (shows count)
+  - 🟠 Orange — Connected but no secrets found
+  - 🔴 Red — Connection error
+
+## Supported Vaults
+
+| Vault | API Endpoint | Auth Method |
+|-------|-------------|-------------|
+| **Infisical** | `https://app.infisical.com/api/v3/secrets/raw` | Bearer token |
+| **Doppler** | `https://api.doppler.com/v3/configs/config/secrets/download` | Bearer token |
+| **Custom** | Configurable base URL | Bearer token |
+
+## Log Masking
+
+All console output is filtered automatically:
+- Secrets ≥5 characters are replaced with `********`
+- Common values excluded from masking (`true`, `false`, `dev`, `staging`, `prod`)
+- Works on both IDE terminal and application output
+
+## Pre-Commit Scanner (Enterprise)
+
+When enabled:
+1. Scans all modified files before commit
+2. Checks file contents against known vault secrets
+3. Shows warning dialog if secrets detected
+4. Options: "Review Commit" (cancel) or "Commit Anyway (Unsafe)"
+5. Excludes `.jar`, `.class` files and directories
+
+## Supported Runtimes
+
+Secrets are injected as environment variables, compatible with:
+- Java (JVM)
+- JavaScript / Node.js
+- Python
+- Any runtime that reads environment variables
 
 ## FAQ
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+**Q: Are secrets ever written to disk?**
+A: No. Secrets exist only in RAM and are flushed when the process terminates.
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
+**Q: What happens if the vault is unreachable?**
+A: The plugin shows a retry dialog. After 3 failed attempts, execution proceeds without secrets (with a warning).
 
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
+**Q: Can I use both Infisical and Doppler?**
+A: Currently one vault per project. Switch in the tool window settings.
 
-## Changelog
+---
 
-See the plugin's [CHANGELOG](https://github.com/JirakJ/zero-trust-secret-guardian/blob/main/CHANGELOG.md) for version history.
-
-## Support
-
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)

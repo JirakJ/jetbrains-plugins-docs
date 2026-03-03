@@ -1,53 +1,66 @@
 # Flaky Test Detector
 
-> Identify, track, and manage flaky tests across test suites.
+> Identify, track, and quarantine flaky tests directly in your JetBrains IDE.
 
 ## Overview
 
-Flaky Test Detector is a JetBrains IDE plugin designed to enhance your development workflow. This page provides user documentation including installation, configuration, and usage guides.
+Flaky Test Detector monitors your test suite for non-deterministic tests — tests that pass and fail intermittently without code changes. It tracks test execution history, calculates flakiness scores, and provides quarantine functionality to isolate unreliable tests from CI pipelines.
 
 ## Installation
 
-1. Open your JetBrains IDE
-2. Go to **Settings → Plugins → Marketplace**
-3. Search for **"Flaky Test Detector"**
-4. Click **Install** and restart the IDE
+1. Go to **Settings → Plugins → Marketplace**
+2. Search for **"Flaky Test Detector"**
+3. Click **Install** and restart the IDE
 
-Alternatively, install from the [JetBrains Marketplace](https://plugins.jetbrains.com/) website.
+**Requirements:** JetBrains IDE 2024.3+, Java 17+, JUnit/TestNG
 
-## Getting Started
+## Features
 
-After installation, the plugin is available from the IDE. Refer to the sections below for configuration and usage details.
+### Free Tier
+- Test execution history tracking (last 10 runs)
+- Flakiness score (0-100) per test
+- Visual flakiness indicators in test runner
+- Basic flaky test list with pass/fail ratio
+- Gutter icons for known flaky tests
 
-### Configuration
+### Pro Tier
+- Unlimited execution history
+- Root cause analysis (timing, ordering, resource contention)
+- Test quarantine mode (skip flaky tests in CI)
+- Flakiness trend dashboard (30-day view)
+- Re-run strategies (retry count, delay configuration)
+- Git integration — correlate flakiness with code changes
+- Team notification on new flaky tests
+- Export report (JUnit XML annotations, CSV)
+- CI/CD integration (quarantine list export)
 
-Access plugin settings at **Settings → Tools → Flaky Test Detector**.
+## Configuration
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| *Coming soon* | *Detailed settings documentation* | — |
+### Settings Location
+**Settings → Tools → Flaky Test Detector**
 
-## Usage
+| Setting | Default | Description |
+|---------|---------|-------------|
+| History depth | `10` | Number of runs to track per test |
+| Flakiness threshold | `20%` | Minimum fail rate to flag as flaky |
+| Auto-quarantine | `false` | Automatically quarantine highly flaky tests |
+| Retry count | `3` | Number of retries for flaky tests |
+| Retry delay (ms) | `1000` | Delay between retries |
 
-*Detailed usage guide coming soon.*
+## Tool Windows
 
-## FAQ
+### Flaky Test Dashboard
+- **Location:** Bottom panel
+- **Content:** Flaky test list, flakiness scores, execution history chart, quarantine controls
+- **Actions:** Quarantine test, retry test, view history, export report
 
-**Q: Which IDEs are supported?**
-A: The plugin supports IntelliJ IDEA and compatible JetBrains IDEs. Check the Marketplace page for the full compatibility list.
+## Inspections
 
-**Q: How do I report a bug?**
-A: Use the [Bug Report](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml) template in the issue tracker.
+| Inspection | Severity | Description |
+|-----------|----------|-------------|
+| Flaky Test | WARNING | Test has intermittent pass/fail pattern |
+| Quarantined Test | INFO | Test is currently quarantined |
 
-**Q: Where can I request a feature?**
-A: Use the [Feature Request](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml) template or start a discussion in the [Ideas forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions/categories/ideas).
+---
 
-## Changelog
-
-See the plugin's [CHANGELOG](https://github.com/JirakJ/flaky-test-detector/blob/main/CHANGELOG.md) for version history.
-
-## Support
-
-- 🐛 [Report a Bug](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=bug-report.yml)
-- ✨ [Request a Feature](https://github.com/JirakJ/jetbrains-plugins-docs/issues/new?template=feature-request.yml)
-- 💬 [Community Forum](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
