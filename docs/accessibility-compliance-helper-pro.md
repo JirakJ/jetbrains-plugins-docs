@@ -117,4 +117,4 @@ A: Yes (Pro tier). Define custom rules in a JSON configuration file.
 
 ---
 
-**Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
+**Current Version:** 2026.6.26 · **Support:** [Issue Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/issues) · [Discussions](https://github.com/JirakJ/jetbrains-plugins-docs/discussions)
