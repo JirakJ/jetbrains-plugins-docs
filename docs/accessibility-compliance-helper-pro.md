@@ -28,15 +28,16 @@ Accessibility Compliance Helper Pro is the most comprehensive accessibility comp
 - Full WCAG 2.1 & 2.2 Level AA/AAA checks (40+ rules)
 - **US Compliance Standards: Section 508 (Revised 2018) & ADA Title III (DOJ 2024 Rule)**
 - **Emerging Standards: WCAG 3.0 Draft & EN 301 549 V4 (EU)** — disabled by default
+- **Color Contrast Analyzer** — WCAG §1.4.3 (AA) and §1.4.6 (AAA) contrast ratio calculation with hex, rgb, rgba, and named CSS colour parsing
+- **ARIA Validation Engine** — Full WAI-ARIA 1.2 validation: role validity, required attributes, deprecated attribute detection, aria-hidden misuse warnings
+- **Screen Reader Simulation** — Real DOM reading order engine with accessibility tree traversal, displayed in the tool window Screen Reader tab
+- **Keyboard Navigation Analyzer** — Focus trap detection, skip-link validation, tab order analysis, modal focus management
+- **CI/CD Workflow Generator** — Generates real workflow files (GitHub Actions, GitLab CI, Jenkins, Azure DevOps) with configurable WCAG level and fail-on-violations
 - JIRA integration — create accessibility issues directly from IDE
 - Azure DevOps integration — sync findings with work items
 - Batch project scanning
 - Custom rule configuration
 - PDF/HTML compliance report generation
-- Color contrast analyzer with visual preview
-- ARIA attribute validation & auto-completion
-- Keyboard navigation auditing
-- Screen reader compatibility checks
 
 ## Configuration
 
@@ -101,7 +102,7 @@ The plugin registers 40+ inspections covering:
 
 - **JIRA** — Create issues with WCAG reference, severity, and code snippet
 - **Azure DevOps** — Sync findings as work items
-- **CI/CD** — Export JSON reports for pipeline consumption
+- **CI/CD** — Generate real workflow files for GitHub Actions, GitLab CI, Jenkins, and Azure DevOps directly into your project; includes pa11y-ci and axe-core scanning, report generation, and artifact uploads
 
 ## FAQ
 
