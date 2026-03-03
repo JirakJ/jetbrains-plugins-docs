@@ -1,0 +1,74 @@
+name: 📄 Documentation Issue
+description: Report an error or suggest an improvement to the documentation
+title: "[Docs]: "
+labels: ["documentation"]
+body:
+  - type: dropdown
+    id: plugin
+    attributes:
+      label: Plugin
+      description: Which plugin's documentation is affected?
+      options:
+        - Accessibility Compliance Helper Pro
+        - ADR Companion
+        - API Contract Guard
+        - API-First Mocking Studio
+        - Architecture Breadcrumbs
+        - BDD Test Automation
+        - Branch Health Dashboard
+        - Dead Code Drift Radar
+        - Dependency License Lens
+        - Docstring Freshness Monitor
+        - Flaky Test Detector
+        - Git-Aware Dev Journal
+        - Git Workflow Enforcer
+        - GPU Dev Accelerator Ultimate
+        - Intel DPC++ Plugin
+        - Kubernetes Context Guard
+        - Local Secrets Tripwire
+        - LogParser
+        - Metal GPU Monitor
+        - Metal Shader Support
+        - Obfuscate Guard
+        - Obsidian Bridge
+        - Robot Framework Plugin
+        - Run Config Drift Detector
+        - Selenium IQ Plugin
+        - Slow Build Hotspots
+        - Structurizr Plugin
+        - Technical Debt Accountant
+        - Terminal Safety Rails
+        - VulnSpeed Plugin
+        - Zero Trust Secret Guardian
+        - General / Root Documentation
+    validations:
+      required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Issue Type
+      options:
+        - Incorrect information
+        - Missing information
+        - Typo / Grammar
+        - Outdated content
+        - Suggestion for improvement
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the documentation issue or improvement.
+    validations:
+      required: true
+
+  - type: input
+    id: page
+    attributes:
+      label: Page / Section
+      description: Link to or name of the affected documentation page.
+    validations:
+      required: false

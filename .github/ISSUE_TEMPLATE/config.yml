@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Community Forum
+    url: https://github.com/JirakJ/jetbrains-plugins-docs/discussions
+    about: Ask questions, share ideas, and get help from the community.
+  - name: 📚 Documentation
+    url: https://github.com/JirakJ/jetbrains-plugins-docs#-plugin-documentation
+    about: Browse the plugin documentation before opening an issue.

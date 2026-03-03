@@ -1,0 +1,84 @@
+title: "🔧 "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Troubleshooting Help
+        Having trouble with installation, configuration, or unexpected behavior? Describe your issue here.
+
+  - type: dropdown
+    id: plugin
+    attributes:
+      label: Related Plugin
+      description: Which plugin are you having trouble with?
+      options:
+        - General / Cross-Plugin
+        - Accessibility Compliance Helper Pro
+        - ADR Companion
+        - API Contract Guard
+        - API-First Mocking Studio
+        - Architecture Breadcrumbs
+        - BDD Test Automation
+        - Branch Health Dashboard
+        - Dead Code Drift Radar
+        - Dependency License Lens
+        - Docstring Freshness Monitor
+        - Flaky Test Detector
+        - Git-Aware Dev Journal
+        - Git Workflow Enforcer
+        - GPU Dev Accelerator Ultimate
+        - Intel DPC++ Plugin
+        - Kubernetes Context Guard
+        - Local Secrets Tripwire
+        - LogParser
+        - Metal GPU Monitor
+        - Metal Shader Support
+        - Obfuscate Guard
+        - Obsidian Bridge
+        - Robot Framework Plugin
+        - Run Config Drift Detector
+        - Selenium IQ Plugin
+        - Slow Build Hotspots
+        - Structurizr Plugin
+        - Technical Debt Accountant
+        - Terminal Safety Rails
+        - VulnSpeed Plugin
+        - Zero Trust Secret Guardian
+    validations:
+      required: false
+
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Plugin Version
+      placeholder: "e.g. 2026.3.1"
+    validations:
+      required: false
+
+  - type: input
+    id: ide-version
+    attributes:
+      label: IDE & Version
+      placeholder: "e.g. IntelliJ IDEA 2025.1.2"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      options:
+        - macOS
+        - Windows
+        - Linux
+    validations:
+      required: false
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Description
+      description: Describe the problem you're experiencing. Include error messages and steps you've already tried.
+    validations:
+      required: true

@@ -1,0 +1,90 @@
+name: ✨ Feature Request
+description: Suggest a new feature or enhancement for one of the JetBrains plugins
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: plugin
+    attributes:
+      label: Plugin
+      description: Which plugin is this feature request for?
+      options:
+        - Accessibility Compliance Helper Pro
+        - ADR Companion
+        - API Contract Guard
+        - API-First Mocking Studio
+        - Architecture Breadcrumbs
+        - BDD Test Automation
+        - Branch Health Dashboard
+        - Dead Code Drift Radar
+        - Dependency License Lens
+        - Docstring Freshness Monitor
+        - Flaky Test Detector
+        - Git-Aware Dev Journal
+        - Git Workflow Enforcer
+        - GPU Dev Accelerator Ultimate
+        - Intel DPC++ Plugin
+        - Kubernetes Context Guard
+        - Local Secrets Tripwire
+        - LogParser
+        - Metal GPU Monitor
+        - Metal Shader Support
+        - Obfuscate Guard
+        - Obsidian Bridge
+        - Robot Framework Plugin
+        - Run Config Drift Detector
+        - Selenium IQ Plugin
+        - Slow Build Hotspots
+        - Structurizr Plugin
+        - Technical Debt Accountant
+        - Terminal Safety Rails
+        - VulnSpeed Plugin
+        - Zero Trust Secret Guardian
+        - General / Cross-Plugin
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: Is your feature request related to a problem? Describe it clearly.
+      placeholder: "I'm always frustrated when..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Describe any alternative solutions or features you've considered.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to you?
+      options:
+        - Nice to have
+        - Important
+        - Critical for my workflow
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any other context, mockups, or screenshots about the feature request.
+    validations:
+      required: false

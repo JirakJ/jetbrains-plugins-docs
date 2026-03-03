@@ -1,0 +1,155 @@
+name: 🐛 Bug Report
+description: Report a bug in one of the JetBrains plugins
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: dropdown
+    id: plugin
+    attributes:
+      label: Plugin
+      description: Which plugin is affected?
+      options:
+        - Accessibility Compliance Helper Pro
+        - ADR Companion
+        - API Contract Guard
+        - API-First Mocking Studio
+        - Architecture Breadcrumbs
+        - BDD Test Automation
+        - Branch Health Dashboard
+        - Dead Code Drift Radar
+        - Dependency License Lens
+        - Docstring Freshness Monitor
+        - Flaky Test Detector
+        - Git-Aware Dev Journal
+        - Git Workflow Enforcer
+        - GPU Dev Accelerator Ultimate
+        - Intel DPC++ Plugin
+        - Kubernetes Context Guard
+        - Local Secrets Tripwire
+        - LogParser
+        - Metal GPU Monitor
+        - Metal Shader Support
+        - Obfuscate Guard
+        - Obsidian Bridge
+        - Robot Framework Plugin
+        - Run Config Drift Detector
+        - Selenium IQ Plugin
+        - Slow Build Hotspots
+        - Structurizr Plugin
+        - Technical Debt Accountant
+        - Terminal Safety Rails
+        - VulnSpeed Plugin
+        - Zero Trust Secret Guardian
+    validations:
+      required: true
+
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Plugin Version
+      description: What version of the plugin are you using?
+      placeholder: "e.g. 2026.3.1"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: ide
+    attributes:
+      label: IDE
+      description: Which JetBrains IDE are you using?
+      options:
+        - IntelliJ IDEA Ultimate
+        - IntelliJ IDEA Community
+        - CLion
+        - WebStorm
+        - PyCharm Professional
+        - PyCharm Community
+        - GoLand
+        - PhpStorm
+        - Rider
+        - RubyMine
+        - DataGrip
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: ide-version
+    attributes:
+      label: IDE Version
+      description: What version of the IDE are you using?
+      placeholder: "e.g. 2025.1.2"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      options:
+        - macOS
+        - Windows
+        - Linux
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of the bug.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Step-by-step instructions to reproduce the bug.
+      value: |
+        1. Go to '...'
+        2. Click on '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Stack Trace
+      description: Paste any relevant logs or error messages. Find IDE logs via **Help → Show Log in Finder/Explorer**.
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem.
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other context about the problem.
+    validations:
+      required: false

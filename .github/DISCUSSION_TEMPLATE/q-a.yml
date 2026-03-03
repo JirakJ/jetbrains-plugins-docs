@@ -1,0 +1,57 @@
+title: "❓ "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Ask a Question
+        Need help with one of our plugins? Ask here and the community or maintainers will help!
+
+  - type: dropdown
+    id: plugin
+    attributes:
+      label: Related Plugin
+      description: Which plugin is your question about?
+      options:
+        - General / Cross-Plugin
+        - Accessibility Compliance Helper Pro
+        - ADR Companion
+        - API Contract Guard
+        - API-First Mocking Studio
+        - Architecture Breadcrumbs
+        - BDD Test Automation
+        - Branch Health Dashboard
+        - Dead Code Drift Radar
+        - Dependency License Lens
+        - Docstring Freshness Monitor
+        - Flaky Test Detector
+        - Git-Aware Dev Journal
+        - Git Workflow Enforcer
+        - GPU Dev Accelerator Ultimate
+        - Intel DPC++ Plugin
+        - Kubernetes Context Guard
+        - Local Secrets Tripwire
+        - LogParser
+        - Metal GPU Monitor
+        - Metal Shader Support
+        - Obfuscate Guard
+        - Obsidian Bridge
+        - Robot Framework Plugin
+        - Run Config Drift Detector
+        - Selenium IQ Plugin
+        - Slow Build Hotspots
+        - Structurizr Plugin
+        - Technical Debt Accountant
+        - Terminal Safety Rails
+        - VulnSpeed Plugin
+        - Zero Trust Secret Guardian
+    validations:
+      required: false
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: Describe your question in detail. Include plugin version, IDE version, and OS if relevant.
+    validations:
+      required: true
