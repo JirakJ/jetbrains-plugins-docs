@@ -27,6 +27,7 @@ Accessibility Compliance Helper Pro is the most comprehensive accessibility comp
 ### Pro Tier
 - Full WCAG 2.1 & 2.2 Level AA/AAA checks (40+ rules)
 - **US Compliance Standards: Section 508 (Revised 2018) & ADA Title III (DOJ 2024 Rule)**
+- **Emerging Standards: WCAG 3.0 Draft & EN 301 549 V4 (EU)** — disabled by default
 - JIRA integration — create accessibility issues directly from IDE
 - Azure DevOps integration — sync findings with work items
 - Batch project scanning
@@ -47,6 +48,8 @@ Accessibility Compliance Helper Pro is the most comprehensive accessibility comp
 | WCAG Level | AA | Target compliance level (A, AA, AAA) |
 | Section 508 | `false` | Enable Section 508 (Revised 2018) checks |
 | ADA Title III | `false` | Enable ADA Title III (DOJ 2024) checks |
+| WCAG 3.0 Draft | `false` | Enable WCAG 3.0 Working Draft checks (emerging) |
+| EN 301 549 | `false` | Enable EU Accessibility Act checks (emerging) |
 | Auto-scan on save | `true` | Automatically check files on save |
 | Report format | HTML | Default export format (HTML, PDF, JSON) |
 | JIRA URL | *(empty)* | JIRA server URL for integration |
