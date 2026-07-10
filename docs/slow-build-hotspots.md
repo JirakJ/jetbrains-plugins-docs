@@ -1,103 +1,93 @@
 # Slow Build Hotspots
 
-> Identify and fix Gradle build bottlenecks directly in your JetBrains IDE.
+> Find and fix Gradle build bottlenecks from inside your JetBrains IDE.
 
 ## Overview
 
-Slow Build Hotspots parses Gradle `--profile` HTML reports to pinpoint build performance bottlenecks. It detects slow tasks, cache misses, non-incremental builds, and excessive configuration time — providing severity-rated hotspots with optimization recommendations and before/after time projections.
+Slow Build Hotspots parses the HTML report produced by Gradle's `--profile` flag to pinpoint slow tasks, cache misses, and non-incremental operations. Each finding is surfaced as a ranked, severity-rated hotspot with a concrete optimization suggestion, so you can see exactly where your build spends its time and what to change to speed it up.
+
+Results appear in a dedicated tool window with a task breakdown, the detected hotspots, and a per-build time breakdown. It is aimed at developers and build engineers working in Gradle projects who want build-performance analysis without leaving the IDE or wiring up external tooling.
 
 ## Installation
 
-1. Go to **Settings → Plugins → Marketplace**
+1. Open **Settings → Plugins → Marketplace**
 2. Search for **"Slow Build Hotspots"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2024.3+, Java 17+, Gradle 7.0+
+**Requirements:** JetBrains IDE 2023.2+, JDK 17+, and a Gradle project that can produce `--profile` HTML reports.
 
 ## Getting Started
 
-1. Run your Gradle build with profiling: `./gradlew build --profile`
-2. Open the **Build Hotspots** tool window (bottom panel)
-3. Click **"Analyze Build Profile"** or use **Tools → Analyze Build Profile**
-4. Review hotspots, sorted by impact
+1. Generate a profile: run `./gradlew build --profile` (Gradle writes an HTML report under `build/reports/profile/`).
+2. Open the **Build Hotspots** tool window (bottom of the IDE).
+3. Click **Analyze Latest Build** in the tool window, or run **Tools → Analyze Build Profile**.
+4. Review the **Task Breakdown**, **Hotspots**, and **Trend** tabs — hotspots are sorted by impact. A summary notification reports how many hotspots were found.
 
 ## Features
 
-### Free Tier
-- Gradle profile HTML report parsing
-- Hotspot detection with severity levels (🔴 Critical >30s, 🟠 Slow 10–30s, 🟡 Notable 5–10s)
-- Task breakdown table (task name, duration, cache status, incremental flag)
-- Build health report (top 10 slowest tasks, cache hit-rate, config vs. execution split)
-- Build history (last 5 profiles)
-- Performance dashboard in tool window
-- Cache hit-rate tracking
+### Build Analysis
+- Parse Gradle `--profile` HTML reports automatically
+- Ranked hotspot detection with Critical / Warning / Info severity
+- Cache-miss analysis — flag cacheable tasks that missed the build cache
+- Non-incremental detection — find tasks that ran without incremental support
 
-### Pro Tier
-- Optimization suggestions with quick-fixes (enable build cache, parallel execution, configuration cache)
-- Before/after time projections per suggestion
-- 30-day build time trend graphs with regression detection
-- Unlimited build history
-- All inline performance hints
-- CSV/JSON data export
-- Git commit correlation (build regression detection)
+### Visualization
+- Task breakdown: every task sorted by duration, with cache and incremental status
+- Hotspots view: detected issues with severity, type, impacted task, impact (ms), and a suggestion
+- Per-build time breakdown: total build time, task count, and an ASCII bar chart of the slowest tasks
+
+### Optimization
+- Per-hotspot optimization suggestions — enable the build cache (`org.gradle.caching=true`), incremental compilation, the configuration cache (`org.gradle.configuration-cache=true`), lazy task configuration, or split large tasks
 
 ## Configuration
 
-### Settings Location
 **Settings → Tools → Slow Build Hotspots**
 
-| Setting | Default | Range | Description |
-|---------|---------|-------|-------------|
-| Enabled | `true` | — | Enable/disable plugin |
-| Slow task threshold (%) | `10` | 1–100 | Minimum % of total build time to flag |
-| Configuration threshold (%) | `20` | 1–100 | Configuration phase warning threshold |
-| Profile directory override | *(empty)* | Path | Custom Gradle profile directory |
-| Auto-analyze | `false` | — | Auto-analyze after each build |
-| Max history entries | `50` | 10–500 | Maximum stored build profiles |
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Enable Slow Build Hotspots | On | Master enable toggle for the plugin |
+| Auto-analyze after build | Off | Run analysis automatically when a build completes |
+| Slow task threshold (%) | 10 | Flag tasks taking more than this share of total build time (1–100) |
+| Configuration threshold (%) | 20 | Flag when the configuration phase exceeds this share of total time (1–100) |
+| Profile directory | *(auto-detect)* | Override the Gradle profile directory; leave empty to auto-detect `build/reports/profile` |
+| Max history entries | 50 | Number of past analyses to keep in history (10–500) |
 
-**Persistent Storage:** `buildHotspotsSettings.xml` (application scope)
+**Persistent storage:** `buildHotspotsSettings.xml` (application scope, roamable).
 
-## Tool Windows
+## Tool Window
 
 ### Build Hotspots
-- **Location:** Bottom panel
-- **Icon:** Custom hotspot icon
+- **Location:** bottom panel (secondary)
+- **Toolbar:** **Analyze Latest Build** and **Clear** buttons, with a status line along the bottom
 - **Tabs:**
-  1. **Task Breakdown** — All tasks sorted by duration with cache status
-  2. **Hotspots** — Detected issues with severity, type, impact, and suggestions
-  3. **Trends** — 30-day build time trends with regression detection (Pro)
-- **Toolbar:** Analyze button + status label
+  - **Task Breakdown** — every task sorted by duration, with cache and incremental status
+  - **Hotspots** — detected issues with severity, type, task, impact (ms), and suggestion
+  - **Trend** — total build time, task count, and an ASCII bar chart of the slowest tasks in the analyzed build
 
-## Hotspot Types
+## Hotspot Detection
 
-| Type | Description | Critical Threshold |
-|------|-------------|-------------------|
-| `SLOW_TASK` | Tasks consuming disproportionate build time | ≥30% of total |
-| `CACHE_MISS` | Tasks with cache misses adding time | ≥5000ms |
-| `NON_INCREMENTAL` | Non-incremental tasks adding time | ≥5000ms |
-| `CONFIGURATION_TIME` | Configuration phase too long | ≥40% of total |
-| `DEPENDENCY_RESOLUTION` | Dependency resolution delays | Variable |
+Every hotspot is rated **Critical 🔴**, **Warning 🟡**, or **Info 🟢** based on its impact. The analyzer produces four kinds of hotspot, sorted by impact:
+
+| Type | Detected when | Critical at |
+|------|---------------|-------------|
+| Slow Task | Task exceeds the slow-task threshold (default 10%) of total build time | ≥ 30% of total |
+| Cache Miss | A cacheable task missed the cache (duration > 500 ms) | ≥ 5000 ms |
+| Non-Incremental | Task ran non-incrementally (duration > 500 ms) | ≥ 5000 ms |
+| Configuration Time | Configuration phase exceeds the configuration threshold (default 20%) | ≥ 40% of total |
 
 ## Actions
 
-| Action | Menu Location | Description |
-|--------|---------------|-------------|
-| Analyze Build Profile | Tools menu | Parse latest Gradle profile and show results |
-
-## Git Integration (Optional)
-
-When Git4Idea plugin is available:
-- **Build Regression Detector** — Correlates build time changes with commits
-- **Build Impact Predictor** — Estimates impact of code changes on build time
-- **Build Performance Timeline** — Timeline view of performance vs. commits
+| Action | Location | Description |
+|--------|----------|-------------|
+| Analyze Build Profile | Tools menu | Parse the latest Gradle profile report and show the detected hotspots |
 
 ## FAQ
 
 **Q: Where does Gradle put profile reports?**
-A: By default in `build/reports/profile/`. Run `./gradlew build --profile` to generate.
+A: By default under `build/reports/profile/`. Generate one with `./gradlew build --profile`. You can point the plugin at a different location via **Profile directory** in settings.
 
-**Q: Does it work with Maven?**
-A: No. Currently Gradle only. Maven support is planned.
+**Q: Does it support Maven?**
+A: No. The analyzer reads Gradle `--profile` HTML reports only.
 
 ---
 

@@ -1,65 +1,77 @@
-# Dead Code Drift Radar
+# Dead Code & Drift Radar
 
-> Detect and track unused code accumulation over time in your JetBrains IDE.
+> Find forgotten, drifting, and dead code before it becomes debt — every file gets a 0–100 drift score.
 
 ## Overview
 
-Dead Code Drift Radar identifies dead code (unused classes, methods, imports, variables) and tracks how it accumulates over time. Unlike simple "unused" warnings, it shows the **drift trend** — helping teams understand whether dead code is growing, shrinking, or stable across commits.
+Dead Code & Drift Radar identifies abandoned, drifting, and dead code by combining Git history with static reference analysis. Every file — and individual methods — is assigned a **drift score** from 0 to 100, so you can see at a glance what is actively maintained and what is rotting.
+
+Scores surface as color-coded gutter icons in the editor and as a sortable dashboard in a dedicated tool window. It is aimed at teams who want to keep a large codebase healthy by catching stale code early, rather than waiting for it to become unmaintainable technical debt.
 
 ## Installation
 
-1. Go to **Settings → Plugins → Marketplace**
-2. Search for **"Dead Code Drift Radar"**
+1. Open **Settings → Plugins → Marketplace**
+2. Search for **"Dead Code & Drift Radar"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2024.3+, Java 17+
+**Requirements:** JetBrains IDE 2023.2+, JDK 21+, and a Git repository (Git history feeds the drift score).
 
 ## Features
 
-### Free Tier
-- Dead code detection (unused methods, classes, imports, variables)
-- Project-wide dead code summary (count and percentage)
-- Inline gutter markers for unused code
-- Basic drift tracking (last 5 scans)
+### Core drift analysis
+- **Drift score** — a 0–100 health metric per file, combining Git history and reference analysis
+- **Gutter icons** — color-coded indicators showing each element's drift level directly in the editor
+- **Hover tooltips** — author, last change date, reference count, and the drift breakdown
+- **Project View badges** — drift status shown in the project tree without opening files
+- **Configurable thresholds** — set your own boundaries for each drift level
 
-### Pro Tier
-- Full drift trend visualization (30-day chart)
-- Git integration — dead code linked to introducing commits
-- Hotspot analysis (files with most dead code)
-- Safe removal suggestions with impact analysis
-- Bulk dead code cleanup actions
-- Export drift report (CSV/Markdown)
-- Team comparison (dead code by contributor)
-- CI/CD integration (fail builds on drift increase)
+### Advanced analysis & reporting
+- **Method-level drift scores** — scoring for individual methods, not just whole files
+- **Project heatmap** — visualize drift hotspots across the entire project
+- **Trend analysis and cleanup backlog** — track drift over time and prioritize cleanup
+- **Zombie and orphan code detection** — flag unreachable and unreferenced code
+- **Safe-to-remove confidence scores** — gauge how safe a deletion is
+- **Report export** — generate SARIF and JUnit XML reports
+- **CI integration** — run drift analysis as a Gradle task
 
 ## Configuration
 
-### Settings Location
-**Settings → Tools → Dead Code Drift Radar**
+**Settings → Tools → Dead Code & Drift Radar**
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Scan scope | Project | Scan scope (Project, Module, Directory) |
-| Include tests | `false` | Include test files in scan |
-| Ignore patterns | *(empty)* | File patterns to exclude |
-| Drift threshold | `5%` | Alert when dead code exceeds threshold |
-| Auto-scan on commit | `false` | Run scan before each commit |
+| Enable drift analysis | `on` | Continuously monitor code drift across the project |
+| Active threshold | `25` | Scores at or below this are **Active** (recently touched) |
+| Cooling threshold | `50` | Scores up to this are **Cooling** (not recently modified) |
+| Drifting threshold | `75` | Scores up to this are **Drifting**; above it is **Dead** |
+| Ignored paths | *(empty)* | Comma-separated list of paths to exclude from scanning |
+
+### Drift levels
+
+| Level | Score | Meaning |
+|-------|-------|---------|
+| Active | 0–25 | Healthy, actively maintained |
+| Cooling | 26–50 | Early signs of reduced activity |
+| Drifting | 51–75 | Significantly drifting toward dead |
+| Dead | 76–100 | Appears dead or abandoned |
+
+Score ranges follow the default thresholds above and shift when you change them.
 
 ## Tool Windows
 
-### Dead Code Radar
-- **Location:** Bottom panel
-- **Content:** Dead code summary, drift chart, file hotspot list, removal actions
-- **Actions:** Scan project, remove selected dead code, export report
+### Drift Radar
+- **Location:** Bottom panel (secondary)
+- **Content:** A sortable table of code elements with columns **Element**, **Type**, **Drift Score**, **Level**, **Last Modified**, and **References**, ordered by score
+- **Filter:** Dropdown to show All, Active, Cooling, Drifting, or Dead elements
 
-## Inspections
+## Actions
 
-| Inspection | Severity | Description |
-|-----------|----------|-------------|
-| Unused Method | WARNING | Methods never called in project |
-| Unused Class | WARNING | Classes never instantiated or referenced |
-| Unused Import | WEAK WARNING | Import statements not used |
-| Unused Variable | WEAK WARNING | Variables assigned but never read |
+Both actions live under **Tools → Drift Radar**.
+
+| Action | Location | Description |
+|--------|----------|-------------|
+| Scan Project for Drift | Tools → Drift Radar | Analyze all project files for code drift |
+| Scan Current File for Drift | Tools → Drift Radar | Analyze the current file for code drift |
 
 ---
 

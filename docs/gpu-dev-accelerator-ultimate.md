@@ -1,68 +1,102 @@
 # GPU Dev Accelerator Ultimate
 
-> GPU-accelerated development tools for CUDA, OpenCL, and Vulkan Compute in JetBrains IDEs.
+> Cross-platform CUDA, Metal, and OpenCL development inside JetBrains IDEs — write, debug, profile, and optimize GPU code without leaving the editor.
 
 ## Overview
 
-GPU Dev Accelerator Ultimate provides comprehensive GPU compute development support including syntax highlighting, code completion, kernel debugging, performance profiling, and memory analysis for CUDA, OpenCL, and Vulkan Compute shaders.
+GPU Dev Accelerator Ultimate brings GPU compute development to IntelliJ IDEA and CLion. It adds dedicated language support for CUDA C/C++, Apple Metal Shading Language, and OpenCL C, together with in-kernel debugging, performance profiling, memory analysis, and AI-assisted kernel optimization — in a single plugin.
+
+It targets developers building GPU-accelerated software: CUDA compute on NVIDIA hardware, Metal shaders for iOS and macOS, and cross-vendor OpenCL kernels. The plugin is published on the JetBrains Marketplace under a freemium licensing model (product code `PGPUDEVACCELERA`).
 
 ## Installation
 
-1. Go to **Settings → Plugins → Marketplace**
+1. Open **Settings → Plugins → Marketplace**
 2. Search for **"GPU Dev Accelerator Ultimate"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2024.3+, Java 17+, GPU SDK (CUDA Toolkit, OpenCL SDK, or Vulkan SDK)
+**Requirements:** IntelliJ IDEA or CLion 2024.3+, Java 17+. The NVIDIA CUDA Toolkit is required for CUDA features; Metal features require macOS.
 
 ## Features
 
-### Free Tier
-- Syntax highlighting for CUDA (`.cu`, `.cuh`), OpenCL (`.cl`), and Vulkan Compute (`.comp`)
-- Basic code completion for GPU API functions
-- Kernel launch configuration validation
-- GPU device detection and info display
-- Error highlighting for common GPU programming mistakes
+### GPU Language Support
+- CUDA C/C++ syntax highlighting with kernel launch assistance
+- Metal Shading Language support for iOS and macOS
+- OpenCL C syntax highlighting and kernel compilation
+- Context-aware code completion for CUDA, Metal, and OpenCL
+- Dedicated file types: `.cu`, `.cuh`, `.metal`, `.cl`
 
-### Pro Tier
-- Advanced code completion with parameter hints
-- Kernel performance profiling (occupancy calculator)
-- Memory access pattern analysis
-- Warp/wavefront efficiency visualization
-- Bank conflict detection
-- Shared memory optimization suggestions
-- GPU memory leak detection
-- Multi-GPU configuration support
-- Kernel launch parameter optimizer
-- CUDA ↔ OpenCL code conversion hints
+### Debugging & Profiling
+- Integrated cuda-gdb debugger with breakpoints inside GPU kernels
+- Thread-level inspection and memory-error detection
+- nvprof and Nsight Compute profiling integration
+- Flame-graph visualization for performance hotspots
+- Metal Performance Shaders integration
+
+### Optimization & Analysis
+- AI-powered kernel optimization suggestions
+- GPU memory-leak detection via cuda-memcheck
+- Occupancy analysis and warp-divergence detection
+- Multi-GPU topology visualization and workload distribution
+- Real-time inspections for common GPU programming mistakes
+
+### Productivity
+- CUDA and Metal run configurations
+- GPU device information panel
+- Keyboard shortcuts for compile, profile, and optimize (see [Actions](#actions))
 
 ## Configuration
 
-### Settings Location
-**Settings → Tools → GPU Dev Accelerator Ultimate**
+**Settings → Tools → GPU Dev Accelerator**
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| CUDA Toolkit path | Auto-detect | Path to CUDA installation |
-| OpenCL SDK path | Auto-detect | Path to OpenCL SDK |
-| Vulkan SDK path | Auto-detect | Path to Vulkan SDK |
-| Target GPU arch | Auto-detect | Target compute capability |
-| Show performance hints | `true` | Display optimization suggestions |
+This page is informational: it confirms the plugin is active with all features enabled. There are no per-field options to configure.
 
 ## Tool Windows
 
-### GPU Dashboard
+### GPU Profiler
 - **Location:** Bottom panel
-- **Content:** GPU device info, kernel profiling results, memory usage, occupancy metrics
-- **Actions:** Profile kernel, analyze memory, detect conflicts
+- **Content:** Profiling status and results for CUDA and Metal kernels, surfacing nvprof, Nsight Compute, Metal Performance Shaders, and real-time metrics. Run a GPU kernel to start profiling.
 
-## Supported File Types
+## Inspections
 
-| Extension | Language |
-|-----------|----------|
-| `.cu`, `.cuh` | CUDA C/C++ |
-| `.cl` | OpenCL C |
-| `.comp` | Vulkan Compute (GLSL) |
-| `.hlsl` | DirectX Compute (read-only) |
+| Inspection | Level | Description |
+|------------|-------|-------------|
+| CUDA memory leak | Warning | Detects GPU memory leaks in CUDA code |
+| CUDA kernel optimization | Weak Warning | Highlights kernels with optimization opportunities |
+
+Both inspections apply to CUDA files, belong to the **CUDA** group, and are enabled by default.
+
+## Actions
+
+All actions live in the **GPU Dev** menu on the main menu bar.
+
+| Action | Shortcut | Description |
+|--------|----------|-------------|
+| Compile CUDA | `Ctrl+Alt+C` | Compile CUDA source files |
+| GPU Information | — | Show available GPU devices |
+| Advanced CUDA Debug | `Ctrl+Shift+Alt+D` | Start advanced debugging with cuda-gdb |
+| Profile with Flame Graph | `Ctrl+Alt+P` | Real-time profiling with flame graphs |
+| AI Optimize Kernel | `Ctrl+Alt+O` | Get AI-powered optimization suggestions |
+| Multi-GPU Topology | `Ctrl+Alt+G` | Visualize GPU topology and workload distribution |
+| Advanced Memory Analysis | `Ctrl+Alt+M` | Detect memory leaks and race conditions |
+| Memory Check | — | Run cuda-memcheck |
+| Kernel Optimization | `Ctrl+Shift+O` | Get optimization suggestions |
+| Profiling | `Ctrl+Shift+P` | Profile GPU kernel performance |
+
+## Supported Languages & File Types
+
+| Language | Extensions |
+|----------|------------|
+| CUDA C/C++ | `.cu`, `.cuh` |
+| Metal Shading Language | `.metal` |
+| OpenCL C | `.cl` |
+
+## FAQ
+
+**Does the plugin support Vulkan compute or HLSL?**
+No. It provides language support for CUDA, Metal, and OpenCL only.
+
+**Why aren't Metal features working on my machine?**
+Metal support requires macOS. On other platforms, use the CUDA and OpenCL features instead.
 
 ---
 

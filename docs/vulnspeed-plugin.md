@@ -1,126 +1,130 @@
-# VulnSpeed SAST
+# VulnSpeed — GPU-Accelerated SAST
 
-> GPU-accelerated Static Application Security Testing with real-time vulnerability detection.
+> GPU-accelerated static application security testing that flags OWASP Top 10 and CWE Top 25 vulnerabilities inline as you type.
 
 ## Overview
 
-VulnSpeed is a GPU-accelerated SAST (Static Application Security Testing) plugin that detects vulnerabilities in real-time as you write code. It covers **OWASP Top 10** and **CWE Top 25** across 7+ programming languages, provides one-click auto-fixes, and supports GPU acceleration via Metal, CUDA, or Vulkan for 50-100× faster scanning.
+VulnSpeed is a static application security testing (SAST) plugin that scans your code for vulnerabilities as you type and on demand. It covers the OWASP Top 10 and CWE Top 25 across seven languages, detects hard-coded secrets with vendor-specific token rules, and offers one-click `Alt+Enter` remediation. Findings surface as inline editor highlights and in a dedicated Security Dashboard tool window.
+
+Results can be exported as SARIF, a CycloneDX SBOM, or a shareable HTML report, snapshotted into a baseline to track regressions, and enriched with CVSS/CWE metadata from public vulnerability databases. An optional GPU-accelerated engine (Metal, CUDA, or Vulkan) speeds up scanning of large codebases.
 
 ## Installation
 
-1. Go to **Settings → Plugins → Marketplace**
+1. Open **Settings → Plugins → Marketplace**
 2. Search for **"VulnSpeed"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2023.3+, JDK 11+, 2 GB RAM minimum, GPU optional
+**Requirements:** JetBrains IDE 2025.1+, JDK 17+, 2 GB free RAM. GPU optional (Metal, CUDA, or Vulkan). Real-time highlighting in Kotlin requires the Kotlin plugin.
 
 ## Features
 
-### Free Tier (50 scans/day, 100K LOC)
-- Real-time vulnerability detection (Java, Python, JavaScript, TypeScript)
-- 4 core security rules (SQL Injection, XSS, Hardcoded Credentials, Insecure Random)
-- Inline severity highlighting
-- One-click auto-fixes via `Alt+Enter`
-- Security Dashboard tool window
-- Global inspection integration
+VulnSpeed is a freemium plugin. The lists below show what the free tier includes and what a Professional license unlocks; a free trial is available through the JetBrains Marketplace.
 
-### Professional Tier
-- GPU acceleration (Metal/CUDA/Vulkan)
-- 3,500+ security rules across all languages
-- Advanced pattern detection (taint analysis, data flow)
-- AI-powered false positive filtering
-- Dependency scanning
-- Threat modeling
-- 14-day free trial
+### Free
+
+- Real-time, as-you-type detection with inline severity highlighting (Java, Kotlin, Python, JavaScript, TypeScript)
+- OWASP Top 10 and CWE Top 25 rule coverage
+- Secrets detection — 12 high-signal vendor rules (AWS, GitHub, GitLab, Slack, Stripe, Google, SendGrid, Twilio, npm tokens, private-key blocks, JWTs, and credentials in URLs; CWE-798)
+- One-click auto-fix via `Alt+Enter`
+- Inline suppression: `// vulnspeed-ignore`, `// vulnspeed-ignore: RULE_ID`, or `vulnspeed-ignore-file`
+- On-demand single-file scan
+- Security Dashboard tool window
+- Report export: SARIF 2.1.0, CycloneDX 1.5 SBOM, and self-contained HTML
+- Security baseline: snapshot accepted findings and diff later scans
+- CVE enrichment from OSV.dev and NVD (CVSS, CWE, fixed versions)
+
+### Professional
+
+- GPU acceleration (Metal / CUDA / Vulkan) — 50–100× faster scanning
+- Project-wide scanning
+- Extended language scanning: C/C++ and Swift
+- Taint analysis and cross-function data-flow tracking
+- AI-based false-positive filtering
+- Custom, organization-specific security rules
+- Compliance reports (SOC 2, HIPAA, PCI DSS)
+- CI/CD pipeline integration
 
 ## Configuration
 
-### Application Settings
-**Settings → Tools → VulnSpeed**
+VulnSpeed has an application-level and a project-level settings page, both under **Settings → Tools → VulnSpeed**.
+
+### Application settings
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Real-time scanning | `true` | Detect vulnerabilities as you type |
-| Auto-fix enabled | `true` | Show automated fix suggestions |
-| Max file size (KB) | `1000` | Maximum file size to scan |
-| Telemetry | `false` | Anonymous usage data |
+| Enable real-time scanning | On | Scan files for vulnerabilities as you type |
+| Enable auto-fix suggestions | On | Offer one-click remediation via `Alt+Enter` |
+| Max file size (KB) | 1000 | Files larger than this are skipped during scanning |
+| Send anonymous usage telemetry | Off | Helps improve detection quality; no source code leaves your machine |
 
-### Project Settings
-**Project Settings → Tools → VulnSpeed**
+### Project settings
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Exclude patterns | `**/node_modules/**`, `**/build/**`, `**/.git/**` | Paths to skip |
-| Scan on save | `false` | Scan files on save |
-| Auto-fix on save | `false` | Apply auto-fixes on save (Premium) |
+| Scan changed file on save | Off | Run a scan automatically when a file is saved |
+| Apply safe auto-fixes on save | Off | Automatically apply non-destructive remediation on save |
+
+Project scans skip `node_modules`, `build`, and hidden (dot) directories.
 
 ## Tool Windows
 
-### VulnSpeed Dashboard
-- **Location:** Bottom panel
-- **Content:** Vulnerability list, severity breakdown (Critical/High/Medium/Low/Info), statistics, quick-fix access
-- **Columns:** File, Line, Severity, CWE, Rule Name, Suggestion
+### VulnSpeed
+
+- **Location:** bottom panel
+- **Content:** vulnerability list, severity breakdown, scan statistics, and quick access to fixes
 
 ## Inspections
 
 | Inspection | Level | Description |
 |-----------|-------|-------------|
-| VulnSpeed Security Analysis | WARNING | Global security inspection across all scanned files |
+| VulnSpeed Security Analysis | Warning | Global (batch) security inspection, in the **Security** group, that runs the VulnSpeed engine across scanned files |
 
-## Real-Time Annotators
+## Real-Time Highlighting
 
-Active for: **Java**, **Python**, **JavaScript**, **TypeScript**
-
-Annotations show:
-- Vulnerability name and severity
-- CWE reference number
-- Fix suggestion with code example
-- Mapped to IDE highlight levels (ERROR → CRITICAL, WARNING → HIGH, etc.)
-
-## Supported Languages
-
-| Language | Real-Time | Project Scan |
-|----------|-----------|-------------|
-| Java | ✅ | ✅ |
-| Python | ✅ | ✅ |
-| JavaScript | ✅ | ✅ |
-| TypeScript | ✅ | ✅ |
-| Kotlin | — | ✅ |
-| C/C++ | — | ✅ |
-| Swift | — | ✅ |
-| Go | — | ⚠️ Partial |
-| Rust | — | ⚠️ Partial |
+As-you-type annotators run in **Java, Kotlin, Python, JavaScript, and TypeScript** (Kotlin requires the Kotlin plugin). Each inline highlight shows the vulnerability name, severity, CWE reference, and a suggested fix.
 
 ## Actions
 
+Every action is available from the **Tools → VulnSpeed** menu; the two scan actions also appear in context menus.
+
 | Action | Location | Description |
 |--------|----------|-------------|
-| Scan File | Editor right-click | Scan current file |
-| Scan Project | Project view right-click | Full project scan |
-| Activate License | Tools → VulnSpeed | Enter license key |
-| Start Free Trial | Tools → VulnSpeed | Begin 14-day Professional trial |
-| Manage Subscription | Tools → VulnSpeed | Open JetBrains Marketplace |
+| Scan File with VulnSpeed | Editor right-click; Tools → VulnSpeed | Scan the current file |
+| Scan Project with VulnSpeed | Project view right-click; Tools → VulnSpeed | Scan the entire project |
+| Export SARIF Report | Tools → VulnSpeed | Export the latest results as SARIF 2.1.0 (GitHub Code Scanning / GitLab SAST) |
+| Export HTML Report | Tools → VulnSpeed | Export the latest results as a self-contained HTML report |
+| Export CycloneDX SBOM | Tools → VulnSpeed | Export a CycloneDX 1.5 SBOM for Dependency-Track / Sonatype / FOSSA |
+| Create Security Baseline | Tools → VulnSpeed | Snapshot current findings as accepted into `.vulnspeed-baseline.json` |
+| Compare Against Security Baseline | Tools → VulnSpeed | Run a differential scan against the baseline to surface regressions |
+| Enrich Vulnerabilities (OSV / NVD) | Tools → VulnSpeed | Add CVSS, CWE, and fixed-version metadata from OSV.dev and NVD |
+
+## Supported Languages
+
+| Language | Real-time (as-you-type) | On-demand scan |
+|----------|:-----------------------:|:--------------:|
+| Java | Yes | Yes |
+| Kotlin | Yes (Kotlin plugin) | Yes |
+| Python | Yes | Yes |
+| JavaScript | Yes | Yes |
+| TypeScript | Yes | Yes |
+| C/C++ | — | Yes |
+| Swift | — | Yes |
 
 ## Security Coverage
 
-**Categories include:**
-- Injection (SQL, LDAP, XPath, Command, NoSQL)
-- Cryptography & Secrets (weak algorithms, hardcoded keys)
-- Access Control (IDOR, privilege escalation)
-- API Security (rate limiting, CORS, validation)
-- Container Security (Docker, Kubernetes, Helm)
-- Framework-Specific (Spring, React, Angular, Vue)
-- Cloud/Serverless (AWS Lambda, S3, Terraform)
+- **OWASP Top 10** — injection, broken access control, cryptographic failures, SSRF, and more
+- **CWE Top 25** — SQL injection, XSS, OS command injection, and 22+ more
+- **Secrets** — 12 vendor-specific token rules with near-zero false positives (CWE-798)
 
-## GPU Acceleration
+## GPU Acceleration (Professional)
 
-| Backend | Platform | Speedup |
-|---------|----------|---------|
-| Metal | macOS | 50-100× |
-| CUDA | NVIDIA GPU | 50-100× |
-| Vulkan | Cross-platform | 50-100× |
+| Backend | Platform |
+|---------|----------|
+| Metal | macOS |
+| CUDA | NVIDIA GPU |
+| Vulkan | Cross-platform |
 
-GPU is optional — falls back to CPU multi-threaded scanning.
+The accelerated engine runs 50–100× faster than CPU scanning on large codebases. GPU is optional; VulnSpeed falls back to CPU scanning when no supported GPU is present.
 
 ---
 

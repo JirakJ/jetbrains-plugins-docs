@@ -1,76 +1,74 @@
 # Local Secrets Tripwire
 
-> Detect and prevent accidental secret commits in your JetBrains IDE.
+> Real-time, fully local detection of API keys, tokens, passwords, and private keys before they reach version control.
 
 ## Overview
 
-Local Secrets Tripwire scans your code for hardcoded secrets (API keys, passwords, tokens, certificates) and prevents them from being committed to version control. It provides real-time detection with inline warnings and pre-commit hooks that block secret leaks.
+Local Secrets Tripwire scans your files in real time for hardcoded secrets — API keys, tokens, passwords, and private keys — and flags them as you type. All scanning happens on your machine; nothing is uploaded anywhere.
+
+It runs as a standard IntelliJ code inspection (in the **Security** group) and adds a pre-commit guard that checks staged files when you commit from the IDE, so leaked credentials are caught before they land in a commit.
 
 ## Installation
 
-1. Go to **Settings → Plugins → Marketplace**
+1. Open **Settings → Plugins → Marketplace**
 2. Search for **"Local Secrets Tripwire"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2024.3+, Java 17+
+**Requirements:** JetBrains IDE 2024.3+, JDK 17+. The bundled Git plugin (Git4Idea) is needed only for the pre-commit guard.
 
 ## Features
 
-### Free Tier
-- Real-time secret detection in editor (10+ patterns)
-- Pre-commit scanner (blocks commits with secrets)
-- Inline warnings with severity indicators
-- Supported patterns: AWS keys, API tokens, passwords, private keys
-- Up to 5 custom secret patterns
+### Detection engine
+- **42 built-in patterns**, including AWS (with temporary keys), GitHub (classic, fine-grained, OAuth, refresh), OpenAI, Anthropic, GitLab, npm, PyPI, Hugging Face, Slack (bot/user/app tokens, webhooks), Stripe (keys and webhook secrets), Twilio, Telegram, DigitalOcean, Shopify, Databricks, Atlassian, Doppler, HashiCorp Vault, Azure Storage, Mailchimp, Firebase, Google, SendGrid, JWTs, private keys (RSA/EC/DSA/OpenSSH/PGP), connection strings, credentials in URLs, and Bearer headers.
+- **Shannon entropy analysis** for high-randomness strings — opt-in, with a configurable threshold.
+- **Custom regex patterns** for organization-specific secrets (free: up to 10; a paid license lifts the cap).
+- Overlapping matches are deduplicated to the single most severe finding.
 
-### Pro Tier
-- 50+ secret detection patterns
-- Unlimited custom patterns (regex-based)
-- Entropy-based detection (high-entropy strings)
-- .env file scanning
-- Secret rotation reminders
-- Audit log of detected secrets
-- Team-shared rules via `.secrets-tripwire.yaml`
-- Git history scanning (find secrets in past commits)
-- Remediation suggestions (use env vars, vault references)
-- CI/CD integration
+### Editor integration
+- Severity-aware inline highlighting of the exact secret range.
+- Quick fixes: add the finding to the allowlist, or suppress it with an inline `tripwire:ignore` comment — straight from the inspection popup.
+- Detected values are shown **masked**; the raw secret is never displayed.
+
+### Git integration
+- **Pre-commit guard** — when you commit from the IDE, staged files are scanned. If potential secrets are found, a dialog lists them (masked, as `file:line — pattern (masked value)`) and lets you **Commit Anyway** or **Cancel Commit**. It warns; it does not silently block.
+- The guard respects the allowlist, your custom patterns, inline `tripwire:ignore` suppressions, and the plugin's enable toggle.
 
 ## Configuration
 
-### Settings Location
-**Settings → Tools → Local Secrets Tripwire**
+**Settings → Tools → Secrets Tripwire**
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Real-time scanning | `true` | Scan files as you type |
-| Pre-commit check | `true` | Block commits with detected secrets |
-| Entropy threshold | `4.5` | Shannon entropy threshold for detection |
-| Ignore patterns | `**/test/**`, `**/*.md` | File patterns to exclude |
-| Custom patterns | *(empty)* | User-defined regex patterns |
+| Enable Secrets Tripwire | On | Turns real-time secret scanning on or off |
+| Pre-commit guard | On | Scans staged files on commit and warns when potential secrets are found |
+| Detect high-entropy strings | Off | Flags quoted strings with unusually high randomness even when no known pattern matches |
+| Entropy threshold | `4.5` | Shannon entropy cutoff for high-entropy detection; lower values catch more but produce more false positives |
+| Custom patterns | *(empty)* | Your own rules — each has a name, regex, severity, and enable toggle (free: up to 10; paid: unlimited) |
+
+### Suppressing false positives
+- **Allowlist file** — add substrings of known-safe values to a `.secrets-allowlist` file in the project; matching findings are ignored in the editor and by the pre-commit guard.
+- **Inline** — put a `tripwire:ignore` comment on a line to silence findings for that line.
 
 ## Inspections
 
-| Inspection | Severity | Description |
-|-----------|----------|-------------|
-| Hardcoded Secret | ERROR | Detected API key, password, or token in source |
-| High Entropy String | WARNING | Suspicious high-entropy string found |
-| .env File in VCS | ERROR | .env file not in .gitignore |
+| Inspection | Level | Description |
+|-----------|-------|-------------|
+| Secret detection | Warning | Flags hardcoded API keys, tokens, passwords, and private keys in source; grouped under **Security** and enabled by default |
 
-## Detected Secret Types
+## Licensing
 
-- AWS Access Keys (`AKIA...`)
-- GitHub Tokens (`ghp_...`, `gho_...`)
-- Slack Tokens (`xoxb-...`, `xoxp-...`)
-- Generic API Keys (pattern-based)
-- Database connection strings
-- Private keys (RSA, ED25519)
-- JWT tokens
-- Basic Auth credentials
+Local Secrets Tripwire is free to use. A paid license unlocks a single capability: **unlimited custom patterns** (the free tier is capped at 10). All built-in patterns, entropy detection, the pre-commit guard, quick fixes, and suppression work without a license.
 
-## External Integrations
+## FAQ
 
-- **Git** — Pre-commit hook integration
-- Part of the **DevOps Safety Kit** bundle (with Kubernetes Context Guard, Terminal Safety Rails)
+**Does any of my code or the detected secrets leave my machine?**
+No. All scanning is local, and detected values are only ever shown masked.
+
+**Does the pre-commit guard block my commit?**
+No — it warns. When it finds potential secrets it shows a dialog with **Commit Anyway** and **Cancel Commit**. It runs when you commit from the IDE and requires the Git plugin to be enabled.
+
+**How do I silence a false positive?**
+Add a substring of the value to a `.secrets-allowlist` file, or add a `tripwire:ignore` comment on the line. The inspection's quick fix can do either for you.
 
 ---
 

@@ -1,69 +1,96 @@
-# LogParser
+# LogParser Pro
 
-> Advanced log file analysis and visualization in your JetBrains IDE.
+> Advanced log analysis, filtering, and visualization directly inside your JetBrains IDE.
 
 ## Overview
 
-LogParser provides powerful log file parsing, filtering, and visualization capabilities directly in the IDE. It supports multiple log formats (JSON, logback, log4j, syslog), provides real-time log tailing, and offers pattern-based highlighting with search and filtering.
+LogParser Pro brings professional log analysis into your JetBrains IDE, so you no longer have to switch between the editor and an external viewer. It renders `.log` and `.out` files in a dedicated editor and tool window with colour-coded severity levels, live filtering and search, pattern auto-detection, correlation-ID tracing, latency and exception analysis, and statistical anomaly detection. Structured (JSON / logfmt), gzip-compressed, and ANSI-coloured logs are all handled.
+
+The plugin is published on the JetBrains Marketplace as a freemium listing (product code `PLOGPARSERPRO`).
 
 ## Installation
 
-1. Go to **Settings → Plugins → Marketplace**
-2. Search for **"LogParser"**
+1. Open **Settings → Plugins → Marketplace**
+2. Search for **"LogParser Pro"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2024.3+, Java 17+
+**Requirements:** JetBrains IDE 2025.1+ · JDK 17+
 
 ## Features
 
-### Free Tier
-- Log file syntax highlighting (auto-detect format)
-- Log level coloring (ERROR=red, WARN=yellow, INFO=blue, DEBUG=gray)
-- Basic search and filter by log level
-- Timestamp parsing and sorting
-- Real-time file tailing (like `tail -f`)
-- Up to 3 saved filter presets
+### Viewing & formats
+- **ANSI colour rendering** — the *ANSI View* tab replays CI, Docker, npm, and pytest logs with their terminal colours resolved (16/256-colour, 24-bit truecolour, bold, italic, underline)
+- **Colour-coded levels** — ERROR, WARN, INFO, DEBUG, and TRACE highlighted in the editor
+- **Dedicated log editor** — table view for `.log` and `.out` files
+- **Structured logs** — JSON and logfmt parsing that extracts timestamp, level, message, and arbitrary fields
+- **Gzip support** — transparent reading of `*.log.gz` (by name or magic number)
+- **Pattern library** — auto-detection of Spring Boot, Node.js, Python, and Java log formats
+- **Stack trace folding** — collapse exception stack traces for readability
 
-### Pro Tier
-- Unlimited filter presets
-- Multi-file log correlation (merge logs from multiple sources)
-- Regex-based filtering
-- Log timeline visualization
-- Exception/stack trace grouping
-- Frequency analysis (errors per minute)
-- Log diff (compare two log files)
-- Custom log format definitions
-- JSON log pretty-printing and field extraction
-- Export filtered logs (CSV, JSON)
-- Bookmark and annotate log lines
+### Filtering & search
+- **Log level filtering** — toggle buttons to filter by severity
+- **Keyword search** — live filtering across entries
+- **Advanced search** — regex, fuzzy, and proximity search backed by a log index
+- **Correlation ID tracking** — follow a request flow across microservices and sources
+
+### Analysis
+- **Exception grouping** — group stack traces by normalised signature (line numbers, lambdas, hashes ignored) into a ranked report
+- **Error timeline** — minute-granularity histogram with z-score spike detection
+- **Latency analysis** — extract durations (e.g. `123ms`, `1.2s`, `900µs`) and report p50/p90/p95/p99 plus the slowest entries, using deterministic nearest-rank percentiles
+- **Log diff** — compare two logs by normalised signature (digits, UUIDs, timestamps collapsed)
+- **Anomaly detection** — statistical pattern discovery and anomaly scoring
+- **Statistics dashboard** — level distribution, top loggers, and entries over time
+
+### Sharing & export
+- **Secret redaction** — mask emails, JWTs, Bearer tokens, AWS/Stripe keys, Luhn-verified credit cards, IPs, UUIDs, and password assignments before sharing a log
+- **Strip ANSI to file** — write a clean, paste-friendly plain-text copy
+- **Safe export** — CSV (RFC-4180 with formula-injection mitigation), JSON, or a self-contained HTML report with escaped content
+- **Grok pattern compiler** — compile an Elastic Grok subset to native regex for custom extractors
 
 ## Configuration
 
-### Settings Location
-**Settings → Tools → LogParser**
+**Settings → Tools → LogParser Pro**
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Auto-detect format | `true` | Automatically detect log format |
-| Tail buffer size | `10000` | Number of lines to keep in tail mode |
-| Timestamp format | Auto | Custom timestamp format pattern |
-| Color scheme | Default | Log level color scheme |
-| Max file size (MB) | `100` | Maximum file size to open |
+| Max lines to parse | `100000` | Upper bound on the number of lines read from a file |
+| Default filter level | `ALL` | Initial severity filter (ALL, ERROR, WARN, INFO, DEBUG, TRACE) |
+| Date format pattern | `yyyy-MM-dd HH:mm:ss.SSS` | Pattern used to parse and display timestamps |
+| Font size for log viewer | `12` | Log viewer font size (8–48) |
+| Export format preference | `CSV` | Default export format (CSV, JSON, Plain Text) |
+| Show line numbers | `On` | Show line numbers in the log viewer |
+| Auto-refresh on file change | `Off` | Reload the view when the file changes on disk |
+| Use theme-aware colors | `On` | Adapt level colours to the active IDE theme |
+| Wrap long lines in editor | `Off` | Soft-wrap long log lines |
+| Custom correlation ID patterns | *(empty)* | Comma-separated regexes used to detect correlation IDs |
 
 ## Tool Windows
 
-### Log Viewer
-- **Location:** Bottom panel
-- **Content:** Log file viewer with level filter, search bar, timeline, and tail controls
-- **Actions:** Open log file, start tail, filter by level/regex, export
+### LogParser Pro
+- **Location:** bottom panel
+- **Tabs:** Log Viewer, Search, Correlation, Statistics, and ANSI View
 
-## Supported Log Formats
+## Actions
 
-- JSON structured logs
-- Logback/Log4j pattern layouts
-- Syslog (RFC 3164, RFC 5424)
-- Apache/Nginx access logs
-- Custom formats (user-defined regex)
+| Action | Location | Description |
+|--------|----------|-------------|
+| Track Transaction ID | Tools → LogParser Pro | Track a correlation ID across sources |
+| Analyze Log | Tools → LogParser Pro | Run full analysis on the current log file |
+| Group Exceptions | Tools → LogParser Pro | Group stack traces by normalised signature into a ranked report |
+| Show Error Timeline | Tools → LogParser Pro | Build a minute-granularity timeline with z-score spike detection |
+| Analyze Latency | Tools → LogParser Pro | Extract durations and report p50/p90/p95/p99 plus the slowest entries |
+| Export Log… | Tools → LogParser Pro | Export parsed entries to CSV, JSON, or a self-contained HTML report |
+| Redact Secrets to File… | Tools → LogParser Pro | Write a copy of the log with secrets, PII, and tokens masked |
+| Strip ANSI to File… | Tools → LogParser Pro | Write a copy of the log with all ANSI escape sequences removed |
+| Diff With Another Log… | Tools → LogParser Pro | Compare the current log against another file by normalised signature |
+| Extract Pattern | Editor right-click menu | Extract a pattern from the selected text |
+| Find Correlation ID | Editor right-click menu | Find a correlation ID in the selected text |
+
+## Supported Files & Formats
+
+- **File types:** `.log` and `.out` (opened in the dedicated log editor); gzip-compressed `*.log.gz`
+- **Auto-detected layouts:** Spring Boot, Node.js, Python, and Java
+- **Structured formats:** JSON and logfmt (timestamp / level / message / arbitrary fields)
 
 ---
 

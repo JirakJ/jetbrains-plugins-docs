@@ -1,82 +1,82 @@
-# API Contract Guard (Kei)
+# Kei - API Contract Testing
 
-> Validate OpenAPI & GraphQL schemas for breaking changes directly in your IDE.
+> Validate your API calls against OpenAPI contracts as you type, and catch breaking changes before they reach production.
 
 ## Overview
 
-API Contract Guard (internally known as **Kei**) validates your API contracts (OpenAPI/Swagger and GraphQL schemas) against previous versions to detect breaking changes before they reach production. It uses the Swagger Parser library for deep schema validation and provides real-time feedback as you edit API specifications.
+Kei checks the API calls in your JavaScript and TypeScript code against the OpenAPI contracts discovered in your project. Contract violations appear as inline editor errors — the same way a compiler flags a type mistake — so drift between your code and your API is caught while you write the call, not in a failing integration test or a production incident.
+
+Kei discovers OpenAPI contracts automatically, lists every endpoint and type in a Contract Explorer tool window, and offers Alt+Enter quick fixes for common violations. It is a freemium plugin: the discovery-and-validation workflow is free, and a paid tier adds advanced analysis, mocking, and collaboration features.
 
 ## Installation
 
-1. Go to **Settings → Plugins → Marketplace**
-2. Search for **"API Contract Guard"**
+1. Open **Settings → Plugins → Marketplace**
+2. Search for **"Kei - API Contract Testing"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2024.3+, Java 17+
+**Requirements:** JetBrains IDE 2023.2+, JDK 17+
 
 ## Features
 
 ### Free Tier
-- OpenAPI 3.x schema validation
-- Basic breaking change detection (removed endpoints, changed types)
-- Inline warnings in YAML/JSON spec files
-- Schema syntax validation via Swagger Parser
+- **OpenAPI contract discovery** — automatic detection of OpenAPI (v2/v3) contracts from local files, remote URLs, and schema registries
+- **Contract Explorer** — a tool window with a tree view of every discovered contract, endpoint, and type
+- **Real-time validation** — API calls in JavaScript and TypeScript are validated against their contract as you type, with inline error underlines
+- **Breaking-change detection** — violations are reported with severity levels (critical, warning, info)
+- **Quick fixes** — press **Alt+Enter** on a violation for suggestions such as renaming fields, updating types, or adding missing parameters
 
-### Pro Tier
-- GraphQL schema validation
-- Full breaking change analysis (added required fields, type narrowing, enum removal)
-- Version comparison (diff between spec versions)
-- Git integration — compare current spec vs. committed version
-- API compatibility report generation
-- Custom breaking change rules
-- CI/CD export (JSON report for pipelines)
+### Professional Tier
+Kei is freemium; the paid tier adds:
+- Analytics dashboard for contract health and violation trends
+- Version management — pin, compare, and roll back contract versions, with a side-by-side diff viewer
+- Advanced mocking — one-click mock server generation with custom rules, delays, and error simulation
+- Test generation from schemas
+- Security analyzer for API contract patterns
+- AI-powered contract suggestions
+- Team collaboration with shared registries and review workflows
+- CI/CD integration for pipeline-level contract validation
 
 ## Configuration
 
-### Settings Location
-**Settings → Tools → API Contract Guard**
+**Settings → Tools → Kei API Contract Testing**
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Spec directories | `src/main/resources` | Directories to scan for API specs |
-| Severity level | WARNING | Default severity for breaking changes |
-| Auto-validate on save | `true` | Validate specs automatically on save |
-| Baseline branch | `main` | Git branch to compare against |
-| GraphQL enabled | `true` | Enable GraphQL schema validation |
+| Enable real-time validation | On | Validate API calls against contracts as you type |
+| Show warnings for missing contracts | On | Warn when an API call has no matching contract |
+| Auto-refresh contracts on file changes | On | Re-index contracts automatically when files change |
+| Contract file patterns | `**/openapi.{yaml,yml,json}, **/swagger.{yaml,yml,json}` | Glob patterns used to discover contract files (shown read-only) |
 
 ## Tool Windows
 
-### API Contract Panel
-- **Location:** Bottom panel
-- **Content:** Breaking change list with severity, description, spec location, and suggested fix
-- **Features:** Group by endpoint, filter by severity, export report
+### Kei Contracts
+- **Location:** Right panel
+- **Content:** Contract Explorer — a tree of discovered OpenAPI contracts with their endpoints and types
 
 ## Inspections
 
-| Inspection | Severity | Description |
-|-----------|----------|-------------|
-| Breaking Change Detection | WARNING | Detects backward-incompatible API changes |
-| Schema Validation Error | ERROR | Invalid OpenAPI/GraphQL syntax |
-| Deprecated Endpoint Usage | WEAK WARNING | Endpoints marked as deprecated |
+| Inspection | Level | Description |
+|-----------|-------|-------------|
+| API Contract Validation | Error | Flags JavaScript/TypeScript API calls that violate their OpenAPI contract |
 
-## Supported File Types
+## Actions
 
-- OpenAPI/Swagger: `.yaml`, `.yml`, `.json`
-- GraphQL: `.graphql`, `.gql`
+| Action | Location | Description |
+|--------|----------|-------------|
+| Refresh Contracts | Find Action (⌘⇧A / Ctrl+Shift+A) | Rebuilds the API contract index |
 
-## External Integrations
+## Supported Languages & File Types
 
-- **Swagger Parser** — Deep OpenAPI schema parsing and validation
-- **Git** — Compare spec versions across branches/commits
-- **CI/CD** — Export JSON compatibility reports
+- **Code validated:** JavaScript, TypeScript
+- **Contracts:** OpenAPI / Swagger (v2 and v3) in `.yaml`, `.yml`, or `.json`, discovered via the patterns `**/openapi.*` and `**/swagger.*`
 
 ## FAQ
 
-**Q: Which OpenAPI versions are supported?**
-A: OpenAPI 3.0.x and 3.1.x, plus Swagger 2.0.
+**Q: Which contract formats are supported?**
+A: OpenAPI/Swagger version 2 and version 3, written in YAML or JSON.
 
-**Q: Does it support AsyncAPI?**
-A: Not yet. AsyncAPI support is planned for a future release.
+**Q: I don't see any violations — why?**
+A: Confirm that real-time validation is enabled in **Settings → Tools → Kei API Contract Testing**, that your contract file names match the discovery patterns (`openapi.*` / `swagger.*`), and run **Refresh Contracts** to rebuild the index.
 
 ---
 

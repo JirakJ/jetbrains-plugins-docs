@@ -1,58 +1,101 @@
 # Run Config Drift Detector
 
-> Detect and prevent run configuration inconsistencies across team members.
+> Validate your IDE run configurations against a `.run-requirements.yaml` manifest before you hit Run — and eliminate "works on my machine."
 
 ## Overview
 
-Run Config Drift Detector monitors your IDE run configurations for drift — when configurations change between developers, branches, or over time. It version-controls run configurations, detects differences, and ensures team consistency.
+Run Config Drift Detector compares your IDE run configurations against a `.run-requirements.yaml` manifest checked into your project. It catches JDK mismatches, missing environment variables, wrong working directories, port conflicts, and missing command-line tools before they cause mysterious runtime failures.
+
+The manifest is committed to version control, so every team member validates against the same requirements. When drift is found, the plugin reports each issue with a pass/fail/warning status and offers a one-click quick-fix.
 
 ## Installation
 
-1. Go to **Settings → Plugins → Marketplace**
+1. Open **Settings → Plugins → Marketplace**
 2. Search for **"Run Config Drift Detector"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2024.3+, Java 17+
+**Requirements:** IntelliJ IDEA, PyCharm, WebStorm, or a compatible JetBrains IDE 2024.3+, JDK 17+, and a `.run-requirements.yaml` file in your project root.
+
+## The manifest (`.run-requirements.yaml`)
+
+Declare your project's expected environment in a `.run-requirements.yaml` file at the project root:
+
+```yaml
+jdk:
+  version: "17"
+  vendor: "temurin"    # optional
+env:
+  - name: DATABASE_URL
+    required: true
+    description: "PostgreSQL connection string"
+  - name: API_KEY
+    required: false
+tools:
+  - name: docker
+    version: "20+"
+  - name: node
+    version: "18+"
+ports:
+  - 8080
+  - 5432
+```
+
+You can also generate a starter manifest from your existing run configurations (see Team Features).
 
 ## Features
 
-### Free Tier
-- Run configuration snapshot comparison
-- Drift detection between local and shared configs
-- Visual diff of configuration parameters
-- Basic drift notifications
-- Last 5 configuration snapshots
+### Environment Validation
+- **JDK validation** — checks the project SDK version and vendor against requirements
+- **Environment variable checks** — verifies required env vars are present with the correct values
+- **Working directory validation** — confirms the configured working directory resolves correctly
+- **Port conflict detection** — probes required ports and flags any already in use before you run
+- **Missing tool detection** — resolves required command-line tools (docker, node, …) against your `PATH` and reports any that are missing
 
-### Pro Tier
-- Unlimited snapshot history
-- Git integration — track config changes per commit
-- Team configuration baseline enforcement
-- Auto-fix drift (reset to baseline)
-- Environment variable drift detection
-- JVM argument comparison
-- Working directory validation
-- Configuration health score
-- Export configuration as sharable format
-- CI/CD parameter consistency checking
+### Drift Reporting
+- **Health check dashboard** — a drift report with pass, fail, and warning status for each requirement, plus a health score
+- **Quick-fix suggestions** — actionable one-click corrections for each issue (set an env var, download a JDK, kill the process holding a port)
+- **Auto-scan on startup** — automatically validates the environment when the project opens
+- **Manual re-scan** — trigger a scan anytime from the Tools menu
+
+### Team Features
+- **Auto-generate manifest** — create `.run-requirements.yaml` from your existing run configurations
+- **Team config sync** — share the same environment requirements across the team via the committed manifest
+- **Onboarding mode** — a step-by-step setup guide with a progress tracker for new team members
+- **Common issues dashboard** — surfaces the most frequent drift issues
 
 ## Configuration
 
-### Settings Location
 **Settings → Tools → Run Config Drift Detector**
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Auto-scan interval | `5 min` | How often to check for drift |
-| Baseline source | `.idea/runConfigurations` | Baseline configuration location |
-| Ignore fields | *(empty)* | Configuration fields to ignore in comparison |
-| Alert on drift | `true` | Show notification when drift detected |
+| Enable drift detection | On | Master toggle for drift detection between run configurations and the manifest |
+| Auto-scan on project open | On | Automatically scan for drift when a project is opened |
+| Requirements file path | `.run-requirements.yaml` | Path to the YAML manifest that defines expected run configuration requirements |
 
 ## Tool Windows
 
-### Configuration Drift
-- **Location:** Bottom panel
-- **Content:** Configuration comparison table, drift summary, diff viewer
-- **Actions:** Compare configs, reset to baseline, export config, take snapshot
+### Drift Report
+- **Location:** Bottom panel (open via **View → Tool Windows → Drift Report**)
+- **Content:** The health-check dashboard. Each requirement shows a status — OK, MISSING, WARNING, or INCOMPATIBLE — alongside an overall health score.
+- **Quick fixes:** Click a failed check to apply its suggested fix (set environment variable, download JDK, kill process on port).
+
+## Actions
+
+| Action | Location | Description |
+|--------|----------|-------------|
+| Re-scan for Drift | **Tools** menu | Re-run drift detection after changing your environment or manifest |
+
+## FAQ
+
+**Is there a keyboard shortcut for re-scanning?**
+No shortcut is assigned by default. You can add one for "Re-scan for Drift" via **Settings → Keymap**.
+
+**Where do results appear?**
+In the **Drift Report** tool window at the bottom of the IDE. The plugin also scans automatically when the project opens (if auto-scan is enabled).
+
+**What if there is no manifest?**
+Without a `.run-requirements.yaml` file there is nothing to validate against. Create one manually, or auto-generate it from your existing run configurations.
 
 ---
 

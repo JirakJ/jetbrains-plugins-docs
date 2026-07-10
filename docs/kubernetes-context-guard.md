@@ -1,72 +1,72 @@
-# Kubernetes Context Guard
+# KubeContext Safety
 
-> Prevent accidental kubectl commands against wrong clusters in your IDE terminal.
+> Shows your active kubectl context in the IDE status bar, color-coded by environment, and warns you when you are on production.
 
 ## Overview
 
-Kubernetes Context Guard protects against accidentally running destructive kubectl commands on production clusters. It intercepts terminal commands, checks the active Kubernetes context, and displays confirmation dialogs with risk-level indicators before executing potentially dangerous operations.
+KubeContext Safety keeps your active kubectl context in plain sight. A status-bar widget shows the current context name — color-coded by environment — so you always know whether the IDE is pointed at production, staging, or a local cluster. When a production context becomes active it raises a warning notification, giving you a glanceable safety net before a stray command lands on the wrong cluster.
+
+It is aimed at developers and platform engineers who juggle several Kubernetes clusters from the IDE and want to switch contexts without dropping to a terminal.
 
 ## Installation
 
-1. Go to **Settings → Plugins → Marketplace**
-2. Search for **"Kubernetes Context Guard"**
+1. Open **Settings → Plugins → Marketplace**
+2. Search for **"KubeContext Safety"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2024.3+, Java 17+, kubectl installed
+**Requirements:** JetBrains IDE 2023.2+, Java 17+, `kubectl` installed and on your PATH, and a valid kubeconfig (`~/.kube/config`, or the `KUBECONFIG` environment variable).
 
 ## Features
 
-### Free Tier
-- Active context display in IDE status bar
-- Production context warning (visual indicator)
-- Dangerous command interception (delete, scale, drain, cordon)
-- Confirmation dialogs with context name and risk level
-- Up to 5 custom context rules
+### Context awareness
+- Status-bar widget showing the current kubectl context name (and its namespace when it is not `default`)
+- Color-coded environment indicator: 🔴 production, 🟡 staging, 🟢 development, ⚪ unknown
+- Hover tooltip with the full context details — context name, cluster, namespace, and detected environment
+- Automatic kubeconfig monitoring (2-second polling) that picks up context changes made outside the IDE
 
-### Pro Tier
-- Unlimited custom context rules
-- Context-based command policies (allow/deny per context)
-- Namespace protection rules
-- Audit log of intercepted commands
-- Team-shared rules via `.kube-guard.yaml`
-- Context switching notifications
-- Multi-cluster context groups
-- Dry-run enforcement for production contexts
+### Production safety
+- Warning balloon notification when a production context becomes active
+- Production (and any confirm-actions) contexts are flagged with a ⚠️ caution note in the widget tooltip
+- 17 built-in rules auto-classify contexts by name (prod, staging, dev, minikube, kind, k3d, and more)
+
+### Quick switching
+- Switch context from a searchable popup listing every context in your kubeconfig — the current context is marked, no terminal required
+- **Ctrl+Shift+K** shortcut, **Tools → Switch Kubernetes Context**, or a click on the status-bar widget
+- Switching runs `kubectl config use-context` for you and refreshes the indicator
+
+### Custom rules
+- Define your own classification rules (name pattern → environment, with a confirm-actions flag) in Settings
+- Custom rules are evaluated before the 17 built-in defaults, so you can match any cluster naming convention
 
 ## Configuration
 
-### Settings Location
-**Settings → Tools → Kubernetes Context Guard**
+**Settings → Tools → KubeContext Safety**
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Production patterns | `*prod*`, `*production*` | Regex patterns for production contexts |
-| Dangerous commands | `delete`, `scale`, `drain`, `cordon`, `taint` | Commands requiring confirmation |
-| Block production deletes | `false` | Completely block `kubectl delete` on production |
-| Show status bar | `true` | Display active context in status bar |
-| Confirmation timeout (s) | `30` | Auto-cancel confirmation after timeout |
+| Enable KubeContext Safety | On | Turn the plugin on or off (also enables or disables the switch action) |
+| Show notification on production context switch | On | Show a warning notification when switching to a production context |
+| Kubeconfig path override | *(empty)* | Custom path to the kubeconfig file; empty uses the default `~/.kube/config` |
+| Custom Context Rules | *(empty)* | Table of your own rules — **Pattern**, **Environment**, **Confirm Actions** — evaluated before the 17 built-in defaults |
 
-## Tool Windows
+## Environment Color Coding
 
-### Context Guard
-- **Location:** Status bar widget + right panel
-- **Content:** Active context, namespace, cluster info, recent command audit
-- **Actions:** Switch context, view audit log, manage rules
+Each context is classified by matching its name against ordered glob rules (case-insensitive) — first match wins. Custom rules are checked before these built-in defaults.
 
-## Risk Levels
+| Indicator | Environment | Built-in name patterns |
+|-----------|-------------|------------------------|
+| 🔴 Red | Production | `*prod*`, `*prd*`, `*production*`, `*live*` |
+| 🟡 Yellow | Staging | `*preprod*`, `*pre-prod*`, `*staging*`, `*stg*`, `*stage*`, `*uat*` |
+| 🟢 Green | Development | `*dev*`, `*local*`, `*minikube*`, `*kind*`, `*docker-desktop*`, `*test*`, `*k3d*` |
+| ⚪ Gray | Unknown | anything that matches no rule |
 
-| Level | Color | Trigger |
-|-------|-------|---------|
-| 🔴 CRITICAL | Red | `kubectl delete` on production |
-| 🟠 HIGH | Orange | `kubectl scale`, `kubectl drain` on production |
-| 🟡 MEDIUM | Yellow | Any write command on staging |
-| 🟢 LOW | Green | Read-only commands (get, describe, logs) |
+Staging patterns are evaluated before production, so names like `preprod` are not misread as production. Production patterns additionally set a *confirm-actions* flag, which adds the ⚠️ caution note to the status-bar tooltip and triggers the warning notification when the context becomes active.
 
-## External Integrations
+## Actions
 
-- **kubectl** — Command interception via IDE terminal
-- **kubeconfig** — Context detection and switching
-- Part of the **DevOps Safety Kit** bundle (with Terminal Safety Rails, Local Secrets Tripwire)
+| Action | Location | Shortcut | Description |
+|--------|----------|----------|-------------|
+| Switch Kubernetes Context | Tools menu; click the status-bar widget | `Ctrl+Shift+K` | Open a popup of all kubeconfig contexts and switch with `kubectl config use-context` |
 
 ---
 

@@ -1,101 +1,90 @@
-# API-First Mocking Studio
+# API First & Mocking Studio
 
-> Design APIs and run mock servers directly from your JetBrains IDE.
+> Design, test, and mock HTTP APIs from an OpenAPI spec without leaving your JetBrains IDE.
 
 ## Overview
 
-API-First Mocking Studio enables an API-first development workflow by letting you design OpenAPI specifications and instantly spin up a fully functional mock server (powered by **embedded Ktor**) — all without leaving your IDE. It supports Postman collection import, WebSocket mocking, GraphQL endpoints, and dynamic response generation.
+API First & Mocking Studio is a native API client and mocking tool for JetBrains IDEs. It parses OpenAPI 3.0/3.1 and Swagger 2.0 specifications, turns them into runnable requests, and can spin up an embedded Ktor mock server directly from the spec. Around that spec-driven core it provides a full request builder — environments, authentication, scripting, assertions, collections, and history — comparable to a standalone REST client, plus WebSocket support and client-code generation.
+
+It is aimed at developers who follow an API-first workflow and want to design, exercise, and mock endpoints inside the editor instead of switching to an external tool.
 
 ## Installation
 
-1. Go to **Settings → Plugins → Marketplace**
-2. Search for **"API-First Mocking Studio"**
+1. Open **Settings → Plugins → Marketplace**
+2. Search for **"API First & Mocking Studio"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2024.3+, Java 17+
+**Requirements:** JetBrains IDE 2025.1+ with Java support (IntelliJ IDEA or Android Studio) — the plugin depends on the platform Java module.
 
 ## Features
 
-### Free Tier
-- OpenAPI spec editor with validation
-- Embedded Ktor mock server (start/stop from IDE)
-- Static response mocking from OpenAPI examples
-- Up to 5 mock endpoints
-- Basic request/response logging
-
-### Pro Tier
-- Unlimited mock endpoints
-- Dynamic response generation (Faker data, templates)
-- Postman collection import
-- WebSocket endpoint mocking
-- GraphQL mock server with schema-first design
-- Request recording & replay
-- Response delay simulation (latency testing)
-- Custom response scripts (Kotlin DSL)
-- CORS configuration
-- Mock server sharing (team URLs)
+- **Spec parsing** — read OpenAPI 3.0/3.1 and Swagger 2.0 documents (YAML or JSON).
+- **API Explorer tool window** — compose and send HTTP requests with method, URL, params, headers, and body.
+- **Request bodies** — Raw, Form-Data, x-www-form-urlencoded, and GraphQL (query + variables).
+- **Authentication** — None, Bearer Token, Basic Auth, API Key, and OAuth 2.0 (with token fetch).
+- **Environments** — named variable sets with an active-environment selector.
+- **Cookie management** — a per-project cookie jar.
+- **Pre-request & post-response scripting** — inject variables before a request and extract values from the response into variables.
+- **Tests / assertions** — assert on response fields such as status code, with a dedicated Test Results view.
+- **Collections & history** — save requests into collections and browse past requests in History.
+- **Import / export** — import OpenAPI specs, Postman v2.1 collections, cURL commands, and previously exported collections; export collections to JSON.
+- **Code generation** — produce request snippets (cURL, Python Requests, JavaScript Fetch) and a JetBrains `.http` client file from a spec.
+- **Embedded mock server** — start a Ktor mock server generated from the loaded OpenAPI spec.
+- **WebSocket client** — connect to a WebSocket endpoint and send/receive messages.
 
 ## Configuration
 
-### Settings Location
-**Settings → Tools → API-First Mocking Studio**
+**Settings → Tools → API First & Mocking Studio**
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Server port | `8080` | Mock server listening port |
-| Auto-start server | `false` | Start mock server on project open |
-| Response delay (ms) | `0` | Simulated response latency |
-| CORS enabled | `true` | Enable CORS headers |
-| Log requests | `true` | Log incoming requests to console |
-| Faker locale | `en` | Locale for generated fake data |
-| GraphQL enabled | `false` | Enable GraphQL mock endpoint |
-| WebSocket enabled | `false` | Enable WebSocket mock endpoints |
+| Request timeout (ms) | `30000` | Timeout for outgoing HTTP requests, in milliseconds |
+| Follow redirects | On | Automatically follow HTTP redirect responses |
+| Verify SSL certificates | On | Validate TLS/SSL certificates when sending requests |
+| Max history size | `100` | Maximum number of requests retained in History |
+| Mock server port | `8085` | Port for the embedded mock server |
 
 ## Tool Windows
 
-### Mock Server Dashboard
-- **Location:** Bottom panel
-- **Content:** Server status, endpoint list, request log, response editor
-- **Actions:** Start/Stop server, add endpoint, import Postman collection
-
-### API Designer
-- **Location:** Editor (split view)
-- **Content:** OpenAPI spec editor with live preview of available endpoints
+### API Explorer
+- **Location:** right panel
+- **Content:** a complete API client. A request bar (method selector, URL, **Send**) sits above the request tabs — **Params, Auth, Pre-Script, Body, Headers, Tests, Snippets, Post-Script** — and the response tabs — **Body, Tree, Headers, Test Results**. A sidebar holds **History** and **Collections**, and a WebSocket panel provides Connect/Disconnect and message sending.
 
 ## Actions
 
-| Action | Description |
-|--------|-------------|
-| Start Mock Server | Launch embedded Ktor server |
-| Stop Mock Server | Shut down mock server |
-| Import Postman Collection | Import endpoints from Postman JSON |
-| Add Mock Endpoint | Create a new mock endpoint |
-| Export OpenAPI Spec | Export current mock configuration as OpenAPI |
+Available from the API Explorer tool window (toolbar buttons; no default keyboard shortcuts).
 
-## Supported File Types
+| Action | Location | Description |
+|--------|----------|-------------|
+| Import OpenAPI | Collections toolbar | Import requests from an OpenAPI/Swagger file |
+| Import Postman Collection | Collections toolbar | Import a Postman v2.1 collection (JSON) |
+| Import Collection | Collections toolbar | Import a previously exported collection (JSON) |
+| Export Collection | Collections toolbar | Export the selected collection to JSON |
+| Import cURL | Request bar | Create a request by pasting a cURL command |
+| Manage Environments | Request bar | Create and edit environment variable sets |
+| Cookies | Request bar | Open the cookie jar manager |
+| Generate HTTP File | API Explorer | Generate a JetBrains `.http` file from the loaded spec |
+| Start / Stop Mock Server | API Explorer | Start or stop the embedded Ktor mock server built from the loaded spec |
 
-- OpenAPI: `.yaml`, `.yml`, `.json`
-- Postman Collections: `.postman_collection.json`
-- GraphQL Schemas: `.graphql`, `.gql`
-- Mock Configurations: `.mock.json`
+## Supported Formats
 
-## External Integrations
-
-- **Ktor** — Embedded HTTP/WebSocket server
-- **Postman** — Import collections for instant mocking
-- **GraphQL** — Full schema-first mock support
-- **Faker** — Dynamic data generation for realistic responses
+- **OpenAPI 3.0 / 3.1 and Swagger 2.0** specs (YAML or JSON) — import
+- **Postman v2.1 collections** (JSON) — import
+- **Collections** (JSON) — import and export
+- **cURL** commands — import
+- **JetBrains HTTP Client** (`.http`) — generated
+- Snippet output: **cURL**, **Python (Requests)**, **JavaScript (Fetch)**
 
 ## FAQ
 
-**Q: Can I run multiple mock servers simultaneously?**
-A: Yes (Pro tier). Each project can have its own server on different ports.
+**Q: Which IDEs can run the plugin?**
+A: Any JetBrains IDE on 2025.1 or newer that includes Java support, such as IntelliJ IDEA (Community or Ultimate) and Android Studio. The plugin depends on the platform Java module.
 
-**Q: Does the mock server support HTTPS?**
-A: Not in the current version. HTTPS support is planned.
+**Q: Can I reuse an existing API definition?**
+A: Yes. Import an OpenAPI/Swagger spec or a Postman v2.1 collection from the Collections toolbar, or generate a JetBrains `.http` file from a loaded spec.
 
-**Q: Can I share mock configurations with my team?**
-A: Yes. Export mock configs as JSON files and commit them to version control.
+**Q: How do I mock an API?**
+A: Load an OpenAPI spec, then use **Start Mock Server** to run an embedded Ktor server generated from it. The port is set under Settings → Tools → API First & Mocking Studio.
 
 ---
 

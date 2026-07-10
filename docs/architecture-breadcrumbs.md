@@ -1,71 +1,68 @@
 # Architecture Breadcrumbs
 
-> Visualize and navigate your project's architectural layers directly in the IDE.
+> Embed architecture decisions, patterns, and constraints as breadcrumbs that live next to the code they describe.
 
 ## Overview
 
-Architecture Breadcrumbs provides visual navigation breadcrumbs that show which architectural layer (Controller, Service, Repository, Domain, etc.) your current file belongs to. It enforces architectural boundaries by detecting layer violations and helps teams maintain clean architecture patterns.
+Architecture Breadcrumbs keeps architectural knowledge where it belongs — in your codebase. Instead of decisions decaying in wiki pages, chat threads, or the heads of people who have moved on, you attach short, categorized notes (breadcrumbs) to the exact line they explain: why an approach was chosen, which pattern is in play, what constraint applies, or what still needs attention.
+
+Breadcrumbs are stored in a project-local `.arch-breadcrumbs.json` file, so they are versioned with your code, shared through Git, and visible to everyone on the team. Each breadcrumb records an author and can be linked to related breadcrumbs elsewhere in the project.
 
 ## Installation
 
-1. Go to **Settings → Plugins → Marketplace**
+1. Open **Settings → Plugins → Marketplace**
 2. Search for **"Architecture Breadcrumbs"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2024.3+, Java 17+
+**Requirements:** JetBrains IDE 2024.3+, JDK 21+. Optional: the bundled **Git4Idea** plugin for VCS integration.
 
 ## Features
 
-### Free Tier
-- Automatic layer detection from package/directory names
-- Breadcrumb display showing current architectural context
-- 6 built-in architecture patterns (Layered, Hexagonal, Clean, Onion, MVC, MVVM)
-- Color-coded layer indicators in editor gutter
+### Capture context
+- Add a breadcrumb on the current line and set its **text**, **category**, **author**, and optional **links** to related breadcrumbs.
+- Six categories: **Decision**, **Pattern**, **Constraint**, **TODO (Architecture)**, **Warning**, and **Context**.
+- Everything is stored in `.arch-breadcrumbs.json` — versioned with the project, no external files or sync tools required.
 
-### Pro Tier
-- Layer violation detection (e.g., Controller accessing Repository directly)
-- Custom architecture pattern definitions
-- Dependency flow visualization (which layers talk to which)
-- Architecture compliance report generation
-- Git integration — track architectural drift over time
-- Team-shared architecture rules (`.arch-rules.yaml`)
+### In the editor
+- Color-coded **gutter icons** mark every breadcrumbed line.
+- Choose the gutter icon style: **Default**, **Minimal**, or **Colorful**.
+- Turn individual categories on or off.
+
+### Browse and navigate
+- The **Architecture Breadcrumbs** tool window lists every breadcrumb with **Category**, **Text**, **File**, **Line**, and **Author** columns; search by text and filter by category.
+- **Navigate Linked Breadcrumbs** jumps between breadcrumbs you have linked together.
+
+### Team and VCS
+- `.arch-breadcrumbs.json` is designed for Git sharing, and every breadcrumb records its author.
+- Optional Git4Idea integration adds VCS context.
 
 ## Configuration
 
-### Settings Location
 **Settings → Tools → Architecture Breadcrumbs**
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Architecture pattern | Layered | Active architecture pattern |
-| Show breadcrumbs | `true` | Display layer breadcrumbs in editor |
-| Show gutter icons | `true` | Show layer icons in gutter |
-| Layer mapping | *(auto-detect)* | Custom package-to-layer mappings |
-| Violation severity | WARNING | Severity level for layer violations |
+| Enable Architecture Breadcrumbs | On | Toggle all breadcrumb annotations on or off |
+| Show gutter icons | On | Display an icon in the editor gutter for each breadcrumb |
+| Icon style | Default | Gutter icon style: Default, Minimal, or Colorful |
+| Breadcrumb categories | All on | Per-category toggles for Decision, Pattern, Constraint, TODO (Architecture), Warning, and Context |
 
 ## Tool Windows
 
-### Architecture Overview
-- **Location:** Right panel
-- **Content:** Project layer map, dependency arrows, violation list
-- **Actions:** Configure layers, run compliance check, export report
+### Architecture Breadcrumbs
+- **Location:** Bottom panel
+- **Content:** A searchable, category-filterable list of every breadcrumb in the project (Category, Text, File, Line, Author). Empty until you add your first breadcrumb.
 
-## Inspections
+## Actions
 
-| Inspection | Severity | Description |
-|-----------|----------|-------------|
-| Layer Violation | WARNING | Detects cross-layer dependency violations |
-| Circular Dependency | ERROR | Detects circular layer dependencies |
-| Orphan Class | INFO | Classes not matching any layer pattern |
+| Action | Location | Shortcut | Description |
+|--------|----------|----------|-------------|
+| Add Architecture Breadcrumb | Editor context menu | Ctrl+Shift+B | Add a breadcrumb annotation at the current line |
+| Navigate Linked Breadcrumbs | Navigate (Go To) menu | — | Jump between linked breadcrumbs |
 
-## Supported Architectures
+## Supported Languages
 
-1. **Layered** — Controller → Service → Repository → Domain
-2. **Hexagonal** — Ports & Adapters pattern
-3. **Clean Architecture** — Use Cases, Entities, Interfaces, Frameworks
-4. **Onion** — Domain Core → Application → Infrastructure
-5. **MVC** — Model, View, Controller
-6. **MVVM** — Model, View, ViewModel
+Java, Kotlin, Python, JavaScript/TypeScript, and Go.
 
 ---
 
