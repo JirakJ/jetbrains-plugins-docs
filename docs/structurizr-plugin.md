@@ -167,6 +167,15 @@ Project settings override the global ones.
 
 - **Location:** right panel (secondary)
 - **Content:** live C4 diagram rendered from the active `.dsl` file, refreshing as you edit
+- **View selector:** lists the views defined in the workspace's `views { }` block, by key, type and scope. Pick one to render it; the choice is kept while you edit. A workspace without views gets Structurizr-style default views (landscape, a context view per system, container and component views where there is content), marked *(auto)*.
+- **What a view shows:** `include *` gives each view type its default content — people and software systems for a system landscape; the system in scope plus everything it has a relationship with for a system context view; the containers (or components) of the scope inside a boundary, plus the elements they talk to, for container and component views. Explicit `include` / `exclude` identifiers are honoured, and relationships between nested elements are shown between the elements actually on the diagram. Deployment views group container instances by deployment node, dynamic views number their steps, and filtered views filter their base view by tag. Image views are listed but not drawn.
+- **`!include`:** files and directories are resolved relative to the `.dsl` file; remote URLs are not fetched.
+- **Toolbar:** Refresh, Zoom In, Zoom Out and Fit to Window. The diagram fits the window width by default. The same preview, with the same view selector, appears in the split editor.
+- **Rendering:** the preview uses a fast built-in layout, not Structurizr's renderer, so element positions and styles (`styles { }`, `autoLayout`) are not reproduced exactly. SVG/PNG export and *Copy as SVG* use the same renderer when no Structurizr CLI is configured.
+
+### Structure View
+
+Shows the workspace, its model (elements with their identifiers) and every view with its scope and key, for example `systemContext svf: context`. Keywords are case-insensitive, as in Structurizr, and a statement the editor does not recognise is skipped without hiding the rest of the file.
 
 ## Supported Keywords
 
