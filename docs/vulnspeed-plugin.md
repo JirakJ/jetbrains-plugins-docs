@@ -6,7 +6,7 @@
 
 ## Overview
 
-VulnSpeed is a static application security testing (SAST) plugin that scans your code for vulnerabilities as you type and on demand. It covers the OWASP Top 10 and CWE Top 25 across seven languages, detects hard-coded secrets with vendor-specific token rules, and offers one-click `Alt+Enter` remediation. Findings surface as inline editor highlights and in a dedicated Security Dashboard tool window.
+VulnSpeed is a static application security testing (SAST) plugin that scans your code for vulnerabilities as you type and on demand. It covers the OWASP Top 10 and CWE Top 25 across seven languages, detects hard-coded secrets with vendor-specific token rules, and attaches a fix suggestion with OWASP/CWE references to every finding. Findings surface as inline editor highlights and in a dedicated Security Dashboard tool window.
 
 Results can be exported as SARIF, a CycloneDX SBOM, or a shareable HTML report, snapshotted into a baseline to track regressions, and enriched with CVSS/CWE metadata from public vulnerability databases.
 
@@ -30,9 +30,10 @@ Results can be exported as SARIF, a CycloneDX SBOM, or a shareable HTML report, 
 - Vendor-specific token formats rather than noisy entropy heuristics
 
 ### Remediation & workflow
-- One-click auto-fix via `Alt+Enter`
+- Fix suggestion (description, example code, references) on every finding — fixes are applied by you, not automatically
 - Inline suppression: `// vulnspeed-ignore` (same line or the comment line directly above), `// vulnspeed-ignore: RULE_ID, RULE_ID`, or `// vulnspeed-ignore-file` within the first five lines
 - On-demand file scan and project scan (C/C++ and Swift are covered by on-demand scans)
+- Optional scan on save, per project
 - Security Dashboard tool window
 - Report export: SARIF 2.1.0, CycloneDX 1.5 SBOM, and self-contained HTML
 
@@ -49,31 +50,26 @@ VulnSpeed has an application-level and a project-level settings page, both under
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Enable real-time scanning | On | Scan files for vulnerabilities as you type |
-| Enable auto-fix suggestions | On | Offer one-click remediation via `Alt+Enter` |
-| Max file size (KB) | 1000 | Files larger than this are skipped during scanning |
-| Send anonymous usage telemetry | Off | Opt-in usage telemetry; no source code leaves your machine |
+| Enable real-time scanning | On | Turns the as-you-type editor highlighting on or off. Manual and on-save scans keep working when it is off. |
+| Max file size (KB) | 1000 | Files larger than this are skipped by editor highlighting, Scan File, Scan Project and scan on save |
 
 ### Project settings
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Scan changed file on save | Off | Run a scan automatically when a file is saved |
-| Apply safe auto-fixes on save | Off | Automatically apply non-destructive remediation on save |
+| Scan changed file on save | Off | Scans a supported file each time it is saved; results update the VulnSpeed tool window without taking focus and become the input for report exports |
 
 Project scans skip `node_modules`, `build`, and hidden (dot) directories.
+
+### Privacy
+
+VulnSpeed collects no telemetry and never uploads source code. The only network access is the CVE enrichment action, which you run explicitly; it sends CVE identifiers to OSV.dev and NVD.
 
 ## Tool Windows
 
 ### VulnSpeed
 - **Location:** Bottom panel
-- **Content:** Vulnerability list, severity breakdown, scan statistics, and quick access to fixes
-
-## Inspections
-
-| Inspection | Level | Description |
-|-----------|-------|-------------|
-| VulnSpeed Security Analysis | Warning | Global (batch) security inspection, in the **Security** group, that runs the VulnSpeed engine across scanned files |
+- **Content:** Vulnerability list, severity breakdown and scan statistics from the latest file, project or on-save scan
 
 ## Actions
 
