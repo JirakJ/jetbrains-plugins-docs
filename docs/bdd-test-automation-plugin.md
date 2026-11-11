@@ -2,6 +2,8 @@
 
 > Fast step-definition navigation, AI-assisted scenario generation, and BDD analytics for Gherkin feature files.
 
+**Free** — every feature is available without a license.
+
 ## Overview
 
 BDD Test Automation speeds up Behavior-Driven Development in JetBrains IDEs. It provides sub-200ms navigation between Gherkin steps and their step definitions using a three-tier caching system built for large suites (10,000+ scenarios), plus code completion, find usages, and rename refactoring that spans feature files and step definition code.

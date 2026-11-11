@@ -2,9 +2,11 @@
 
 > Design, test, and mock HTTP APIs from an OpenAPI spec without leaving your JetBrains IDE.
 
+**Free & open source** — source: https://github.com/JirakJ/api-first-mocking-studio (Apache-2.0); contributions welcome.
+
 ## Overview
 
-API First & Mocking Studio is a native API client and mocking tool for JetBrains IDEs. It parses OpenAPI 3.0/3.1 and Swagger 2.0 specifications, turns them into runnable requests, and can spin up an embedded Ktor mock server directly from the spec. Around that spec-driven core it provides a full request builder — environments, authentication, scripting, assertions, collections, and history — comparable to a standalone REST client, plus WebSocket support and client-code generation.
+API First & Mocking Studio is a native API client and mocking tool for JetBrains IDEs. Its **API Explorer** tool window lets you compose and send HTTP requests with environments, authentication, scripts, assertions, collections, and history. From an OpenAPI 3.0/3.1 or Swagger 2.0 file it can import requests, serve every operation from a local mock server, and generate a JetBrains HTTP Client (`.http`) file.
 
 It is aimed at developers who follow an API-first workflow and want to design, exercise, and mock endpoints inside the editor instead of switching to an external tool.
 
@@ -14,77 +16,72 @@ It is aimed at developers who follow an API-first workflow and want to design, e
 2. Search for **"API First & Mocking Studio"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2025.1+ with Java support (IntelliJ IDEA or Android Studio) — the plugin depends on the platform Java module.
+**Requirements:** JetBrains IDE 2025.1+ with Java support (for example IntelliJ IDEA or Android Studio) — the plugin depends on the platform Java module.
 
 ## Features
 
-- **Spec parsing** — read OpenAPI 3.0/3.1 and Swagger 2.0 documents (YAML or JSON).
-- **API Explorer tool window** — compose and send HTTP requests with method, URL, params, headers, and body.
-- **Request bodies** — Raw, Form-Data, x-www-form-urlencoded, and GraphQL (query + variables).
-- **Authentication** — None, Bearer Token, Basic Auth, API Key, and OAuth 2.0 (with token fetch).
-- **Environments** — named variable sets with an active-environment selector.
-- **Cookie management** — a per-project cookie jar.
-- **Pre-request & post-response scripting** — inject variables before a request and extract values from the response into variables.
-- **Tests / assertions** — assert on response fields such as status code, with a dedicated Test Results view.
+- **API Explorer tool window** — compose requests with method, URL, query params, headers, and body, and view the response as text, a JSON tree, and headers.
+- **Request bodies** — Raw, Form-Data (multipart), x-www-form-urlencoded, and GraphQL (query + variables).
+- **Authentication** — None, Bearer Token, Basic Auth, API Key, and OAuth 2.0.
+- **Environments & variables** — `{{variable}}` placeholders resolved from global variables and the active environment (*Dev* and *Prod* are created by default). Values are stored as plain text in the project's `.idea` settings, so keep real secrets out of them.
+- **Cookies** — a per-project cookie jar with a manager dialog.
+- **Pre-request scripts** — set variables with `name=value` lines, including `{{$timestamp}}` and `{{$guid}}`.
+- **Post-response scripts** — extract values from the response into variables with `name=$.json.path`.
+- **Tests / assertions** — status code, body contains, and JSONPath match, with a Test Results view.
 - **Collections & history** — save requests into collections and browse past requests in History.
-- **Import / export** — import OpenAPI specs, Postman v2.1 collections, cURL commands, and previously exported collections; export collections to JSON.
-- **Code generation** — produce request snippets (cURL, Python Requests, JavaScript Fetch) and a JetBrains `.http` client file from a spec.
-- **Embedded mock server** — start a Ktor mock server generated from the loaded OpenAPI spec.
-- **WebSocket client** — connect to a WebSocket endpoint and send/receive messages.
+- **Import / export** — import OpenAPI 3.0/3.1 and Swagger 2.0 specs (JSON or YAML), Postman v2.x collections (folders are flattened), cURL commands, and the plugin's own collection JSON; export collections to JSON.
+- **Code snippets** — cURL, Python (Requests), and JavaScript (Fetch) for the current request.
+- **WebSocket client** — enter a `ws://` or `wss://` URL to connect and send/receive messages.
+- **Mock server** — serves every operation of an OpenAPI/Swagger file on `127.0.0.1`, responding with the spec's examples or schema-generated sample JSON.
+- **HTTP Client file generation** — creates a JetBrains `.http` file with one request per operation.
 
 ## Configuration
 
-**Settings → Tools → API First & Mocking Studio**
+**Settings → Tools → API First & Mocking Studio** (per project)
 
 | Setting | Default | Description |
 |---------|---------|-------------|
 | Request timeout (ms) | `30000` | Timeout for outgoing HTTP requests, in milliseconds |
 | Follow redirects | On | Automatically follow HTTP redirect responses |
-| Verify SSL certificates | On | Validate TLS/SSL certificates when sending requests |
-| Max history size | `100` | Maximum number of requests retained in History |
-| Mock server port | `8085` | Port for the embedded mock server |
+| Max history size | `100` | Maximum number of requests retained in History (oldest are dropped first) |
+| Mock server port (127.0.0.1) | `8085` | Port for the local mock server |
 
 ## Tool Windows
 
 ### API Explorer
-- **Location:** right panel
-- **Content:** a complete API client. A request bar (method selector, URL, **Send**) sits above the request tabs — **Params, Auth, Pre-Script, Body, Headers, Tests, Snippets, Post-Script** — and the response tabs — **Body, Tree, Headers, Test Results**. A sidebar holds **History** and **Collections**, and a WebSocket panel provides Connect/Disconnect and message sending.
+- **Location:** Right panel
+- **Content:** A request bar (environment selector, **Manage Environments**, **Cookies**, method, URL, **Send**) above the request tabs — **Params, Auth, Pre-Script, Body, Headers, Tests, Snippets, Post-Script** — and the response tabs — **Body, Tree, Headers, Test Results**. A sidebar holds **History** and **Collections**.
 
 ## Actions
 
-Available from the API Explorer tool window (toolbar buttons; no default keyboard shortcuts).
-
 | Action | Location | Description |
 |--------|----------|-------------|
-| Import OpenAPI | Collections toolbar | Import requests from an OpenAPI/Swagger file |
-| Import Postman Collection | Collections toolbar | Import a Postman v2.1 collection (JSON) |
-| Import Collection | Collections toolbar | Import a previously exported collection (JSON) |
-| Export Collection | Collections toolbar | Export the selected collection to JSON |
-| Import cURL | Request bar | Create a request by pasting a cURL command |
-| Manage Environments | Request bar | Create and edit environment variable sets |
-| Cookies | Request bar | Open the cookie jar manager |
-| Generate HTTP File | API Explorer | Generate a JetBrains `.http` file from the loaded spec |
-| Start / Stop Mock Server | API Explorer | Start or stop the embedded Ktor mock server built from the loaded spec |
+| Start Mock Server… / Stop Mock Server | Tools → API First | Serve sample responses for every operation of an OpenAPI/Swagger file on `127.0.0.1` |
+| Generate HTTP Client File… | Tools → API First | Generate a JetBrains HTTP Client (`.http`) file from an OpenAPI/Swagger file |
+| Import OpenAPI | API Explorer → Collections | Import requests from an OpenAPI/Swagger file |
+| Import Postman Collection | API Explorer → Collections | Import a Postman v2.x collection (JSON) |
+| Import Collection | API Explorer → Collections | Import a previously exported collection (JSON) |
+| Export Collection | API Explorer → Collections | Export the selected collection to JSON |
+| Import cURL | API Explorer request bar | Create a request by pasting a cURL command |
 
 ## Supported Formats
 
-- **OpenAPI 3.0 / 3.1 and Swagger 2.0** specs (YAML or JSON) — import
-- **Postman v2.1 collections** (JSON) — import
+- **OpenAPI 3.0 / 3.1 and Swagger 2.0** specs (YAML or JSON) — import, mock server, `.http` generation
+- **Postman v2.x collections** (JSON) — import
 - **Collections** (JSON) — import and export
 - **cURL** commands — import
-- **JetBrains HTTP Client** (`.http`) — generated
 - Snippet output: **cURL**, **Python (Requests)**, **JavaScript (Fetch)**
 
 ## FAQ
 
 **Q: Which IDEs can run the plugin?**
-A: Any JetBrains IDE on 2025.1 or newer that includes Java support, such as IntelliJ IDEA (Community or Ultimate) and Android Studio. The plugin depends on the platform Java module.
-
-**Q: Can I reuse an existing API definition?**
-A: Yes. Import an OpenAPI/Swagger spec or a Postman v2.1 collection from the Collections toolbar, or generate a JetBrains `.http` file from a loaded spec.
+A: Any JetBrains IDE on 2025.1 or newer that includes Java support, such as IntelliJ IDEA and Android Studio.
 
 **Q: How do I mock an API?**
-A: Load an OpenAPI spec, then use **Start Mock Server** to run an embedded Ktor server generated from it. The port is set under Settings → Tools → API First & Mocking Studio.
+A: Choose **Tools → API First → Start Mock Server…** and pick an OpenAPI/Swagger file. Every operation is served on `127.0.0.1` at the port set in Settings → Tools → API First & Mocking Studio. Run the action again to stop the server.
+
+**Q: Are environment variables stored securely?**
+A: No — they are saved as plain text in the project's `.idea` settings. Do not put real secrets in them.
 
 ---
 

@@ -2,6 +2,8 @@
 
 > Bridge cloud secret vaults to your JetBrains IDE and inject secrets into runs from RAM only — never to disk.
 
+**Free & open source** — source: https://github.com/JirakJ/zero-trust-secret-guardian (Apache-2.0); contributions welcome.
+
 ## Overview
 
 Zero-Trust Enterprise Secret Guardian eliminates the risk of leaked sensitive data (API keys, database credentials, cloud certificates) during local development. Instead of keeping `.env` files on disk, it connects your IDE directly to a cloud secret vault (**Infisical** or **Doppler**) and injects secrets into your run configurations as environment variables at launch time.
@@ -20,8 +22,8 @@ Retrieved secrets live only in RAM for the duration of the run. The plugin does 
 
 - **Vault authentication** — connect to Infisical or Doppler using an access token stored via the JetBrains Credential Store.
 - **Environment picker** — switch between `dev`, `staging`, and `prod`.
-- **Dynamic run-configuration interception** — secrets are fetched and injected into the launched process's environment variables in memory, never read from disk.
-- **Pre-commit scanner** — blocks a commit when a modified file contains a value matching a known vault secret.
+- **Dynamic run-configuration interception** — before a Java-based run configuration (Application, JUnit, Gradle/Maven-launched JVM, …) starts, secrets are fetched and injected into the launched process's environment variables in memory, never read from disk.
+- **Pre-commit scanner** — warns (letting you cancel) when a file being committed contains a value matching a known vault secret.
 - **Log masking** — known secret values are censored in console output.
 
 ## How It Works
@@ -29,7 +31,7 @@ Retrieved secrets live only in RAM for the duration of the run. The plugin does 
 1. **Configure** the vault connection in the **Zero-Trust Vault** tool window (provider, project, environment, and access token).
 2. **Run** a JVM-based run configuration as usual.
 3. The plugin **intercepts** execution and opens a cancelable *"Fetching Zero-Trust Secrets"* progress dialog.
-4. It **downloads secrets** from your vault (the HTTP client retries up to 3 times on a failed response). On persistent failure it shows a dialog offering **Retry**, **Continue Without Secrets**, or **Cancel Execution**.
+4. It **downloads secrets** from your vault (server errors (5xx) are retried up to 2 times; client errors such as 401/403/404 are reported immediately). On persistent failure it shows a dialog offering **Retry**, **Continue Without Secrets**, or **Cancel Execution**.
 5. Secrets are **injected** as environment variables into the process and held in an in-memory cache (used for log masking).
 6. When the last run process **terminates**, the in-memory cache is cleared.
 
@@ -67,7 +69,7 @@ The access token is saved to the JetBrains Credential Store (PasswordSafe) under
 Console output of run configurations is filtered automatically while secrets are cached:
 
 - Only cached secret values of **5 characters or longer** are masked.
-- Common values are never masked: `true`, `false`, `null`, `undefined`, `dev`, `prod`, `staging`, `test`, `local`, and single digits `0`–`9`.
+- Common values are never masked: `true`, `false`, `null`, `undefined`, `dev`, `prod`, `staging`, `test`, and `local`.
 - Matches are replaced with `********`.
 
 Masking is active only while secrets are cached, i.e. after a run injects them and until the last process terminates.
@@ -76,8 +78,8 @@ Masking is active only while secrets are cached, i.e. after a run injects them a
 
 Integrated into the commit flow, this guardrail runs before every commit:
 
-1. Collects known secret values (from the in-memory cache, or fetched from the vault if a token is configured); only values longer than 3 characters are checked.
-2. Scans the modified files in the commit, skipping directories and `.jar`/`.class` files.
+1. Collects known secret values (from the in-memory cache, or fetched from the vault if a token is configured); the same length and common-value rules as log masking apply.
+2. Scans the files in the commit, skipping directories and binary files (`.jar`, `.class`, images, archives, PDFs).
 3. If a file's contents contain a known secret, shows a warning dialog with two options:
    - **Review Commit** — cancels the commit so you can remove the secret.
    - **Commit Anyway (Unsafe)** — proceeds with the commit.
@@ -98,7 +100,7 @@ If no secrets are known or none are found, the commit proceeds normally.
 A: No. Fetched secrets are held only in an in-memory cache and are cleared when the last run process terminates. The access token is stored in the JetBrains Credential Store, never as plaintext.
 
 **Q: What happens if the vault is unreachable?**
-A: The HTTP client retries up to 3 times. If it still fails, a dialog lets you Retry, Continue Without Secrets, or Cancel Execution.
+A: Server errors are retried up to 2 times. If fetching still fails, a dialog lets you Retry, Continue Without Secrets, or Cancel Execution.
 
 **Q: Can I use both Infisical and Doppler at once?**
 A: One provider per project. Switch it in the tool window or in Settings → Tools → Zero-Trust Secret Guardian.

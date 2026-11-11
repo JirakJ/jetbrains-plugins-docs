@@ -2,11 +2,13 @@
 
 > Detect, track, and quarantine flaky tests directly in your JetBrains IDE.
 
+**Free & open source** — source: https://github.com/JirakJ/flaky-test-detector (Apache-2.0); contributions welcome.
+
 ## Overview
 
-Flaky Test Detector automatically records your test execution history and identifies non-deterministic tests — tests that pass and fail intermittently without code changes. Every test earns a percentage-based reliability score, so you can see at a glance which tests are stable and which need attention.
+Flaky Test Detector records the results of tests you run from the IDE and identifies non-deterministic tests — tests that pass and fail intermittently without code changes. Every test earns a percentage-based flakiness score, so you can see at a glance which tests are stable and which need attention.
 
-It hooks into the IDE's test runner, so it works with any JetBrains-supported test framework, and surfaces results through editor gutter icons, a sortable dashboard, and quarantine controls that keep known-flaky tests from blocking your workflow.
+It listens to the IDE's test runner, so results from any framework run through it are recorded. Results surface through gutter icons on Java and Kotlin test methods, a sortable dashboard, and quarantine marking for known-flaky tests.
 
 ## Installation
 
@@ -14,28 +16,17 @@ It hooks into the IDE's test runner, so it works with any JetBrains-supported te
 2. Search for **"Flaky Test Detector"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2023.2+, JDK 17+, any JetBrains-supported test framework
+**Requirements:** JetBrains IDE 2023.2+ with a test runner. Tests must be run from the IDE — only results of the IDE's test runner are recorded.
 
 ## Features
 
-Flaky Test Detector is freemium: the core tracking and dashboard are free, with additional features unlocked by a license.
-
-### Free Tier
 - **Automatic tracking** — records every test run (pass/fail/error/skip) automatically
-- **Flakiness score** — percentage-based reliability metric per test
-- **Gutter icons** — reliability indicators next to `@Test` annotations
-- **Dashboard** — sortable table with sparkline stability visualizations
-- **Quarantine mode** — isolate known-flaky tests from blocking development
-- **One-click rerun** — rerun any test directly from the dashboard
-
-### Pro Tier
-- Unlimited tests and history retention
-- Flakiness trend charts
-- Git correlation (find the commit that broke a test)
-- Module- and package-level aggregation
-- Auto-quarantine rules
-- Export reports (JSON, CSV, HTML)
-- CI/CD integration
+- **Flakiness score** — share of consecutive runs whose outcome changed (pass ↔ fail), in %
+- **Categories** — Stable, Suspicious, Flaky, and Highly Unstable, with configurable thresholds
+- **Gutter icons** — reliability indicators on Java and Kotlin test methods
+- **Dashboard** — sortable, filterable table with a last-10-runs sparkline and trend
+- **Quarantine** — mark known-flaky tests in the dashboard, manually or automatically above a threshold
+- **Configurable** — category thresholds, minimum runs, and history retention
 
 ## Configuration
 
@@ -43,43 +34,39 @@ Flaky Test Detector is freemium: the core tracking and dashboard are free, with 
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Enable Flaky Test Detector | On | Master switch for the detection analysis |
+| Enable Flaky Test Detector | On | Enable or disable the flaky test detection analysis |
 | Show gutter icons next to @Test | On | Display flakiness status icons in the editor gutter |
 | History retention (days) | `30` | Number of days to keep test execution history (1–365) |
 | Minimum runs for scoring | `3` | Runs required before a flakiness score is calculated (1–100) |
-| Suspicious (%) | `1.0` | Failure rate above this marks a test as suspicious |
-| Flaky (%) | `15.0` | Failure rate above this marks a test as flaky |
-| Highly unstable (%) | `50.0` | Failure rate above this marks a test as highly unstable |
-| Enable auto-quarantine | Off | Automatically quarantine tests that exceed the threshold |
-| Quarantine threshold (%) | `80.0` | Tests with a failure rate above this are auto-quarantined |
+| Suspicious (%) | `1.0` | Scores at or above this mark a test as suspicious |
+| Flaky (%) | `15.0` | Scores above this mark a test as flaky |
+| Highly unstable (%) | `50.0` | Scores above this mark a test as highly unstable |
+| Enable auto-quarantine | Off | Quarantine tests automatically once they have the minimum number of runs and reach the threshold score |
+| Quarantine threshold (%) | `80.0` | Flakiness score that triggers auto-quarantine |
 
 ## Tool Windows
 
 ### Flaky Tests
 - **Location:** Bottom panel (secondary)
-- **Content:** Sortable table of tracked tests showing test name, class, flakiness score and category, a sparkline of the last runs, a trend indicator, and quarantine state. A filter switches between All, Flaky Only, Stable Only, and Quarantined tests, and tests can be rerun or quarantined directly from the panel.
+- **Content:** Summary line (total, flaky, quarantined) and a sortable table with **Test**, **Class**, **Score**, **Last 10** (sparkline), **Trend**, and **Quarantined** columns. A filter switches between All, Flaky Only, Stable Only, and Quarantined; **Toggle Quarantine** marks or unmarks the selected test.
 
 ## Actions
 
-All actions are available under the **Tools** menu.
-
-| Action | Location | Shortcut | Description |
-|--------|----------|----------|-------------|
-| Rerun Flaky Tests | Tools menu | `Alt+Shift+F` | Rerun all tests with a non-zero flakiness score |
-| Quarantine Test | Tools menu | — | Toggle quarantine status on the selected test |
-| View Flaky Test History | Tools menu | — | Open the Flaky Tests tool window |
-| Clear Flaky Test History | Tools menu | — | Clear all recorded test history |
+| Action | Location | Description |
+|--------|----------|-------------|
+| View Flaky Test History | Tools menu | Open the Flaky Tests tool window |
+| Clear Flaky Test History | Tools menu | Clear all recorded test history (after confirmation) |
 
 ## FAQ
 
 **Why don't I see a flakiness score yet?**
-A test needs at least *Minimum runs for scoring* (default 3) recorded runs before a score is calculated. Run your suite a few times and scores will appear.
-
-**Which test frameworks are supported?**
-Any JetBrains-supported framework. The plugin listens to the IDE's test runner, so JUnit, TestNG, pytest, Jest, and others are all tracked automatically.
+A test needs at least *Minimum runs for scoring* (default 3) recorded runs before a score is calculated. Run your tests a few times from the IDE and scores will appear.
 
 **How is the score calculated?**
-The score reflects how often a test's outcome changes between consecutive runs: 0% means the result never changes (stable), while higher values indicate more non-deterministic behavior.
+It is the share of consecutive runs whose outcome flipped between pass and fail: 0% means the result never changes, while higher values indicate more non-deterministic behavior.
+
+**Does quarantine skip the test?**
+No. Quarantine is a marker in the dashboard that helps you track known-flaky tests; it does not change how tests run.
 
 ---
 

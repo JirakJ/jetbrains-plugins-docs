@@ -2,6 +2,8 @@
 
 > Full language support and live C4 diagram preview for Structurizr DSL in JetBrains IDEs.
 
+**Free & open source** — source: https://github.com/JirakJ/structurizr-dsl-plugin (Apache-2.0); contributions welcome.
+
 ## Overview
 
 Structurizr DSL brings complete language support for [Structurizr DSL](https://docs.structurizr.com/dsl/language) — the text-based language for describing software architecture with the [C4 model](https://c4model.com/) — to any JetBrains IDE. You author `.dsl` files with syntax highlighting, context-aware completion, inspections, navigation, and refactoring, then render the resulting C4 diagrams live inside the IDE and export them to common formats.
@@ -25,9 +27,7 @@ It is aimed at developers and architects who keep their architecture "as code" a
 
 ## Features
 
-Structurizr DSL is freemium: the full authoring, navigation, and analysis language support is free. A Professional license unlocks live diagram preview, the split editor, file export, and CLI integration.
-
-### Free
+### Language support
 
 - Full Structurizr DSL language: lexer, parser, and PSI for `.dsl` files
 - Syntax highlighting with a configurable color scheme, including `${...}` variable-substitution highlighting
@@ -39,14 +39,14 @@ Structurizr DSL is freemium: the full authoring, navigation, and analysis langua
 - Navigation: Go to Definition (**Ctrl+Click**), Find Usages (**Alt+F7**), Go to Symbol (**Ctrl+Alt+Shift+N**), Structure View, breadcrumbs, line markers, and `!include` file navigation
 - Rename refactoring (**Shift+F6**) across all references
 - Quick documentation on hover (**Ctrl+Q**)
-- Copy the rendered diagram to the clipboard as SVG, PlantUML, Mermaid, or image
 
-### Professional
+### Diagram preview and export
 
 - Live diagram preview — real-time C4 rendering as you edit
 - Split editor — DSL code and diagram side by side
 - Export diagrams to file: SVG, PNG, PlantUML, Mermaid, DOT, or JSON
-- Structurizr CLI integration — auto-download and manage the CLI used for rendering
+- Copy the rendered diagram to the clipboard as SVG, PlantUML, Mermaid, or image
+- Structurizr CLI integration — uses an installed Structurizr CLI (configured path, well-known install locations, or `PATH`) for PlantUML, Mermaid, DOT, and JSON export; the plugin does not download the CLI itself
 
 ## Live Templates
 
@@ -120,33 +120,22 @@ Standard IDE bindings for the language features this plugin provides:
 
 ### Global — Settings → Tools → Structurizr DSL
 
-Organized into five groups: Structurizr CLI, Live Preview, Export, Editor, and Code Completion.
+Organized into three groups: Structurizr CLI, Live Preview, and Export.
 
 | Setting | Default | Notes |
 |---------|---------|-------|
-| CLI path | *(empty)* | Path to the `structurizr-cli` JAR or executable |
-| Use embedded CLI if available | On | Use the bundled CLI when no path is set |
-| Timeout (seconds) | 30 | Maximum time to wait for CLI operations |
-| Enable live preview | On | Render the diagram as you edit |
-| Auto-refresh preview on save | On | Refresh the preview when the file is saved |
-| Refresh delay (ms) | 500 | Delay before refreshing after typing |
-| Show preview in split editor by default | On | Open new `.dsl` files with the split view |
-| Zoom level (%) | 100 | Preview zoom |
-| Use system theme | On | Match the preview to the IDE theme |
-| Dark mode for preview | Off | Force a dark diagram theme |
+| CLI path | *(empty)* | Path to the `structurizr-cli` JAR or launcher script; leave empty to auto-detect |
+| Timeout (seconds) | 30 | Maximum time to wait for CLI operations (5–300) |
+| Show diagram preview next to the editor | On | Show the live preview in the split editor |
+| Refresh preview while typing | On | Re-render the preview as you edit |
+| Refresh delay (ms) | 500 | Delay before refreshing the preview after typing (100–5000) |
 | Default format | PNG | One of PNG, SVG, PlantUML, Mermaid, DOT, JSON |
 | Default directory | *(empty)* | Leave empty to use the source file directory |
-| Image width | 1920 | Raster export width |
-| Image height | 1080 | Raster export height |
-| Include metadata in exports | On | Embed workspace metadata |
-| Auto-open exported file | On | Open the file after export |
-| Show breadcrumbs | On | Navigation breadcrumbs |
-| Enable code folding | On | Fold DSL blocks |
-| Show line markers | On | Gutter icons for element definitions |
-| Enable inspections | On | Run the code inspections |
-| Auto-popup completion | On | Show completion automatically |
-| Include element references in completion | On | Offer defined elements as suggestions |
-| Show documentation in completion popup | On | Attach docs to completion items |
+| Max PNG width | 1920 | Raster export width limit (320–7680) |
+| Max PNG height | 1080 | Raster export height limit (240–4320) |
+| Open exported file after export | On | Open the file after export |
+
+Code style (indentation and formatting) is configured under **Settings → Editor → Code Style → Structurizr DSL**, and colors under **Settings → Editor → Color Scheme**.
 
 ### Project — Settings → Tools → Structurizr DSL → Project Settings
 
@@ -156,7 +145,6 @@ Project settings override the global ones.
 |---------|-------------|
 | Use project-specific CLI path | Enable a per-project CLI override |
 | Project CLI path | CLI JAR/executable to use for this project |
-| Default workspace file | The default `.dsl` file for this project |
 | Export directory | Per-project export location (empty falls back to global) |
 | Override global preview settings | Use the project preview delay below |
 | Preview delay (ms) | Per-project refresh delay |

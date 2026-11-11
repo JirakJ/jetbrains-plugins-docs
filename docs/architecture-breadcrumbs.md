@@ -2,11 +2,13 @@
 
 > Embed architecture decisions, patterns, and constraints as breadcrumbs that live next to the code they describe.
 
+**Free & open source** — source: https://github.com/JirakJ/architecture-breadcrumbs (Apache-2.0); contributions welcome.
+
 ## Overview
 
 Architecture Breadcrumbs keeps architectural knowledge where it belongs — in your codebase. Instead of decisions decaying in wiki pages, chat threads, or the heads of people who have moved on, you attach short, categorized notes (breadcrumbs) to the exact line they explain: why an approach was chosen, which pattern is in play, what constraint applies, or what still needs attention.
 
-Breadcrumbs are stored in a project-local `.arch-breadcrumbs.json` file, so they are versioned with your code, shared through Git, and visible to everyone on the team. Each breadcrumb records an author and can be linked to related breadcrumbs elsewhere in the project.
+Breadcrumbs are stored in `.arch-breadcrumbs.json` at the project root, so they are versioned with your code and shared with your team through Git. Each breadcrumb records an author and can link to related breadcrumbs elsewhere in the project.
 
 ## Installation
 
@@ -14,27 +16,23 @@ Breadcrumbs are stored in a project-local `.arch-breadcrumbs.json` file, so they
 2. Search for **"Architecture Breadcrumbs"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2024.3+, JDK 21+. Optional: the bundled **Git4Idea** plugin for VCS integration.
+**Requirements:** JetBrains IDE 2024.2+.
 
 ## Features
 
 ### Capture context
-- Add a breadcrumb on the current line and set its **text**, **category**, **author**, and optional **links** to related breadcrumbs.
+- Add a breadcrumb on the current line and set its **text**, **category**, **author**, and optional **links** to other breadcrumbs.
 - Six categories: **Decision**, **Pattern**, **Constraint**, **TODO (Architecture)**, **Warning**, and **Context**.
-- Everything is stored in `.arch-breadcrumbs.json` — versioned with the project, no external files or sync tools required.
+- Everything is stored in `.arch-breadcrumbs.json` — versioned with the project, no external service required.
 
 ### In the editor
-- Color-coded **gutter icons** mark every breadcrumbed line.
-- Choose the gutter icon style: **Default**, **Minimal**, or **Colorful**.
-- Turn individual categories on or off.
+- A **gutter icon** marks every breadcrumbed line, with the note as its tooltip.
+- Gutter icons can be turned off entirely or per category.
+- Works in any file type.
 
 ### Browse and navigate
-- The **Architecture Breadcrumbs** tool window lists every breadcrumb with **Category**, **Text**, **File**, **Line**, and **Author** columns; search by text and filter by category.
-- **Navigate Linked Breadcrumbs** jumps between breadcrumbs you have linked together.
-
-### Team and VCS
-- `.arch-breadcrumbs.json` is designed for Git sharing, and every breadcrumb records its author.
-- Optional Git4Idea integration adds VCS context.
+- The **Architecture Breadcrumbs** tool window lists every breadcrumb in a table with a category filter and full-text search; double-click a row to jump to the line.
+- **Navigate Linked Breadcrumbs** jumps to the breadcrumbs linked from the one at the caret, or lets you pick from all breadcrumbs.
 
 ## Configuration
 
@@ -42,27 +40,22 @@ Breadcrumbs are stored in a project-local `.arch-breadcrumbs.json` file, so they
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Enable Architecture Breadcrumbs | On | Toggle all breadcrumb annotations on or off |
+| Enable Architecture Breadcrumbs | On | Turns gutter icons and the add/navigate actions on or off |
 | Show gutter icons | On | Display an icon in the editor gutter for each breadcrumb |
-| Icon style | Default | Gutter icon style: Default, Minimal, or Colorful |
-| Breadcrumb categories | All on | Per-category toggles for Decision, Pattern, Constraint, TODO (Architecture), Warning, and Context |
+| Gutter Icons per Category | All on | Per-category toggles for Decision, Pattern, Constraint, TODO (Architecture), Warning, and Context |
 
 ## Tool Windows
 
 ### Architecture Breadcrumbs
 - **Location:** Bottom panel
-- **Content:** A searchable, category-filterable list of every breadcrumb in the project (Category, Text, File, Line, Author). Empty until you add your first breadcrumb.
+- **Content:** A searchable, category-filterable table of every breadcrumb in the project. Double-click to navigate. Empty until you add your first breadcrumb.
 
 ## Actions
 
 | Action | Location | Shortcut | Description |
 |--------|----------|----------|-------------|
-| Add Architecture Breadcrumb | Editor context menu | Ctrl+Shift+B | Add a breadcrumb annotation at the current line |
-| Navigate Linked Breadcrumbs | Navigate (Go To) menu | — | Jump between linked breadcrumbs |
-
-## Supported Languages
-
-Java, Kotlin, Python, JavaScript/TypeScript, and Go.
+| Add Architecture Breadcrumb | Editor context menu | `Ctrl+Shift+B` | Add a breadcrumb annotation at the current line |
+| Navigate Linked Breadcrumbs | Navigate (Go To) menu | — | Jump to linked breadcrumbs, or pick from all breadcrumbs |
 
 ---
 

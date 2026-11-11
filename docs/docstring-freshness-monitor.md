@@ -1,12 +1,14 @@
 # Docstring Freshness Monitor
 
-> Detect stale documentation from git history — every docstring gets a 0–100 freshness score.
+> Detect stale documentation from git history — every doc block gets a 0–100 freshness score.
+
+**Free & open source** — source: https://github.com/JirakJ/docstring-freshness-monitor (Apache-2.0); contributions welcome.
 
 ## Overview
 
-Docstring Freshness Monitor flags documentation that has drifted out of sync with the code it describes. It analyzes git history to compare when the code around a doc block last changed against when the documentation itself last changed, then assigns each docstring a freshness score from 0 to 100. Color-coded gutter icons and an IDE inspection surface stale docs directly in the editor, so you always know which comments still reflect the code.
+Docstring Freshness Monitor flags documentation that has drifted out of sync with the code it describes. For each doc block it counts the commits that touched the code below it since the doc itself last changed, and turns that into a freshness score from 0 to 100. An IDE inspection surfaces stale and rotten docs directly in the editor, and a tool window lists per-block scores for the current file.
 
-It covers Java/Kotlin (Javadoc, KDoc), Python (docstrings), and JavaScript/TypeScript (JSDoc), and needs a Git repository with history to compute scores.
+It covers Javadoc/KDoc, Python docstrings, JSDoc, and `#` comment blocks, and needs a Git repository with history to compute scores.
 
 ## Installation
 
@@ -14,27 +16,15 @@ It covers Java/Kotlin (Javadoc, KDoc), Python (docstrings), and JavaScript/TypeS
 2. Search for **"Docstring Freshness Monitor"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2023.2+, JDK 17+, a Git repository with history (freshness scoring uses git blame/log).
+**Requirements:** JetBrains IDE 2023.2+, the bundled Git plugin, and a Git repository with history.
 
 ## Features
 
-Docstring Freshness Monitor is freemium: the core detection features are free, and the advanced project-wide and CI features unlock with a paid license.
-
-### Free Tier
-- **Freshness scoring** — 0–100 score for every docstring, computed from git history
-- **Gutter icons** — 🟢 Fresh, 🟡 Aging, 🔴 Stale next to each doc block
-- **Hover tooltips** — last code change, last doc change, and divergent commit count
-- **Stale documentation inspection** with configurable severity
-- **Multi-language** — Java/Kotlin, Python, JavaScript/TypeScript
-- **Mark as reviewed** — quick-fix to acknowledge a stale doc without editing it
-
-### Professional Tier
-- All languages enabled simultaneously
-- Project dashboard with treemap visualization
-- Trend analysis tracking
-- Export reports (HTML, JSON, CSV)
-- CI integration with SARIF and JUnit XML output
-- Custom score-algorithm extension point
+- **Freshness scoring** — 0–100 score per doc block, computed from the commits that touched the code below it since the doc last changed
+- **Stale documentation inspection** — stale blocks are reported as warnings, rotten blocks as errors; also available project-wide via **Analyze → Inspect Code**
+- **Multi-language** — Javadoc/KDoc, Python docstrings, JSDoc, and `#` comment blocks
+- **Doc Freshness tool window** — per-block scores for the current file
+- **Configurable thresholds** — fresh / aging / stale / rotten score boundaries
 
 ## Configuration
 
@@ -42,39 +32,33 @@ Docstring Freshness Monitor is freemium: the core detection features are free, a
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Aging threshold (days) | `80` | Documents older than this many days since last code change are marked as aging |
-| Stale threshold (days) | `50` | Documents older than this many days since last code change are marked as stale |
-| Rotten threshold (days) | `20` | Documents older than this many days since last code change are marked as rotten |
-| Java / Kotlin (Javadoc, KDoc) | `on` | Analyze freshness of Javadoc and KDoc comments |
-| Python (docstrings) | `on` | Analyze freshness of Python docstrings |
-| JavaScript / TypeScript (JSDoc) | `on` | Analyze freshness of JSDoc comments |
-| Ignored patterns | *(empty)* | Comma-separated glob patterns to exclude from analysis (e.g. `*/test/*`, `*/generated/*`) |
+| Fresh at score ≥ | `80` | Freshness score at or above which a doc block is **Fresh** |
+| Aging at score ≥ | `50` | Below the fresh threshold but at or above this score: **Aging** |
+| Stale at score ≥ (below: rotten) | `20` | Below the aging threshold but at or above this score: **Stale**; lower scores are **Rotten** |
 
 ## Tool Windows
 
 ### Doc Freshness
 - **Location:** Bottom panel (secondary)
-- **Content:** A **Dashboard** tab with a sortable table of doc blocks — File, Line, Score, Level, and Code Changes (the number of code changes since the doc last changed). The **Scan Current File** and **Scan Project** toolbar buttons populate the table.
+- **Content:** A table of doc blocks in the current file — **File**, **Line**, **Score**, **Level**, and **Code Changes** (commits to the code since the doc last changed). The **Scan Current File** button populates the table.
 
 ## Inspections
 
 | Inspection | Level | Description |
 |-----------|-------|-------------|
-| Stale documentation | Warning | Flags documentation that git history shows is out of date; grouped under "Documentation freshness". Offers a **Mark as reviewed** quick-fix. Run project-wide via **Analyze → Inspect Code**. |
+| Stale documentation (group *Documentation freshness*) | Warning (Error for rotten) | Flags documentation that git history shows is out of date. Run project-wide via **Analyze → Inspect Code**. |
 
 ## Supported Languages
 
 - **Java, Kotlin** — Javadoc, KDoc
 - **Python** — docstrings
 - **JavaScript, TypeScript** — JSDoc
+- **Other files** — `#` comment blocks
 
 ## FAQ
 
 **Why don't my doc blocks show a freshness score?**
-Scoring is computed from git history, so the project must be a Git repository with commits, and the optional Git integration (Git4Idea) must be available.
-
-**How do I acknowledge a stale doc without rewriting it?**
-Use the **Mark as reviewed** quick-fix on the inspection warning; it resets freshness without changing the text.
+Scoring is computed from git history, so the project must be a Git repository with commits and the bundled Git plugin must be enabled.
 
 ---
 

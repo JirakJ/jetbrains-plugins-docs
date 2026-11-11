@@ -1,12 +1,14 @@
 # SeleniumIQ
 
-> AI for Selenium WebDriver: stable locator generation, self-healing selectors, flakiness prediction, and time-travel debugging.
+> Selenium WebDriver helpers for Java tests: stable-locator suggestions, locator repair, flaky-pattern detection, inspections, and code generators.
+
+**Free & open source** — source: https://github.com/JirakJ/selenium-iq-plugin (Apache-2.0); contributions welcome.
 
 ## Overview
 
-SeleniumIQ brings AI to Selenium WebDriver test automation. It generates stable element locators with stability scoring, automatically repairs broken selectors when the DOM changes, predicts flaky tests, and replays executions with full DOM snapshots at each step.
+SeleniumIQ adds offline, heuristic tooling for Selenium WebDriver tests written in Java. It suggests stable element locators ranked by a stability score, proposes more stable replacements for fragile selectors, scores test methods by flaky patterns, and generates Page Objects and test skeletons.
 
-The plugin targets Java developers writing Selenium WebDriver tests in IntelliJ IDEA. It layers editor inspections, code completion, inline locator-stability annotations, and one-click generators (Page Objects, test templates) on top of an existing Selenium project.
+Everything runs locally and is rule-based — no network services or machine-learning models are involved, and every check is a deterministic rule you can read in the source. The only network access is fetching a page URL you enter when generating a Page Object.
 
 ## Installation
 
@@ -14,95 +16,66 @@ The plugin targets Java developers writing Selenium WebDriver tests in IntelliJ 
 2. Search for **"SeleniumIQ"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** IntelliJ IDEA 2024.3+ (or any JetBrains IDE with Java support), JDK 17+, Selenium WebDriver in your project dependencies.
+**Requirements:** IntelliJ IDEA 2024.3+ (or another JetBrains IDE with Java support) and Selenium WebDriver in your project dependencies.
 
 ## Features
 
-### AI-Powered Locators
-- **AI locator generation** — stable locators with stability scoring across ID, CSS, XPath, and data-testid
-- **Self-healing locators** — detect and repair broken selectors when the DOM changes
-- **Locator stability annotations** — inline stability scores for every locator in your code
+### Locators
+- **Generate Locator** (`Ctrl+Alt+L`) — ranked locator suggestions (data-testid, id, name, CSS, XPath) with a stability score
+- **Heal Broken Locators** — for the selected `By.xxx("...")`, proposes more stable replacements (for example dynamic id → `data-testid`/`aria-label`, absolute XPath → relative)
+- **Locator stability annotations** — inline warnings on string literals passed to `By.id/xpath/cssSelector/...` that look fragile (absolute XPath, generated ids, indexes)
 
-### Test Quality
-- **Flakiness prediction** — 86% accuracy across 25+ test-health metrics
-- **Intelligent wait strategies** — replace `Thread.sleep` with `WebDriverWait`, including AJAX/SPA detection
-- **Code inspections** — flag flaky patterns, brittle locators, and poor wait strategies inline
-- **Selenium code completion** — context-aware completion for the WebDriver API
+### Test quality
+- **Analyze Test Flakiness** — scores a test method by flaky patterns (`Thread.sleep()`, hard-coded waits, missing explicit waits, brittle locators) with recommendations
+- **Inspections** — flaky test patterns, brittle locators, and `Thread.sleep()` in Selenium tests
+- **Completion** — common `driver.findElement(By...)` and WebDriver API entries
 
-### Test Generation
-- **Page Object generator** — generate Page Object Model classes with PageFactory integration
-- **Test template generator** — scaffold Selenium test templates with best practices built in
-- **Data-driven testing** — load test data from CSV and JSON files
-
-### Debugging and Analysis
-- **Time-travel debugging** — replay test executions with DOM snapshots at each step
-- **Visual regression testing** — pixel-perfect screenshot comparison with baseline management
-- **Performance analyzer** — identify slow locators and operations
-
-### Integration
-- **Cloud platforms** — BrowserStack, Sauce Labs, LambdaTest
-- **Test management** — Jira/Zephyr, TestRail, qTest
-- **CI/CD** — GitHub Actions, GitLab CI, Jenkins, CircleCI, Azure DevOps
-- **Cross-browser** — Chrome, Firefox, Safari, Edge
-
-## Licensing
-
-SeleniumIQ is free to install and use. A paid **Team tier** (listed at $99/month on the Marketplace) unlocks the team and integration features: full Team Analytics, Cloud Platform Setup, Test Management Integration, Requirements Traceability, and CI/CD configuration generation. Everything else — locators, healing, flakiness prediction, inspections, generators, and visual regression — is free.
-
-## Configuration
-
-The plugin registers a settings page at **Settings → Tools → SeleniumIQ**. This build exposes no user-adjustable fields there; feature options are set in the individual action dialogs.
+### Code generation
+- **Generate Page Object** — fetches a page URL with Jsoup and creates a Page Object with `@FindBy` fields, or a template when no URL is given
+- **Generate Test Template** — a JUnit 5, JUnit 4, or TestNG test class with WebDriver setup/teardown, copied to the clipboard
+- **Cloud Platform Setup** — a RemoteWebDriver starter class for BrowserStack, Sauce Labs, or LambdaTest, copied to the clipboard
+- **Test Management Integration** — a TestNG listener skeleton for Jira or TestRail, copied to the clipboard
 
 ## Tool Windows
 
 ### SeleniumIQ
-- **Location:** right panel
-- **Content:** a dashboard of quick-action buttons grouped into Locator Tools (Generate AI Locator, Heal Broken Locators), Analysis (Analyze Flakiness), and Generation (Generate Page Object, Visual Regression Test)
-
-### Team Analytics
-- **Location:** bottom panel
-- **Content:** aggregated team test-health metrics; full analytics unlock with the paid Team tier
+- **Location:** Right panel (secondary)
+- **Content:** Buttons grouped into Locator Tools (Generate Locator, Heal Broken Locators), Analysis (Analyze Flakiness), and Generation (Generate Page Object)
 
 ## Inspections
 
 | Inspection | Level | Description |
 |-----------|-------|-------------|
-| Flaky Test Pattern Detection | Warning | Detects test-health anti-patterns that lead to flakiness |
-| Brittle Locator Detection | Warning | Flags fragile locators such as absolute XPath and dynamic IDs |
-| Poor Wait Strategy Detection | Warning | Flags `Thread.sleep` and missing `WebDriverWait` |
+| Flaky Test Pattern Detection | Warning | Detects test patterns that lead to flakiness |
+| Brittle Locator Detection | Warning | Flags fragile locators such as absolute XPath and long numeric ids |
+| Poor Wait Strategy Detection | Warning | Flags `Thread.sleep()` in Selenium tests |
 
-All three inspections run on Java sources and are enabled by default.
+All three inspections (group *SeleniumIQ*) run on Java sources and are enabled by default.
 
 ## Actions
 
 | Action | Location | Shortcut | Description |
 |--------|----------|----------|-------------|
-| Generate AI Locator | Editor / Project View context menu | `Ctrl+Alt+L` | Generate a stable Selenium locator with stability scoring |
-| Heal Broken Locators | Editor context menu | — | Automatically repair broken locators |
-| Analyze Test Flakiness | Editor context menu | — | Predict and identify flaky test patterns |
-| Open Dashboard | Main menu → SeleniumIQ | — | Open the SeleniumIQ dashboard tool window |
+| Generate Locator | Editor / Project View context menu | `Ctrl+Alt+L` | Suggest stable Selenium locators ranked by stability |
+| Heal Broken Locators | Editor context menu | — | Propose more stable replacements for the selected locator |
+| Analyze Test Flakiness | Editor context menu | — | Score the test method by flaky patterns |
+| Open Dashboard | Main menu → SeleniumIQ | — | Open the SeleniumIQ tool window |
 | Generate Page Object | Main menu → SeleniumIQ | — | Generate a Page Object Model class |
 | Generate Test Template | Main menu → SeleniumIQ | — | Generate a Selenium test template |
-| Visual Regression Test | Main menu → SeleniumIQ | — | Compare screenshots for visual regressions |
-| Cloud Platform Setup | Main menu → SeleniumIQ | — | Generate cloud platform configuration (Team tier) |
-| Test Management Integration | Main menu → SeleniumIQ | — | Integrate with test management systems (Team tier) |
-| Requirements Traceability | Main menu → SeleniumIQ | — | Generate a requirements traceability matrix (Team tier) |
-| SeleniumIQ Settings | Main menu → SeleniumIQ | — | Open the plugin settings page |
+| Cloud Platform Setup | Main menu → SeleniumIQ | — | Generate a RemoteWebDriver starter for a cloud grid |
+| Test Management Integration | Main menu → SeleniumIQ | — | Generate a TestNG listener skeleton for Jira or TestRail |
 
 ## Supported Languages
 
-SeleniumIQ works on **Java** test sources. Inspections, code completion, and locator-stability annotations are all Java-only and assume the Selenium WebDriver Java API.
+SeleniumIQ works on **Java** test sources. Inspections, completion, and locator-stability annotations target the Selenium WebDriver Java API.
 
 ## FAQ
 
-**Does it support languages other than Java?**
-No. All inspections, completion, and annotations target Java and the Selenium WebDriver Java API.
+**Does it use AI or a cloud service?**
+No. All scores and suggestions come from deterministic local rules.
 
 **Do I need Selenium in my project?**
-Yes. SeleniumIQ analyzes and generates against Selenium WebDriver, which must be on your project's dependencies.
-
-**What does the paid Team tier add?**
-Full Team Analytics plus the Cloud Platform, Test Management, Requirements Traceability, and CI/CD integration features. The rest of the plugin is free.
+Yes. SeleniumIQ analyzes and generates code against Selenium WebDriver, which must be on your project's dependencies.
 
 ---
 
