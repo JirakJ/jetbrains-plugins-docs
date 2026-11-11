@@ -2,11 +2,13 @@
 
 > Quantify technical debt in dollars, score codebase health A–F, and prioritize refactoring by ROI.
 
+**Free & open source** — source: https://github.com/JirakJ/technical-debt-accountant (Apache-2.0); contributions welcome.
+
 ## Overview
 
-Technical Debt Accountant turns abstract code-quality issues into **business metrics**. Catalog debt items by category and priority, track the time spent working around them, convert that time into dollar costs at a configurable hourly rate, and surface an at-a-glance A–F health grade in the tool window and status bar.
+Technical Debt Accountant turns abstract code-quality issues into **business metrics**. Catalog debt items by category and priority, log the time spent working around them, convert that time into money at a configurable hourly rate, and see an at-a-glance A–F health grade in the tool window and status bar.
 
-Built for developers who need to make the business case for refactoring, it generates management-ready reports with ROI analysis, monthly interest tracking, burndown trends, and forecasts — bridging the gap between engineering and stakeholders.
+Built for developers who need to make the business case for refactoring, it generates management-ready reports with ROI analysis, monthly interest tracking, weekly digests, and trend forecasts — bridging the gap between engineering and stakeholders.
 
 ## Installation
 
@@ -14,39 +16,36 @@ Built for developers who need to make the business case for refactoring, it gene
 2. Search for **"Technical Debt Accountant"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** IntelliJ IDEA 2025.1+ (build 251), Java 17+. The Git4Idea plugin is optional and enables Git integration when present.
+**Requirements:** JetBrains IDE 2025.1+.
 
 ## Features
 
-### Debt Health Score
+### Debt health score
 - **A–F health grade** — a 0–100 score with a letter grade summarizing the codebase's debt pressure, shown in the tool window, reports, and status bar
 - **Status bar widget** — always-on `Debt <grade> · <monthly interest>/mo` indicator with a detailed tooltip; click to open the Tech Debt tool window
 - **Monthly debt budget** — set a budget and get flagged when recurring interest exceeds it
 
-### Debt Tracking
+### Debt tracking
 - Catalog debt items with 9 categories, 4 priority levels, and estimated fix times
 - Add debt at the cursor's file and line with **Alt+D**
-- Workaround time tracking (start/stop timer or manual logging)
-- Priority-colored gutter icons with debt tooltips
+- Log minutes spent working around a debt item, with an optional note
 
-### Analysis & Detection
+### Analysis & detection
 - **TODO/FIXME scanner** — imports `TODO`/`FIXME`/`HACK`/`XXX`/`OPTIMIZE` comments as debt items with marker-based category and priority; re-scans deduplicate automatically
 - **Hotspot detection** — identifies files with the highest weighted debt concentration
-- **Git integration** — links debt items to commits and tracks file authors via blame
 - **Project persistence** — inventory stored in `.tech-debt/inventory.json` for Git tracking
 
-### Financial Modeling
+### Financial modeling
 - **Dollar valuation** — converts workaround time to cost at the configured hourly rate
 - **Monthly interest** — tracks recurring workaround cost over rolling 30-day windows
 - **ROI calculator** — computes breakeven months and prioritizes by return on investment
-- **Burndown charts** — tracks debt resolution trends over time
-- **Management reports** — executive-ready Markdown with summaries and ROI opportunities
+- **Management reports** — executive-ready Markdown with summary, priority and category breakdowns, top hotspots, and top ROI opportunities
 - **CSV/JSON export** — shares the backlog with computed dollar costs for Excel/Sheets
 
-### Planning & Reporting
+### Planning & reporting
 - **Sprint suggestions** — recommends a backlog of debt items maximizing ROI within a time budget
 - **Weekly digest** — Markdown/HTML report with a week-over-week delta
-- **Trend forecast** — projects debt count, dollars, and burndown from digest snapshot history
+- **Trend forecast** — projects debt count, dollars, and an estimated burndown date from weekly digest snapshots
 - **Debt SLAs** — evaluates the inventory against a project SLA policy and flags breaches; the policy lives in an editable `.debt-sla.json`
 
 ## Configuration
@@ -55,18 +54,14 @@ Built for developers who need to make the business case for refactoring, it gene
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Hourly rate | `80.0` | Developer hourly rate used to calculate debt cost |
+| Hourly rate | `80.0` | Hourly rate used to calculate debt cost (invalid or non-positive input falls back to the default) |
 | Currency | `USD` | Display currency: USD, EUR, GBP, or CZK |
 | Monthly debt budget | `0.0` | Flags the project as over budget when monthly interest exceeds this (`0` disables the check) |
-| Inventory path | `.tech-debt` | Directory where the debt inventory is stored (relative to project root) |
-| Auto-detect debt items | Enabled | Automatically scan for tech debt markers in the project |
-| Show gutter icons | Enabled | Display priority-colored icons in the editor gutter |
-| Max free items | `50` | Maximum number of items shown before requiring action |
 
 ## Tool Window
 
 ### Tech Debt
-- **Location:** bottom panel (secondary)
+- **Location:** Bottom panel (secondary)
 - **Summary bar:** health grade and score, active item count, total workaround cost, and an over-budget warning when applicable
 - **Table columns:** ID, File, Category, Priority, Description, Workaround (min), Resolved
 - **Buttons:** Add Debt Item, Resolve Selected, Generate Report
@@ -76,8 +71,6 @@ Built for developers who need to make the business case for refactoring, it gene
 An always-on widget shows `Debt <grade> · <monthly interest>/mo` (or just `Debt <grade>` when there is no recurring interest). Its tooltip lists the health grade and label, score out of 100, active item count, monthly interest, and budget status. Click it to open the Tech Debt tool window.
 
 ## Actions
-
-All actions are available from the **Tools** menu.
 
 | Action | Location | Shortcut | Description |
 |--------|----------|----------|-------------|
@@ -108,7 +101,7 @@ All actions are available from the **Tools** menu.
 
 ## Priority Levels
 
-Priority weight feeds the weighted hotspot score and prioritization. Each level renders as a colored gutter icon.
+Priority weight feeds the weighted hotspot score and prioritization.
 
 | Priority | Weight |
 |----------|--------|
@@ -119,14 +112,8 @@ Priority weight feeds the weighted hotspot score and prioritization. Each level 
 
 ## Data Storage
 
-- **Inventory:** JSON at `.tech-debt/inventory.json` — per-project and Git-trackable. Each item records a UUID, file path, line range, category, priority, description, estimated fix time, workaround logs, timestamps, author, and linked commit.
+- **Inventory:** JSON at `.tech-debt/inventory.json` — per-project and Git-trackable. Each item records an ID, file path, line range, category, priority, description, estimated fix time, workaround logs, timestamps, and tags.
 - **SLA policy:** `.debt-sla.json` in the project, created from defaults on first use and editable via the *Edit Debt SLA Policy* action.
-
-## Git Integration
-
-When the Git4Idea plugin is available:
-- Automatic author detection via `git blame`
-- Commit linking for debt items
 
 ---
 

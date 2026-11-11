@@ -1,12 +1,14 @@
 # Kei - API Contract Testing
 
-> Validate your API calls against OpenAPI contracts as you type, and catch breaking changes before they reach production.
+> Check the `fetch` and `axios` calls in your JavaScript and TypeScript code against your project's OpenAPI and Swagger contracts while you edit.
+
+**Free & open source** — source: https://github.com/JirakJ/api-contract-guard (Apache-2.0); contributions welcome.
 
 ## Overview
 
-Kei checks the API calls in your JavaScript and TypeScript code against the OpenAPI contracts discovered in your project. Contract violations appear as inline editor errors — the same way a compiler flags a type mistake — so drift between your code and your API is caught while you write the call, not in a failing integration test or a production incident.
+Kei finds the OpenAPI 3.x and Swagger 2.0 contracts in your project and validates `fetch` and `axios` calls in JavaScript and TypeScript against them. Contract violations — an unknown endpoint, a missing required body field, a wrong literal type, an invalid enum value — appear as inline editor errors, so drift between your code and your API is caught while you write the call rather than in a failing integration test.
 
-Kei discovers OpenAPI contracts automatically, lists every endpoint and type in a Contract Explorer tool window, and offers Alt+Enter quick fixes for common violations. It is a freemium plugin: the discovery-and-validation workflow is free, and a paid tier adds advanced analysis, mocking, and collaboration features.
+Discovered contracts are listed in the **Kei Contracts** tool window, and an Alt+Enter quick fix adds missing required fields for you.
 
 ## Installation
 
@@ -14,69 +16,67 @@ Kei discovers OpenAPI contracts automatically, lists every endpoint and type in 
 2. Search for **"Kei - API Contract Testing"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2023.2+, JDK 17+
+**Requirements:** JetBrains IDE 2023.2+. Call validation needs the bundled **JavaScript** plugin (available in IntelliJ IDEA Ultimate, WebStorm, and other IDEs with JavaScript support).
 
 ## Features
 
-### Free Tier
-- **OpenAPI contract discovery** — automatic detection of OpenAPI (v2/v3) contracts from local files, remote URLs, and schema registries
-- **Contract Explorer** — a tool window with a tree view of every discovered contract, endpoint, and type
-- **Real-time validation** — API calls in JavaScript and TypeScript are validated against their contract as you type, with inline error underlines
-- **Breaking-change detection** — violations are reported with severity levels (critical, warning, info)
-- **Quick fixes** — press **Alt+Enter** on a violation for suggestions such as renaming fields, updating types, or adding missing parameters
+### Contract discovery
+- Indexes YAML/JSON files whose name contains `openapi`, `swagger`, or `api` and that declare an `openapi` or `swagger` version
+- Skips `node_modules`, `build`, `dist`, `target`, and similar folders
+- Re-indexes contract files automatically when they change; **Tools → Refresh Contracts** re-scans on demand
 
-### Professional Tier
-Kei is freemium; the paid tier adds:
-- Analytics dashboard for contract health and violation trends
-- Version management — pin, compare, and roll back contract versions, with a side-by-side diff viewer
-- Advanced mocking — one-click mock server generation with custom rules, delays, and error simulation
-- Test generation from schemas
-- Security analyzer for API contract patterns
-- AI-powered contract suggestions
-- Team collaboration with shared registries and review workflows
-- CI/CD integration for pipeline-level contract validation
+### Contract Explorer
+- **Kei Contracts** tool window listing each contract's endpoints, request body fields (required fields marked with `*`), and responses
+
+### Call validation (JavaScript / TypeScript)
+- Validates `fetch(url, { method, body })` and `axios.get/post/put/patch/delete(url, body)` calls with a string-literal URL
+- Path templates such as `/users/{id}` match concrete URLs such as `/users/42`; host, query string, and a base-path prefix are ignored
+- Checks object-literal request bodies (also inside `JSON.stringify`) for missing required fields, literal type mismatches, and invalid enum values
+- Optional weak warning for calls with no matching contract endpoint (reported only when the project contains at least one contract)
+
+### Quick fix
+- **Alt+Enter** on a missing-field violation adds the required field with a placeholder value
 
 ## Configuration
 
-**Settings → Tools → Kei API Contract Testing**
+**Settings → Tools → Kei API Contract Testing** (per project, stored in `.idea/kei.xml`)
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Enable real-time validation | On | Validate API calls against contracts as you type |
-| Show warnings for missing contracts | On | Warn when an API call has no matching contract |
-| Auto-refresh contracts on file changes | On | Re-index contracts automatically when files change |
-| Contract file patterns | `**/openapi.{yaml,yml,json}, **/swagger.{yaml,yml,json}` | Glob patterns used to discover contract files (shown read-only) |
+| Validate fetch/axios calls in JavaScript and TypeScript | On | Run contract validation on API calls |
+| Warn about calls with no matching contract endpoint | On | Report calls whose endpoint is not described by any indexed contract |
+| Re-index contract files when they change | On | Re-index contracts automatically when files change on disk |
 
 ## Tool Windows
 
 ### Kei Contracts
 - **Location:** Right panel
-- **Content:** Contract Explorer — a tree of discovered OpenAPI contracts with their endpoints and types
+- **Content:** Discovered OpenAPI/Swagger contracts with their endpoints, request body fields, and responses
 
 ## Inspections
 
 | Inspection | Level | Description |
 |-----------|-------|-------------|
-| API Contract Validation | Error | Flags JavaScript/TypeScript API calls that violate their OpenAPI contract |
+| API Contract Validation (group *Kei*) | Error | Flags JavaScript/TypeScript `fetch`/`axios` calls that violate their OpenAPI contract |
 
 ## Actions
 
 | Action | Location | Description |
 |--------|----------|-------------|
-| Refresh Contracts | Find Action (⌘⇧A / Ctrl+Shift+A) | Rebuilds the API contract index |
+| Refresh Contracts | Tools menu | Re-scan the project for OpenAPI/Swagger contracts |
 
 ## Supported Languages & File Types
 
-- **Code validated:** JavaScript, TypeScript
-- **Contracts:** OpenAPI / Swagger (v2 and v3) in `.yaml`, `.yml`, or `.json`, discovered via the patterns `**/openapi.*` and `**/swagger.*`
+- **Code validated:** JavaScript, TypeScript (`fetch` and `axios` calls)
+- **Contracts:** OpenAPI 3.x and Swagger 2.0 in `.yaml`, `.yml`, or `.json`
 
 ## FAQ
 
 **Q: Which contract formats are supported?**
-A: OpenAPI/Swagger version 2 and version 3, written in YAML or JSON.
+A: OpenAPI 3.x and Swagger 2.0, written in YAML or JSON.
 
 **Q: I don't see any violations — why?**
-A: Confirm that real-time validation is enabled in **Settings → Tools → Kei API Contract Testing**, that your contract file names match the discovery patterns (`openapi.*` / `swagger.*`), and run **Refresh Contracts** to rebuild the index.
+A: Make sure the JavaScript plugin is enabled, that validation is on in **Settings → Tools → Kei API Contract Testing**, that the call uses a string-literal URL, and that your contract file name contains `openapi`, `swagger`, or `api`. Run **Tools → Refresh Contracts** to rebuild the index.
 
 ---
 

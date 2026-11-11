@@ -2,11 +2,13 @@
 
 > A development journal that links every note to its Git commit, branch, and file position.
 
+**Free & open source** — source: https://github.com/JirakJ/git-aware-dev-journal (Apache-2.0); contributions welcome.
+
 ## Overview
 
-Git-Aware Dev Journal keeps a searchable log of the reasoning behind your code. Every entry is captured together with the commit hash, branch, and cursor position it belongs to, so the "why" behind a change stays attached to the code long after the diff scrolls out of view.
+Git-Aware Dev Journal keeps a searchable log of the reasoning behind your code. Every entry is captured together with the current branch, HEAD commit, file, and line it belongs to, so the "why" behind a change stays attached to the code long after the diff scrolls out of view.
 
-It is built for developers who want to stop losing decisions, TODOs, and blockers. Conventional commit messages can be turned into entries automatically, and a per-branch narrative reconstructs the story of your work.
+It is built for developers who want to stop losing decisions, TODOs, and blockers. Entries are stored as plain JSON in your project, and the tool window can copy a Markdown standup or a per-branch summary to the clipboard.
 
 ## Installation
 
@@ -14,27 +16,16 @@ It is built for developers who want to stop losing decisions, TODOs, and blocker
 2. Search for **"Git-Aware Dev Journal"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2023.2+, JDK 17+, a Git repository
+**Requirements:** JetBrains IDE 2023.2+. The bundled Git plugin is optional and enables branch and commit capture.
 
 ## Features
 
-Git-Aware Dev Journal is a freemium plugin: the core journaling features are free, while reporting, sync, sharing, and export belong to the paid tier.
-
-### Free Tier
-- **Git-linked notes** — every entry is auto-linked to the current commit hash, branch, and file position
-- **Six entry types** — Notes, Decisions, TODOs, Blockers, Insights, and Questions
-- **Auto-capture** — conventional commits (feat, fix, docs, refactor…) are parsed into journal entries
-- **Branch narratives** — an auto-generated story of your work on each branch
-- **Timeline view** — a chronological view of all entries with search and filters
-- **Code hover context** — hover an annotated line to see why the code was written
-
-### Professional Tier
-- **Standup generator** — Markdown or Slack-formatted standup reports built from your journal
-- **PR/MR summary generator** — pull-request descriptions assembled from journal entries
-- **Unlimited notes**
-- **Cross-device sync**
-- **Team sharing** — share entries through the `.dev-journal/` directory in your repository
-- **Export** — Markdown, JSON, and CSV
+- **Git-linked entries** — each entry records the current branch and HEAD commit (when the Git plugin is present) plus file and line
+- **Six entry types** — Notes, Decisions, TODOs, Blockers, Insights, and Questions, with tags
+- **Dev Journal tool window** — sortable table with a branch filter and text/tag search
+- **Copy Standup** — Markdown standup of recent entries (configurable time window)
+- **Copy Branch Summary** — all entries on the selected branch, grouped by type
+- **Plain JSON storage** — `.dev-journal/entries.json` in your project, easy to commit and share
 
 ## Configuration
 
@@ -42,15 +33,14 @@ Git-Aware Dev Journal is a freemium plugin: the core journaling features are fre
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Auto-capture from conventional commits | On | Automatically create journal entries from conventional commit messages |
-| Standup time window (hours) | `24` | How far back to look when generating standup summaries (range 1–168) |
-| Journal directory | `.dev-journal` | Path, relative to the project root, where journal files are stored |
+| Standup time window (hours) | `24` | How far back the **Copy Standup** button looks (range 1–168) |
+| Journal directory | `.dev-journal` | Relative to the project root, or absolute. Takes effect after reopening the project. |
 
 ## Tool Windows
 
 ### Dev Journal
-- **Location:** Bottom panel
-- **Content:** Chronological timeline of journal entries with search and filters
+- **Location:** Bottom panel (secondary)
+- **Content:** Table of entries with **Type**, **Entry**, **Branch**, **Commit**, **File**, **Timestamp**, and **Tags** columns, a branch filter, a search field, and **Add Entry**, **Copy Standup**, and **Copy Branch Summary** buttons.
 
 ## Actions
 

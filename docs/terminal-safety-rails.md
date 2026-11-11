@@ -2,6 +2,8 @@
 
 > Intercept dangerous terminal commands before they execute, with risk-level confirmation dialogs.
 
+**Free & open source** — source: https://github.com/JirakJ/terminal-safety-rails (Apache-2.0); contributions welcome.
+
 ## Overview
 
 A single destructive command can ruin your day. Terminal Safety Rails watches commands typed into the IDE's built-in terminal and stops the dangerous ones — `rm -rf`, `kubectl delete`, `terraform destroy`, `DROP DATABASE`, `aws rds delete-db-instance`, and more — before they run. When a command matches, it shows a color-coded dialog that explains the risk in plain English, offers a safer alternative you can copy, and requires explicit approval.
@@ -14,7 +16,7 @@ Detection combines 33 built-in pattern rules with 13 heuristic detectors that pr
 2. Search for **"Terminal Safety Rails"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2025.1+ (any IntelliJ Platform IDE), JDK 17+, Terminal plugin (bundled with JetBrains IDEs)
+**Requirements:** JetBrains IDE 2025.1+ (any IntelliJ Platform IDE) and the Terminal plugin (bundled with JetBrains IDEs)
 
 ## Features
 
@@ -33,10 +35,10 @@ Detection combines 33 built-in pattern rules with 13 heuristic detectors that pr
 - **Safer Alternatives** — copy-pasteable safer equivalents right in the dialog (`--force-with-lease`, `--dry-run`, backup-first, least-privilege `chmod`, list-before-delete, stop-instead-of-terminate, SELECT-preview, transaction-wrapped mutations)
 
 ### Auditing and compliance
-- **Incident Audit Log** — forensic per-event record of every intercepted command
+- **Incident Audit Log** — every intercepted command with timestamp, rule, and decision; filterable
 - **Audit export** — headless CSV/JSON export for CI pipelines and compliance tooling
 - **Shell History Risk Audit** — score your whole shell history (zsh/bash) with a 0–100 safety score, risk distribution, the riskiest commands, and Markdown/JSON/HTML exports
-- **Rule effectiveness analytics** — see how often each rule has fired in the project
+- **Rule effectiveness analytics** — per-rule hit/block/allow counters with CSV export
 
 ### Customization
 - **Custom rules** — your own patterns with glob or regex matching and configurable risk levels
@@ -121,7 +123,7 @@ Only `pattern` is required. Unknown or missing `risk`/`category` values fall bac
 
 ## Rule Matching
 
-1. Custom rules are evaluated before built-in rules.
+1. Your custom rules are evaluated first, then team rules from `.terminal-safety-rules.yaml`, then the built-in rules.
 2. Rules are checked in order and the **first match wins**.
 3. Patterns are globs (`*`, `?`) unless the rule enables regex.
 4. Matching is **case-insensitive**.

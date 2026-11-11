@@ -2,11 +2,13 @@
 
 > Find and fix Gradle build bottlenecks from inside your JetBrains IDE.
 
+**Free & open source** — source: https://github.com/JirakJ/slow-build-hotspots (Apache-2.0); contributions welcome.
+
 ## Overview
 
 Slow Build Hotspots parses the HTML report produced by Gradle's `--profile` flag to pinpoint slow tasks, cache misses, and non-incremental operations. Each finding is surfaced as a ranked, severity-rated hotspot with a concrete optimization suggestion, so you can see exactly where your build spends its time and what to change to speed it up.
 
-Results appear in a dedicated tool window with a task breakdown, the detected hotspots, and a per-build time breakdown. It is aimed at developers and build engineers working in Gradle projects who want build-performance analysis without leaving the IDE or wiring up external tooling.
+Results appear in a dedicated tool window with a task breakdown, the detected hotspots, and build-time trends across your analyzed builds. It is aimed at developers and build engineers working in Gradle projects who want build-performance analysis without leaving the IDE or wiring up external tooling.
 
 ## Installation
 
@@ -14,7 +16,7 @@ Results appear in a dedicated tool window with a task breakdown, the detected ho
 2. Search for **"Slow Build Hotspots"**
 3. Click **Install** and restart the IDE
 
-**Requirements:** JetBrains IDE 2023.2+, JDK 17+, and a Gradle project that can produce `--profile` HTML reports.
+**Requirements:** JetBrains IDE 2023.2+ and a Gradle project that can produce `--profile` HTML reports.
 
 ## Getting Started
 
@@ -34,7 +36,7 @@ Results appear in a dedicated tool window with a task breakdown, the detected ho
 ### Visualization
 - Task breakdown: every task sorted by duration, with cache and incremental status
 - Hotspots view: detected issues with severity, type, impacted task, impact (ms), and a suggestion
-- Per-build time breakdown: total build time, task count, and an ASCII bar chart of the slowest tasks
+- Trend: a bar chart of the slowest tasks, plus average / median / P95 / min / max build time over your analyzed builds and regressions (builds ≥15% slower than the previous five)
 
 ### Optimization
 - Per-hotspot optimization suggestions — enable the build cache (`org.gradle.caching=true`), incremental compilation, the configuration cache (`org.gradle.configuration-cache=true`), lazy task configuration, or split large tasks
@@ -45,12 +47,10 @@ Results appear in a dedicated tool window with a task breakdown, the detected ho
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| Enable Slow Build Hotspots | On | Master enable toggle for the plugin |
-| Auto-analyze after build | Off | Run analysis automatically when a build completes |
 | Slow task threshold (%) | 10 | Flag tasks taking more than this share of total build time (1–100) |
 | Configuration threshold (%) | 20 | Flag when the configuration phase exceeds this share of total time (1–100) |
 | Profile directory | *(auto-detect)* | Override the Gradle profile directory; leave empty to auto-detect `build/reports/profile` |
-| Max history entries | 50 | Number of past analyses to keep in history (10–500) |
+| Max history entries | 50 | Number of analyzed builds kept for the Trend tab statistics (10–500) |
 
 **Persistent storage:** `buildHotspotsSettings.xml` (application scope, roamable).
 
@@ -62,7 +62,7 @@ Results appear in a dedicated tool window with a task breakdown, the detected ho
 - **Tabs:**
   - **Task Breakdown** — every task sorted by duration, with cache and incremental status
   - **Hotspots** — detected issues with severity, type, task, impact (ms), and suggestion
-  - **Trend** — total build time, task count, and an ASCII bar chart of the slowest tasks in the analyzed build
+  - **Trend** — a bar chart of the slowest tasks, plus average / median / P95 / min / max build time over your analyzed builds and detected regressions
 
 ## Hotspot Detection
 
