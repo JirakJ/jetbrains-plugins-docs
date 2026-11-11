@@ -29,7 +29,8 @@ LogParser Pro brings log analysis into your JetBrains IDE, so you no longer have
 ### Filtering & search
 - **Log level filtering** — toggle buttons to filter by severity
 - **Keyword search** — live filtering across entries
-- **Advanced search** — regex, fuzzy (Levenshtein), and plain-text search
+- **Advanced search** — Grok, regex, fuzzy (Levenshtein), and plain-text search in the tool window's **Search** tab
+- **Grok search** — tick **Grok** and enter an Elastic Grok pattern such as `%{TIMESTAMP_ISO8601:ts} %{LOGLEVEL:level} %{GREEDYDATA:msg}`; each hit lists its extracted fields (`level=ERROR  msg=…`). Invalid patterns show an error message instead of results
 - **Correlation ID tracking** — follow a request flow across microservices
 
 ### Analysis
@@ -58,7 +59,7 @@ LogParser Pro brings log analysis into your JetBrains IDE, so you no longer have
 
 ### LogParser Pro
 - **Location:** Bottom panel
-- **Tabs:** Log Viewer, Search, Correlation, and Statistics
+- **Tabs:** Log Viewer, Search (Grok / regex / fuzzy / plain text), Correlation, and Statistics
 
 ## Actions
 
