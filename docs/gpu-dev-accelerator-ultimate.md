@@ -66,7 +66,6 @@ It targets developers building GPU-accelerated software: CUDA compute on NVIDIA 
 | Extra nvcc flags | *(empty)* | Appended to every nvcc invocation, e.g. `-O3 --use_fast_math` |
 | compute-sanitizer path | *(empty — resolved from PATH)* | Path to the `compute-sanitizer` executable |
 | Nsight Compute (ncu) path | *(empty — resolved from PATH)* | Path to the `ncu` executable |
-| Metal SDK (xcrun -sdk) | `macosx` | SDK for `xcrun metal` compilation: `macosx` or `iphoneos` |
 | Tool timeout (seconds) | `300` | Maximum run time for external GPU tools (10–3600) |
 
 ## Tool Windows
@@ -113,6 +112,9 @@ All actions live in the **GPU Dev** menu on the main menu bar.
 
 **Does the plugin support Vulkan compute or HLSL?**
 No. It provides language support for CUDA, Metal, and OpenCL only.
+
+**Can it compile Metal shaders?**
+No. Metal support is editor-only — highlighting, completion, quick documentation, the `mtlkernel` template, and Migrate Kernel. The plugin does not run `xcrun` or the Metal compiler.
 
 **Do I need an NVIDIA GPU?**
 Editing, completion, inspections, static analysis, and the occupancy calculator work anywhere. Compiling, profiling, and memory checking need the CUDA Toolkit, and running them needs a CUDA-capable GPU.
