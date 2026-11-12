@@ -38,9 +38,36 @@ Results can be exported as SARIF, a CycloneDX SBOM, or a shareable HTML report, 
 - Report export: SARIF 2.1.0, CycloneDX 1.5 SBOM, and self-contained HTML
 
 ### CI/CD
+- Standalone command-line scanner (`vulnspeed-cli-<version>.jar`, attached to every GitHub release) that runs the same rules without an IDE
 - Security baseline: snapshot accepted findings into `.vulnspeed-baseline.json` and surface only new regressions
-- CVE enrichment from OSV.dev and NVD (CVSS, CWE, fixed versions)
-- Baseline compare and CVE enrichment also have CLI entry points for gated pipeline checks
+- CVE enrichment from OSV.dev and NVD (CVSS, CWE, fixed versions) for findings that reference a CVE id
+- Findings JSON export from the IDE, readable by the CLI's baseline and enrichment commands
+
+## Command-Line Scanner
+
+Each [GitHub release](https://github.com/JirakJ/vulnspeed-plugin/releases) includes a self-contained
+`vulnspeed-cli-<version>.jar` next to the plugin zip. It needs only a Java 17+ runtime — no IDE and no
+build-tool plugin — and runs the same rules as the plugin with the same skip rules: the 1000 KB max file
+size, `vulnspeed-ignore` comments, and no scanning of hidden directories, `node_modules` or `build`.
+
+```bash
+java -jar vulnspeed-cli.jar scan --project=. \
+  --out-json=build/vulnspeed/findings.json \
+  --out-sarif=build/vulnspeed/vulnspeed.sarif \
+  --fail-on=severity:HIGH
+```
+
+| Command | Purpose |
+|---------|---------|
+| `scan --project=<dir>` | Scan a directory; `--out-json` / `--out-sarif` write findings JSON and SARIF 2.1.0; `--fail-on=severity:<LEVEL>` gates the build; `--max-file-size-kb` and `--max-files` (default 1000) tune limits |
+| `baseline --create` / `--compare` | Create `.vulnspeed-baseline.json` from findings JSON, or compare against it (`--fail-on=regression` or `severity:<LEVEL>`, Markdown or JSON diff) |
+| `enrich --findings=<file>` | Add OSV.dev / NVD metadata (`--offline`, `--cache-dir`, `--fail-on-severity`) |
+| `version` | Print the CLI version |
+
+Exit codes: `0` success, `1` bad arguments or I/O error, `2` the fail-on policy was triggered. Typical CI
+use: download the jar from the release, run `scan`, upload the SARIF file to GitHub Code Scanning and run
+`baseline --compare` against the committed baseline. The project README has complete GitHub Actions
+workflows.
 
 ## Configuration
 
@@ -80,6 +107,7 @@ Every action is available from the **Tools → VulnSpeed** menu; the two scan ac
 | Scan File with VulnSpeed | Editor right-click; Tools → VulnSpeed | Scan the current file |
 | Scan Project with VulnSpeed | Project view right-click; Tools → VulnSpeed | Scan the entire project |
 | Export SARIF Report | Tools → VulnSpeed | Export the latest results as SARIF 2.1.0 (GitHub Code Scanning / GitLab SAST) |
+| Export Findings JSON | Tools → VulnSpeed | Export the latest results as findings JSON for the command-line baseline and enrichment commands |
 | Export HTML Report | Tools → VulnSpeed | Export the latest results as a self-contained HTML report |
 | Export CycloneDX SBOM | Tools → VulnSpeed | Export a CycloneDX 1.5 SBOM for Dependency-Track / Sonatype / FOSSA |
 | Create Security Baseline | Tools → VulnSpeed | Snapshot current findings as accepted into `.vulnspeed-baseline.json` |
