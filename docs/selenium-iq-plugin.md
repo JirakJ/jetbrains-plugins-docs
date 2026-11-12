@@ -1,4 +1,4 @@
-# SeleniumIQ
+# SeleniumIQ - Selenium Test Automation Toolkit
 
 > Selenium WebDriver helpers for Java tests: stable-locator suggestions, locator repair, flaky-pattern detection, inspections, and code generators.
 
