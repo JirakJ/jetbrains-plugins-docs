@@ -67,7 +67,7 @@ Welcome to the central documentation and support hub for the **JirakJ JetBrains 
 | [Test Data Factory](https://github.com/JirakJ/jetbrains-plugins-docs/blob/main/docs/test-data-factory.md) | Generate deterministic test data fixtures with reusable templates, without leaving your IDE. |
 | [Test Impact Analyzer](https://github.com/JirakJ/jetbrains-plugins-docs/blob/main/docs/test-impact-analyzer.md) | Detect which tests are affected by your current code changes and run only those, instead of the whole suite. |
 | [TODO Comment Tracker](https://github.com/JirakJ/jetbrains-plugins-docs/blob/main/docs/todo-comment-tracker.md) | Track TODO/FIXME comments with owner and age visibility. |
-| [VulnSpeed — GPU-Accelerated SAST](https://github.com/JirakJ/jetbrains-plugins-docs/blob/main/docs/vulnspeed-plugin.md) | Static application security testing that flags OWASP Top 10 and CWE Top 25 vulnerabilities inline as you type. |
+| [VulnSpeed — Fast Regex SAST](https://github.com/JirakJ/jetbrains-plugins-docs/blob/main/docs/vulnspeed-plugin.md) | Fast, low-noise pattern-based security scanning (84 scoped rules + 12 secret rules) in the editor and in CI. |
 | [Workspace Cleanup](https://github.com/JirakJ/jetbrains-plugins-docs/blob/main/docs/workspace-cleanup.md) | Find and remove workspace bloat safely to reclaim disk space. |
 | [Zero-Trust Enterprise Secret Guardian](https://github.com/JirakJ/jetbrains-plugins-docs/blob/main/docs/zero-trust-secret-guardian.md) | Bridge cloud secret vaults to your JetBrains IDE and inject secrets into runs from RAM only — never to disk. |
 
