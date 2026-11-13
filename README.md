@@ -1,6 +1,6 @@
 # JetBrains Plugins – Documentation & Support Hub
 
-[![License](https://img.shields.io/badge/license-Proprietary-red.svg)](LICENSE)
+[![Plugins](https://img.shields.io/badge/plugins-Apache--2.0%20open%20source-blue.svg)](#-license)
 
 Welcome to the central documentation and support hub for the **JirakJ JetBrains Plugin Suite** — a collection of 60+ professional plugins for JetBrains IDEs.
 
@@ -101,4 +101,6 @@ connect only when you use those features. Each plugin has its own section, for e
 
 ## 📄 License
 
-This software is proprietary. See [LICENSE](LICENSE) for details.
+- **Plugins:** the free plugins are open source under the Apache License 2.0; each plugin's own GitHub repository
+  contains its `LICENSE`. Accessibility Compliance Helper Pro and ADR Companion are commercial plugins.
+- **This documentation repository:** © Jakub Jirák, see [LICENSE](LICENSE).
