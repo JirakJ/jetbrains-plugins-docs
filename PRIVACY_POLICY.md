@@ -1,5 +1,10 @@
 # Privacy Policy for Accessibility Compliance Checker Pro
 
+> **This document covers only Accessibility Compliance Checker Pro.** For the free,
+> open-source plugins (VulnSpeed, Structurizr DSL, Zero-Trust Secret Guardian and the
+> others), see **[PRIVACY.md](PRIVACY.md)**. It has one section per plugin, and some of
+> those plugins do make network connections.
+
 **Effective Date:** 10.11.2025
 **Last Updated:** 10.11.2025
 
