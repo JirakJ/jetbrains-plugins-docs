@@ -92,7 +92,12 @@ All plugins are available on the [JetBrains Marketplace](https://plugins.jetbrai
 
 ## 🔒 Privacy Policy
 
-Read our [Privacy Policy](PRIVACY_POLICY.md) — the plugins operate entirely locally and collect no data.
+Read the [Privacy Policy](PRIVACY.md) for the free, open-source plugins. None of them has
+telemetry, analytics or accounts, and nothing is ever sent to the author. Most plugins make
+no network connections at all. The few that do (VulnSpeed CVE enrichment, Zero-Trust
+Secret Guardian vault access, SeleniumIQ page fetch, API First & Mocking Studio requests)
+connect only when you use those features. Each plugin has its own section, for example
+[`PRIVACY.md#vulnspeed-plugin`](PRIVACY.md#vulnspeed-plugin).
 
 ## 📄 License
 
